@@ -668,9 +668,7 @@
   font-weight: 900;
 }
 .st-reward .grow span {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  display: block;
   color: var(--muted);
   font-weight: 800;
   font-size: 0.84rem;
@@ -679,6 +677,9 @@
   display: inline;
   color: var(--blue-ink);
   font-size: 0.95rem;
+}
+.st-reward .grow span svg {
+  vertical-align: -2px;
 }
 .st-voucher {
   display: flex;
