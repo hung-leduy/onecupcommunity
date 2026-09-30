@@ -1,0 +1,13 @@
+{
+  "name": "onecup-nfc-bridge",
+  "private": true,
+  "type": "module",
+  "description": "Relays NFC tag UIDs from a PC/SC USB reader (ACR122U, ACR1252U, …) to the One-Cup vendor terminal over a local WebSocket.",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "dependencies": {
+    "nfc-pcsc": "^0.8.1",
+    "ws": "^8.18.0"
+  }
+}
