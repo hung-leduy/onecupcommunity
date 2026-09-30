@@ -19,7 +19,7 @@ type Result =
   | { kind: 'error'; text: string };
 
 const SETTINGS_KEY = 'onecup.terminalSettings';
-const DEFAULT_SETTINGS: Settings = { usb: true, usbFormat: 'hex', usbGapMs: 50, bridge: false, bridgeUrl: 'ws://localhost:7777', timer: false };
+const DEFAULT_SETTINGS: Settings = { usb: true, usbFormat: 'dec-le', usbGapMs: 50, bridge: false, bridgeUrl: 'ws://localhost:7777', timer: false };
 
 function loadSettings(): Settings {
   try { return { ...DEFAULT_SETTINGS, ...JSON.parse(store.get(SETTINGS_KEY) ?? '{}') }; } catch { return DEFAULT_SETTINGS; }
@@ -224,7 +224,7 @@ function Terminal({ token, vendor, logout }: { token: string; vendor: VendorInfo
         <label>Định dạng UID mà reader gõ ra
           <select value={settings.usbFormat} onChange={(e) => setSettings({ usbFormat: e.target.value as WedgeFormat })}>
             <option value="hex">HEX (VD: 04A23B4C5D6E7F)</option>
-            <option value="dec-le">Thập phân 10 số, đảo byte (phổ biến ở reader 125k/13.56 giá rẻ)</option>
+            <option value="dec-le">Thập phân 10 số, đảo byte (mặc định — đầu đọc của dự án gõ kiểu này)</option>
             <option value="dec-be">Thập phân 10 số, không đảo byte</option>
           </select>
         </label>

@@ -48,6 +48,15 @@ Thẻ NTAG21x có UID **7 byte**, ví dụ `04:A2:3B:4C:5D:6E:7F`. Mỗi đầu 
 
 Lưu ý: kiểu 10 chữ số chỉ chứa **4 byte đầu** của UID. UID 4 byte này sẽ **không khớp** với UID 7 byte mà Web NFC hoặc bridge đọc. Vì vậy: hoặc cấu hình đầu đọc xuất HEX đầy đủ (nhiều đầu đọc có thẻ cấu hình hoặc phần mềm đi kèm), hoặc **dùng cùng một loại đầu đọc** cho cả việc đăng ký thẻ lẫn quét tại quầy.
 
+### Đầu đọc của dự án (đã kiểm tra 30/09/2026)
+
+- Loại **keyboard wedge**, gõ **10 chữ số thập phân** rồi Enter, ví dụ `0566367322`.
+- Tức là chỉ **4 byte** UID: `0566367322` = `0x21C2145A` → hệ thống lưu `5A14C221` (đảo byte, mặc định của terminal) .
+- UID này **không bắt đầu bằng `04`**, trong khi UID 7 byte của thẻ NXP NTAG luôn bắt đầu bằng `04`. Vậy hoặc thẻ đã mua là loại UID 4 byte
+  (MIFARE Classic 1K / thẻ tương thích), hoặc đầu đọc bỏ bớt byte. Cần đọc thẻ bằng *NFC Tools* để biết chắc (dòng *Tag type* và *Serial number*).
+- Hệ quả: đăng ký thẻ và quét ở quầy **phải cùng dùng loại đầu đọc này**; sinh viên liên kết thẻ bằng mã nhận/QR do quầy hiện ra.
+  Nếu thẻ là MIFARE Classic thì iPhone không đọc được và không ghi được URL NDEF theo chuẩn NTAG — nên chọn NTAG213/215 cho lô thẻ phát cho sinh viên.
+
 ## 4. Kịch bản thử nghiệm với phần cứng đã mua (Sprint 0)
 
 1. Khởi động hệ thống (xem `README.md`), đăng nhập `/vendor` bằng PIN `1111`.
