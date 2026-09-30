@@ -6,21 +6,33 @@ import { wedgeToHex, type WedgeFormat } from './uid';
  * USB NFC readers in keyboard-emulation mode "type" the UID very fast and press Enter.
  * We capture bursts of keystrokes (<50 ms apart) that end with Enter, ignoring normal typing in inputs.
  */
-export function useKeyboardWedge(enabled: boolean, format: WedgeFormat, onDetect: (d: Detection) => void, onBad: (raw: string) => void) {
-  const cb = useRef({ onDetect, onBad });
-  cb.current = { onDetect, onBad };
+export type WedgeBurst = { raw: string; terminator: string; maxGapMs: number; at: number };
+
+export function useKeyboardWedge(
+  enabled: boolean,
+  format: WedgeFormat,
+  onDetect: (d: Detection) => void,
+  onBad: (raw: string) => void,
+  onBurst?: (b: WedgeBurst) => void,
+  maxGapMs = 50,
+) {
+  const cb = useRef({ onDetect, onBad, onBurst });
+  cb.current = { onDetect, onBad, onBurst };
   useEffect(() => {
     if (!enabled) return;
     let buf = '';
     let last = 0;
+    let gap = 0;
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
       const t = performance.now();
-      if (t - last > 50) buf = '';
+      if (t - last > maxGapMs) { buf = ''; gap = 0; } else if (buf) gap = Math.max(gap, t - last);
       last = t;
-      if (e.key === 'Enter') {
+      // Most readers end with Enter; some are configured to send Tab instead.
+      if (e.key === 'Enter' || e.key === 'Tab') {
         if (buf.length >= 8) {
+          cb.current.onBurst?.({ raw: buf, terminator: e.key, maxGapMs: Math.round(gap), at: Date.now() });
           const hex = wedgeToHex(buf, format);
           hex ? cb.current.onDetect({ method: 'nfc', source: 'usb-hid', value: hex }) : cb.current.onBad(buf);
           e.preventDefault();
@@ -32,7 +44,7 @@ export function useKeyboardWedge(enabled: boolean, format: WedgeFormat, onDetect
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [enabled, format]);
+  }, [enabled, format, maxGapMs]);
 }
 
 export type BridgeState = 'off' | 'connecting' | 'connected' | 'error';

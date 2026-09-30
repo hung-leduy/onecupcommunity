@@ -17,3 +17,25 @@ export function wedgeToHex(raw: string, format: WedgeFormat): string | null {
 
 /** Web NFC reports serialNumber as "04:a2:3b:…". */
 export const serialToHex = (serial: string) => serial.replace(/:/g, '').toUpperCase();
+
+export const WEDGE_FORMATS: { id: WedgeFormat; label: string }[] = [
+  { id: 'hex', label: 'HEX' },
+  { id: 'dec-le', label: 'Thập phân, đảo byte' },
+  { id: 'dec-be', label: 'Thập phân, không đảo byte' },
+];
+
+export type Calibration = { format: WedgeFormat; hex: string | null; match: 'full' | 'prefix' | 'none' };
+
+/**
+ * Interpret a raw reader string under every format. If the tag's real UID is known (e.g. from the
+ * NFC Tools app on a phone), mark which interpretation matches it — fully, or only the first 4 bytes
+ * (readers that print a 10-digit decimal only carry 4 bytes of a 7-byte NTAG UID).
+ */
+export function calibrate(raw: string, realUid?: string): Calibration[] {
+  const real = (realUid ?? '').replace(/[\s:\-]/g, '').toUpperCase();
+  return WEDGE_FORMATS.map(({ id }) => {
+    const hex = wedgeToHex(raw, id);
+    const match = !hex || !real ? 'none' : hex === real ? 'full' : real.startsWith(hex) ? 'prefix' : 'none';
+    return { format: id, hex, match };
+  });
+}

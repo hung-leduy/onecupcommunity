@@ -35,6 +35,10 @@ Khi chạm thẻ, cửa sổ bridge in `tag 04A23B4C5D6E7F …` và terminal hi�
 
 ## 3. Định dạng UID của đầu đọc kiểu bàn phím
 
+**Cách nhanh nhất:** mở `/vendor` → chạm thẻ → mục **Hiệu chỉnh đầu đọc USB** tự mở, hiện chuỗi đầu đọc gửi và cách hiểu theo từng định dạng.
+Đọc cùng thẻ bằng app *NFC Tools* trên điện thoại (dòng *Serial number*), nhập vào ô "UID thật" → dòng khớp được đánh dấu ✔ → bấm **Dùng**.
+Nếu chạm thẻ mà không có phản ứng gì, tăng "khoảng cách tối đa giữa 2 phím" (đầu đọc gõ chậm).
+
 Thẻ NTAG21x có UID **7 byte**, ví dụ `04:A2:3B:4C:5D:6E:7F`. Mỗi đầu đọc có thể gõ ra:
 
 | Đầu đọc gõ | Chọn trong Cài đặt |

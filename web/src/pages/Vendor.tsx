@@ -2,14 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, fmtTime, fmtVnd, store, VENDOR_TOKEN } from '../api';
 import { QrImage } from '../QrImage';
-import { useKeyboardWedge, useNfcBridge } from '../scan/hooks';
+import { useKeyboardWedge, useNfcBridge, type WedgeBurst } from '../scan/hooks';
 import { QrCamera } from '../scan/QrCamera';
 import type { Detection } from '../scan/types';
-import type { WedgeFormat } from '../scan/uid';
+import { calibrate, WEDGE_FORMATS, type WedgeFormat } from '../scan/uid';
 import { startNfcScan, webNfcSupported, writeNfcUrl } from '../scan/webnfc';
 
 type VendorInfo = { id: string; name: string; discountVnd: number };
-type Settings = { usb: boolean; usbFormat: WedgeFormat; bridge: boolean; bridgeUrl: string; timer: boolean };
+type Settings = { usb: boolean; usbFormat: WedgeFormat; usbGapMs: number; bridge: boolean; bridgeUrl: string; timer: boolean };
 type Result =
   | { kind: 'ok'; nickname: string; uses: number; discountVnd: number; method: string; ms: number | null }
   | { kind: 'unlinked'; code: string; url: string }
@@ -19,7 +19,7 @@ type Result =
   | { kind: 'error'; text: string };
 
 const SETTINGS_KEY = 'onecup.terminalSettings';
-const DEFAULT_SETTINGS: Settings = { usb: true, usbFormat: 'hex', bridge: false, bridgeUrl: 'ws://localhost:7777', timer: false };
+const DEFAULT_SETTINGS: Settings = { usb: true, usbFormat: 'hex', usbGapMs: 50, bridge: false, bridgeUrl: 'ws://localhost:7777', timer: false };
 
 function loadSettings(): Settings {
   try { return { ...DEFAULT_SETTINGS, ...JSON.parse(store.get(SETTINGS_KEY) ?? '{}') }; } catch { return DEFAULT_SETTINGS; }
@@ -88,6 +88,7 @@ function Terminal({ token, vendor, logout }: { token: string; vendor: VendorInfo
   const [result, setResult] = useState<Result | null>(null);
   const [recent, setRecent] = useState<any[]>([]);
   const busy = useRef(false);
+  const [burst, setBurst] = useState<WedgeBurst | null>(null);
 
   const loadRecent = useCallback(() => api('/api/vendor/scans', { token }).then(setRecent, () => {}), [token]);
   useEffect(() => { loadRecent(); }, [loadRecent]);
@@ -124,7 +125,14 @@ function Terminal({ token, vendor, logout }: { token: string; vendor: VendorInfo
     }
   }, [mode, token, settings.timer, timerStart, registerTag, loadRecent]);
 
-  useKeyboardWedge(settings.usb, settings.usbFormat, handle, (raw) => setResult({ kind: 'error', text: `Reader USB gửi "${raw}" — không khớp định dạng ${settings.usbFormat}. Đổi định dạng trong Cài đặt.` }));
+  useKeyboardWedge(
+    settings.usb,
+    settings.usbFormat,
+    handle,
+    (raw) => setResult({ kind: 'error', text: `Reader USB gửi "${raw}" — không khớp định dạng ${settings.usbFormat}. Xem phần hiệu chỉnh bên dưới để chọn đúng định dạng.` }),
+    setBurst,
+    settings.usbGapMs,
+  );
   const bridge = useNfcBridge(settings.bridge ? settings.bridgeUrl : null, handle);
 
   // Space bar = "new customer" when the H3 timer is enabled.
@@ -207,6 +215,9 @@ function Terminal({ token, vendor, logout }: { token: string; vendor: VendorInfo
         </form>
       </section>
 
+      <WedgeCalibration burst={burst} format={settings.usbFormat} gapMs={settings.usbGapMs}
+        onFormat={(usbFormat) => setSettings({ usbFormat })} onGap={(usbGapMs) => setSettings({ usbGapMs })} />
+
       <details className="card">
         <summary>Cài đặt thiết bị đọc</summary>
         <label className="check"><input type="checkbox" checked={settings.usb} onChange={(e) => setSettings({ usb: e.target.checked })} /><span>Nghe đầu đọc NFC USB kiểu bàn phím (keyboard wedge)</span></label>
@@ -237,6 +248,68 @@ function Terminal({ token, vendor, logout }: { token: string; vendor: VendorInfo
         </table>
       </section>
     </main>
+  );
+}
+
+/**
+ * Keyboard-wedge readers differ in what they type for the same tag. Show the raw string the reader
+ * sent and what it means under each format; with the real UID (from a phone app) we can pick for you.
+ */
+function WedgeCalibration({ burst, format, gapMs, onFormat, onGap }: {
+  burst: WedgeBurst | null; format: WedgeFormat; gapMs: number;
+  onFormat: (f: WedgeFormat) => void; onGap: (ms: number) => void;
+}) {
+  const [realUid, setRealUid] = useState('');
+  const rows = burst ? calibrate(burst.raw, realUid) : [];
+  const box = useRef<HTMLDetailsElement>(null);
+  // Open the panel by itself when the reader sends something the current format cannot read.
+  useEffect(() => {
+    if (burst && box.current && !rows.find((r) => r.format === format)?.hex) box.current.open = true;
+  }, [burst]);
+  const best = rows.find((r) => r.match === 'full') ?? rows.find((r) => r.match === 'prefix');
+  return (
+    <details className="card" ref={box}>
+      <summary>Hiệu chỉnh đầu đọc USB (kiểu bàn phím)</summary>
+      <p className="muted small">
+        Chạm một thẻ vào đầu đọc (đừng bấm vào ô nhập nào). Nếu biết UID thật của thẻ — đọc bằng app <i>NFC Tools</i> trên điện thoại, dòng
+        "Serial number" — nhập vào ô dưới để hệ thống tự chọn định dạng.
+      </p>
+      <label>UID thật của thẻ (không bắt buộc)
+        <input value={realUid} onChange={(e) => setRealUid(e.target.value)} placeholder="VD: 04:A2:3B:4C:5D:6E:7F" />
+      </label>
+      {!burst && <p className="notice">Đang chờ đầu đọc gõ…</p>}
+      {burst && (
+        <>
+          <p>
+            Đầu đọc gửi: <code className="big">{burst.raw}</code>
+            <br />
+            <span className="muted small">{burst.raw.length} ký tự · kết thúc bằng {burst.terminator} · khoảng cách phím lớn nhất {burst.maxGapMs} ms</span>
+          </p>
+          <table>
+            <thead><tr><th>Định dạng</th><th>UID hiểu được</th><th>So với UID thật</th><th></th></tr></thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.format}>
+                  <td>{WEDGE_FORMATS.find((f) => f.id === r.format)!.label}</td>
+                  <td><code>{r.hex ?? '— không hợp lệ'}</code></td>
+                  <td>{realUid ? (r.match === 'full' ? '✔ khớp hoàn toàn' : r.match === 'prefix' ? '≈ khớp 4 byte đầu' : '✘') : ''}</td>
+                  <td>{r.hex && (r.format === format ? <b>đang dùng</b> : <button className="small secondary" onClick={() => onFormat(r.format)}>Dùng</button>)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {best?.match === 'prefix' && (
+            <p className="notice small">
+              Đầu đọc chỉ gửi 4 byte của UID 7 byte. Vẫn dùng được, nhưng phải <b>đăng ký thẻ bằng chính loại đầu đọc này</b> ở quầy —
+              không liên kết bằng cách chạm điện thoại Android (Web NFC đọc đủ 7 byte nên sẽ không khớp).
+            </p>
+          )}
+        </>
+      )}
+      <label>Khoảng cách tối đa giữa 2 phím của đầu đọc (ms) — tăng lên nếu đầu đọc gõ chậm và không được nhận
+        <input type="number" min={20} max={300} value={gapMs} onChange={(e) => onGap(Number(e.target.value) || 50)} />
+      </label>
+    </details>
   );
 }
 
