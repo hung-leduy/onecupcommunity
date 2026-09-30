@@ -336,7 +336,7 @@ export const vi = {
       full: '✔ khớp hoàn toàn',
       prefix: '≈ khớp 4 byte đầu',
       suffix: '≈ khớp 4 byte cuối',
-      partialNote: 'Đầu đọc chỉ gửi 4 byte của UID 7 byte: đăng ký sticker bằng chính đầu đọc này ở quầy; khách liên kết bằng mã nhận hoặc QR.',
+      partialNote: 'Đầu đọc chỉ gửi 4 byte của UID 7 byte. Hệ thống tự khớp với UID đầy đủ khi khách chạm sticker bằng điện thoại, nên vẫn dùng được bình thường.',
       gap: 'Khoảng cách tối đa giữa 2 phím (ms) — tăng nếu đầu đọc gõ chậm',
       states: { off: 'tắt', on: 'đang nghe', connecting: 'đang kết nối', connected: 'đã kết nối', error: 'lỗi' } as Record<string, string>,
       language: 'Ngôn ngữ',

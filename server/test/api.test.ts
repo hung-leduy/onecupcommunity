@@ -316,3 +316,30 @@ describe('Study mode on', () => {
     assert.deepEqual(seen.sort(), [0, 1, 2, 3], 'one participant per arm');
   });
 });
+
+describe('Readers that only report part of the UID', () => {
+  let api: Awaited<ReturnType<typeof start>>;
+  before(async () => {
+    api = await start();
+  });
+  after(() => api.server.close());
+
+  test('a sticker registered by the USB reader (4 bytes) matches the phone’s full UID (7 bytes), and back', async () => {
+    const v = await api.call('POST', '/api/admin/vendors', { name: 'Kiosk', pin: '5555' }, admin);
+    const vendor = (await api.call('POST', '/api/vendor/login', { pin: '5555' })).data.token;
+    // Serial 5A:C4:7F:21:05:41:89 → the reader sends 5AC47F21
+    const reg = await api.call('POST', '/api/vendor/tags', { uid: '5AC47F21' }, auth(vendor));
+    const u = await api.call('POST', '/api/users', { consentParticipate: true });
+    const linked = await api.call('POST', '/api/me/cups', { nfcUid: '5A:C4:7F:21:05:41:89' }, auth(u.data.token));
+    assert.equal(linked.data.cup.code, reg.data.cup.code, 'the phone tap finds the reader-registered sticker');
+    const tap = await api.call('POST', '/api/vendor/scans', { method: 'nfc', source: 'usb-hid', value: '5AC47F21' }, auth(vendor));
+    assert.equal(tap.data.status, 'ok');
+
+    // The other way round: first tapped on a phone, then scanned by the USB reader.
+    const u2 = await api.call('POST', '/api/users', { consentParticipate: true });
+    await api.call('POST', '/api/me/cups', { nfcUid: '5AE47F2105AABB' }, auth(u2.data.token));
+    const tap2 = await api.call('POST', '/api/vendor/scans', { method: 'nfc', source: 'usb-hid', value: '5AE47F21' }, auth(vendor));
+    assert.equal(tap2.data.status, 'ok');
+    assert.ok(v.status === 201);
+  });
+});

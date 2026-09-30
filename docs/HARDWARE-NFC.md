@@ -49,22 +49,17 @@ Thẻ NTAG21x có UID **7 byte**, ví dụ `04:A2:3B:4C:5D:6E:7F`. Mỗi đầu 
 
 Lưu ý: kiểu 10 chữ số chỉ chứa **4 byte đầu** của UID. UID 4 byte này sẽ **không khớp** với UID 7 byte mà Web NFC hoặc bridge đọc. Vì vậy: hoặc cấu hình đầu đọc xuất HEX đầy đủ (nhiều đầu đọc có thẻ cấu hình hoặc phần mềm đi kèm), hoặc **dùng cùng một loại đầu đọc** cho cả việc đăng ký thẻ lẫn quét tại quầy.
 
-### Đầu đọc của dự án (đã kiểm tra 30/09/2026)
+### Đầu đọc & thẻ của dự án (đã kiểm tra 01/10/2026)
 
-- Loại **keyboard wedge**, gõ **10 chữ số thập phân** rồi Enter, ví dụ `0566367322`.
-- Tức là chỉ **4 byte** UID: `0566367322` = `0x21C2145A` → hệ thống lưu `5A14C221` (đảo byte, mặc định của terminal).
-- Thẻ đã mua: **NTAG215** (NXP, ISO 14443A, 504 byte, đọc 1–5 cm) — UID thật dài **7 byte, luôn bắt đầu bằng `04`**.
-- `5A14C221` / `21C2145A` đều không bắt đầu bằng `04` → đầu đọc **không gửi 4 byte đầu**; nhiều khả năng là 4 byte cuối của UID.
-  Xác nhận bằng mục *Hiệu chỉnh* trong terminal: nhập *Serial number* đọc từ app NFC Tools, bảng sẽ hiện "khớp 4 byte cuối" ở dòng đúng.
-- 5 thẻ đã quét (01/10/2026): `0566367322`→`5A14C221`, `0562029658`→`5AE47F21`, `0515269722`→`5A64B61E`,
-  `0613061722`→`5A948A24`, `0566363226`→`5A04C221`. Cả 5 khác nhau, nhưng **byte `5A` lặp lại ở mọi thẻ**, nên có thể đó là
-  byte thứ hai của UID (sau `04`), tức đầu đọc gửi byte 1–4. Chỉ còn 3 byte phân biệt các thẻ (≈16 triệu giá trị), vẫn đủ cho pilot.
-  Cần *Serial number* từ app NFC Tools để xác nhận.
-- Hệ quả: đăng ký thẻ và quét ở quầy **phải cùng dùng loại đầu đọc này**; sinh viên liên kết thẻ bằng mã nhận/QR do quầy hiện ra
-  (chạm thẻ bằng điện thoại Android sẽ đọc đủ 7 byte, không khớp với 4 byte mà quầy đã lưu).
-- Tin tốt từ NTAG215: ghi được bản ghi NDEF URL `https://<domain>/c/<mã>` (bằng nút *Ghi URL vào thẻ* trên Android, hoặc app NFC Tools →
-  Write → URL), sau đó cả **iPhone và Android** chạm thẻ là mở trang cốc. 504 byte là dư cho URL này. Thẻ ghi/xoá được 100.000 lần,
-  nên chỉ khoá chỉ-đọc khi đã phát cho người dùng.
+- Đầu đọc loại **keyboard wedge**, gõ **10 chữ số thập phân** rồi Enter, ví dụ `0566367322`.
+- Đó là **4 byte đầu** của UID, đọc theo thứ tự đảo (little-endian). Ví dụ serial `5A:C4:7F:21:05:41:89` (app NFC Tools)
+  → đầu đọc gõ `0562021466` = `0x217FC45A` → hệ thống lưu `5AC47F21`. Terminal dùng mặc định **Thập phân, đảo byte** là đúng.
+- UID **không bắt đầu bằng `04`** → thẻ là chip **tương thích NTAG215**, không phải NXP chính hãng. Dùng được bình thường;
+  byte đầu `5A` giống nhau ở mọi thẻ đã thử, nên chỉ còn 3 byte phân biệt trong phần đầu đọc thấy (≈16 triệu giá trị, đủ cho pilot).
+- Server tự khớp UID 4 byte (đầu đọc USB) với UID 7 byte (điện thoại, PC/SC) khi chỉ có đúng một thẻ khớp, nên:
+  sticker đăng ký ở quầy vẫn được sinh viên liên kết bằng cách chạm điện thoại Android (Web NFC), và ngược lại.
+- 5 thẻ đã quét: `0566367322`→`5A14C221`, `0562029658`→`5AE47F21`, `0515269722`→`5A64B61E`, `0613061722`→`5A948A24`, `0566363226`→`5A04C221`.
+- NTAG215 (504 byte) ghi được bản ghi NDEF URL `https://<domain>/c/<mã>`: iPhone và Android chạm là mở trang ly.
 - Khoảng đọc 1–5 cm: với bình inox cần thẻ **on-metal**, và nên đánh dấu vị trí "chạm vào đây" trên đầu đọc ở quầy.
 
 ## 4. Kịch bản thử nghiệm với phần cứng đã mua (Sprint 0)

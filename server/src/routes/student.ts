@@ -3,7 +3,7 @@ import { featuresFor, impactOf, milestonesFor, newCode, newId, newToken, normali
 import { bearer, failureLimiter, HttpError, type Ctx, type Row } from '../http.ts';
 import { leagueFor } from '../services/leagues.ts';
 import { goalState, pointsBalance, recentScans } from '../services/progress.ts';
-import { createCup, flagDuplicate, insertScan, isDuplicate, publicCup } from '../services/scans.ts';
+import { createCup, flagDuplicate, insertScan, isDuplicate, publicCup, findCupByUid } from '../services/scans.ts';
 import { readSettings, studyClock } from '../services/settings.ts';
 import { impactPerCup } from '../services/stats.ts';
 
@@ -69,7 +69,7 @@ export function studentRoutes(app: Express, ctx: Ctx) {
     if (body?.cupId) cup = get('SELECT * FROM cups WHERE id = ?', String(body.cupId));
     else if (body?.nfcUid) {
       const uid = normalizeUid(String(body.nfcUid));
-      cup = uid ? get('SELECT * FROM cups WHERE nfc_uid = ?', uid) : undefined;
+      cup = uid ? findCupByUid(ctx, uid) : undefined;
     } else if (body?.code) {
       const code = parseCupCode(String(body.code));
       cup = code ? get('SELECT * FROM cups WHERE code = ?', code) : undefined;
@@ -179,7 +179,7 @@ export function studentRoutes(app: Express, ctx: Ctx) {
     if (rawUid) {
       const uid = normalizeUid(String(rawUid));
       if (!uid) throw new HttpError(400, 'bad_uid');
-      cup = get('SELECT * FROM cups WHERE nfc_uid = ?', uid) ?? createCup(ctx, 'nfc', uid);
+      cup = findCupByUid(ctx, uid) ?? createCup(ctx, 'nfc', uid);
     } else {
       const code = parseCupCode(String(rawCode ?? ''));
       cup = code ? get('SELECT * FROM cups WHERE code = ?', code) : undefined;

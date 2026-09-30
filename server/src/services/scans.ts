@@ -79,3 +79,18 @@ export function insertScan(
   );
   return row;
 }
+
+/**
+ * Find a cup by NFC UID. The project's USB reader only reports the first 4 bytes of a 7-byte UID,
+ * while phones (Web NFC) and PC/SC readers report all 7, so a 4-byte UID also matches the 7-byte UID
+ * it starts with, and vice versa — but only when exactly one cup fits.
+ */
+export function findCupByUid(ctx: Ctx, uid: string): Row | undefined {
+  const exact = ctx.get('SELECT * FROM cups WHERE nfc_uid = ?', uid);
+  if (exact) return exact;
+  const rows =
+    uid.length > 8
+      ? ctx.all('SELECT * FROM cups WHERE nfc_uid = ?', uid.slice(0, 8))
+      : ctx.all('SELECT * FROM cups WHERE length(nfc_uid) > 8 AND substr(nfc_uid, 1, 8) = ?', uid);
+  return rows.length === 1 ? rows[0] : undefined;
+}

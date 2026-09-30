@@ -1,7 +1,7 @@
 import type { Express, Request } from 'express';
 import { normalizeUid, parseCupCode, parseVoucher, currentStationCode, displayCode } from '../domain.ts';
 import { bearer, HttpError, type Ctx, type Row } from '../http.ts';
-import { createCup, flagDuplicate, insertScan, isDuplicate, publicCup } from '../services/scans.ts';
+import { createCup, flagDuplicate, insertScan, isDuplicate, publicCup, findCupByUid } from '../services/scans.ts';
 import { studyClock } from '../services/settings.ts';
 import { vendorToday } from '../services/stats.ts';
 import { addDays, isDay, localDay } from '../time.ts';
@@ -62,7 +62,7 @@ export function vendorRoutes(app: Express, ctx: Ctx) {
     if (method === 'nfc') {
       const uid = normalizeUid(String(value ?? ''));
       if (!uid) throw new HttpError(400, 'bad_uid', { value: String(value ?? '') });
-      cup = get('SELECT * FROM cups WHERE nfc_uid = ?', uid);
+      cup = findCupByUid(ctx, uid);
       if (!cup) return res.json({ status: 'unknown', method, uid });
     } else {
       const voucher = parseVoucher(String(value ?? ''));
@@ -93,7 +93,7 @@ export function vendorRoutes(app: Express, ctx: Ctx) {
     requireVendor(req);
     const uid = normalizeUid(String(req.body?.uid ?? ''));
     if (!uid) throw new HttpError(400, 'bad_uid');
-    const existing = get('SELECT * FROM cups WHERE nfc_uid = ?', uid);
+    const existing = findCupByUid(ctx, uid);
     const cup = existing ?? createCup(ctx, 'nfc', uid);
     res.status(existing ? 200 : 201).json({ created: !existing, cup: publicCup(ctx, cup) });
   });

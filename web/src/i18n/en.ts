@@ -335,7 +335,7 @@ export const en: Dict = {
       full: '✔ full match',
       prefix: '≈ first 4 bytes match',
       suffix: '≈ last 4 bytes match',
-      partialNote: 'The reader only sends 4 bytes of the 7-byte UID: register stickers with this same reader at the counter; customers link them with the claim code or QR.',
+      partialNote: 'The reader only sends 4 bytes of the 7-byte UID. The server matches it to the full UID when a customer taps the sticker with a phone, so it works as usual.',
       gap: 'Largest gap between two keys (ms) — increase it if the reader types slowly',
       states: { off: 'off', on: 'listening', connecting: 'connecting', connected: 'connected', error: 'error' },
       language: 'Language',
