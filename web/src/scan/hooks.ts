@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Detection } from './types';
-import { wedgeToHex, type WedgeFormat } from './uid';
+import { readerToHex, type WedgeFormat } from './uid';
 
 /**
  * USB NFC readers in keyboard-emulation mode "type" the UID very fast and press Enter.
@@ -33,7 +33,7 @@ export function useKeyboardWedge(
       if (e.key === 'Enter' || e.key === 'Tab') {
         if (buf.length >= 8) {
           cb.current.onBurst?.({ raw: buf, terminator: e.key, maxGapMs: Math.round(gap), at: Date.now() });
-          const hex = wedgeToHex(buf, format);
+          const hex = readerToHex(buf, format);
           hex ? cb.current.onDetect({ method: 'nfc', source: 'usb-hid', value: hex }) : cb.current.onBad(buf);
           e.preventDefault();
         }

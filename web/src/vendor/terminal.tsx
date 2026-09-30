@@ -266,6 +266,7 @@ export function TerminalProvider({ token, vendor, logout, children }: { token: s
     clearResult: () => setResult(null),
     registerMode,
     setRegisterMode: (v) => {
+      lastValue.current = { value: '', at: 0 }; // the same tag may be tapped again right away in the new mode
       setRegisterMode(v);
       setResult(null);
     },

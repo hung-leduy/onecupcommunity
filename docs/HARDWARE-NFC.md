@@ -56,6 +56,10 @@ Lưu ý: kiểu 10 chữ số chỉ chứa **4 byte đầu** của UID. UID 4 by
 - Thẻ đã mua: **NTAG215** (NXP, ISO 14443A, 504 byte, đọc 1–5 cm) — UID thật dài **7 byte, luôn bắt đầu bằng `04`**.
 - `5A14C221` / `21C2145A` đều không bắt đầu bằng `04` → đầu đọc **không gửi 4 byte đầu**; nhiều khả năng là 4 byte cuối của UID.
   Xác nhận bằng mục *Hiệu chỉnh* trong terminal: nhập *Serial number* đọc từ app NFC Tools, bảng sẽ hiện "khớp 4 byte cuối" ở dòng đúng.
+- 5 thẻ đã quét (01/10/2026): `0566367322`→`5A14C221`, `0562029658`→`5AE47F21`, `0515269722`→`5A64B61E`,
+  `0613061722`→`5A948A24`, `0566363226`→`5A04C221`. Cả 5 khác nhau, nhưng **byte `5A` lặp lại ở mọi thẻ**, nên có thể đó là
+  byte thứ hai của UID (sau `04`), tức đầu đọc gửi byte 1–4. Chỉ còn 3 byte phân biệt các thẻ (≈16 triệu giá trị), vẫn đủ cho pilot.
+  Cần *Serial number* từ app NFC Tools để xác nhận.
 - Hệ quả: đăng ký thẻ và quét ở quầy **phải cùng dùng loại đầu đọc này**; sinh viên liên kết thẻ bằng mã nhận/QR do quầy hiện ra
   (chạm thẻ bằng điện thoại Android sẽ đọc đủ 7 byte, không khớp với 4 byte mà quầy đã lưu).
 - Tin tốt từ NTAG215: ghi được bản ghi NDEF URL `https://<domain>/c/<mã>` (bằng nút *Ghi URL vào thẻ* trên Android, hoặc app NFC Tools →

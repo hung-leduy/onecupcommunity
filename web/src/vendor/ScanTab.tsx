@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { QrImage } from '../QrImage';
 import { useI18n } from '../i18n';
 import { QrCamera } from '../scan/QrCamera';
-import { wedgeToHex } from '../scan/uid';
+import { readerToHex } from '../scan/uid';
 import { webNfcSupported, writeNfcUrl } from '../scan/webnfc';
 import { useTerminal, type Result } from './terminal';
 
@@ -77,7 +77,7 @@ export function ScanTab() {
           const v = manual.trim();
           if (!v) return;
           // A USB reader typing into this field sends its usual 10-digit decimal: read it with the reader's format.
-          const fromReader = /^\d{8,10}$/.test(v) ? wedgeToHex(v, term.settings.usbFormat) : null;
+          const fromReader = /^\d{8,10}$/.test(v) ? readerToHex(v, term.settings.usbFormat) : null;
           if (fromReader) {
             term.handle({ method: 'nfc', source: 'usb-hid', value: fromReader });
             setManual('');

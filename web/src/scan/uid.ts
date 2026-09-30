@@ -39,3 +39,13 @@ export function calibrate(raw: string, realUid?: string): Calibration[] {
     return { format: id, hex, match };
   });
 }
+
+/**
+ * UID from what a keyboard reader typed. A 10-digit decimal can only be a decimal UID, so it is
+ * read as one (byte-reversed unless "dec-be" is chosen) even if the terminal is set to HEX.
+ */
+export function readerToHex(raw: string, format: WedgeFormat): string | null {
+  const s = raw.trim();
+  if (/^\d{10}$/.test(s)) return wedgeToHex(s, format === 'dec-be' ? 'dec-be' : 'dec-le');
+  return wedgeToHex(s, format);
+}
