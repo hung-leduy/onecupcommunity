@@ -27,7 +27,7 @@ Ngôn ngữ đổi ở Hồ sơ (sinh viên), Trợ giúp (quầy), chân thanh 
 
 ## Chạy thử
 
-Yêu cầu Node.js ≥ 22.18.
+Yêu cầu Node.js ≥ 22.6 (khuyên dùng bản 22 LTS mới nhất).
 
 ```bash
 npm install

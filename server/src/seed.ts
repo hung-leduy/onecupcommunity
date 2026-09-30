@@ -1,5 +1,6 @@
 // Creates the pilot outlets (4 outlets in 3 stepped-wedge clusters) and the reward catalogue.
 //   npm run seed -w server
+import { pathToFileURL } from 'node:url';
 import { loadConfig } from './config.ts';
 import { openDb } from './db.ts';
 import { newId, newToken } from './domain.ts';
@@ -42,7 +43,8 @@ export function seedPilot(ctx: ReturnType<typeof makeCtx>, log = console.log) {
   if (!ctx.get("SELECT 1 FROM settings WHERE key = 'cluster_starts'")) writeSettings(ctx, { clusterStarts: { A: 1, B: 5, C: 9 } });
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run only when called directly (also on Windows, where argv[1] is a D:\ path).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const config = loadConfig();
   const ctx = makeCtx(openDb(config.dbPath), config);
   seedPilot(ctx);
