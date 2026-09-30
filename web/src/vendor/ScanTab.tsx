@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { QrImage } from '../QrImage';
 import { useI18n } from '../i18n';
 import { QrCamera } from '../scan/QrCamera';
+import { wedgeToHex } from '../scan/uid';
 import { webNfcSupported, writeNfcUrl } from '../scan/webnfc';
 import { useTerminal, type Result } from './terminal';
 
@@ -75,8 +76,15 @@ export function ScanTab() {
           e.preventDefault();
           const v = manual.trim();
           if (!v) return;
-          // UIDs: anything with separators ("04:A2:…") or 7/10-byte hex; everything else is a cup code, URL or voucher.
-          const isUid = term.registerMode || /[:\- ]/.test(v.replace(/^V-|^OCC-/i, '')) || /^([0-9A-Fa-f]{14}|[0-9A-Fa-f]{20})$/.test(v);
+          // A USB reader typing into this field sends its usual 10-digit decimal: read it with the reader's format.
+          const fromReader = /^\d{8,10}$/.test(v) ? wedgeToHex(v, term.settings.usbFormat) : null;
+          if (fromReader) {
+            term.handle({ method: 'nfc', source: 'usb-hid', value: fromReader });
+            setManual('');
+            return;
+          }
+          // UIDs: anything with separators ("04:A2:…") or 4/7/10-byte hex; cup codes have 6 characters.
+          const isUid = term.registerMode || /[:\- ]/.test(v.replace(/^V-|^OCC-/i, '')) || /^([0-9A-Fa-f]{8}|[0-9A-Fa-f]{14}|[0-9A-Fa-f]{20})$/.test(v);
           term.handle(isUid ? { method: 'nfc', source: 'manual', value: v } : { method: 'qr', source: 'manual', value: v });
           setManual('');
         }}
