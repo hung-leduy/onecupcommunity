@@ -24,18 +24,18 @@ export const WEDGE_FORMATS: { id: WedgeFormat; label: string }[] = [
   { id: 'dec-be', label: 'Thập phân, không đảo byte' },
 ];
 
-export type Calibration = { format: WedgeFormat; hex: string | null; match: 'full' | 'prefix' | 'none' };
+export type Calibration = { format: WedgeFormat; hex: string | null; match: 'full' | 'prefix' | 'suffix' | 'none' };
 
 /**
  * Interpret a raw reader string under every format. If the tag's real UID is known (e.g. from the
  * NFC Tools app on a phone), mark which interpretation matches it — fully, or only the first 4 bytes
- * (readers that print a 10-digit decimal only carry 4 bytes of a 7-byte NTAG UID).
+ * (readers that print a 10-digit decimal only carry 4 bytes of a 7-byte NTAG UID — the first or the last 4).
  */
 export function calibrate(raw: string, realUid?: string): Calibration[] {
   const real = (realUid ?? '').replace(/[\s:\-]/g, '').toUpperCase();
   return WEDGE_FORMATS.map(({ id }) => {
     const hex = wedgeToHex(raw, id);
-    const match = !hex || !real ? 'none' : hex === real ? 'full' : real.startsWith(hex) ? 'prefix' : 'none';
+    const match = !hex || !real ? 'none' : hex === real ? 'full' : real.startsWith(hex) ? 'prefix' : real.endsWith(hex) ? 'suffix' : 'none';
     return { format: id, hex, match };
   });
 }

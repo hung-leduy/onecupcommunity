@@ -266,7 +266,7 @@ function WedgeCalibration({ burst, format, gapMs, onFormat, onGap }: {
   useEffect(() => {
     if (burst && box.current && !rows.find((r) => r.format === format)?.hex) box.current.open = true;
   }, [burst]);
-  const best = rows.find((r) => r.match === 'full') ?? rows.find((r) => r.match === 'prefix');
+  const best = rows.find((r) => r.match === 'full') ?? rows.find((r) => r.match !== 'none');
   return (
     <details className="card" ref={box}>
       <summary>Hiệu chỉnh đầu đọc USB (kiểu bàn phím)</summary>
@@ -292,13 +292,13 @@ function WedgeCalibration({ burst, format, gapMs, onFormat, onGap }: {
                 <tr key={r.format}>
                   <td>{WEDGE_FORMATS.find((f) => f.id === r.format)!.label}</td>
                   <td><code>{r.hex ?? '— không hợp lệ'}</code></td>
-                  <td>{realUid ? (r.match === 'full' ? '✔ khớp hoàn toàn' : r.match === 'prefix' ? '≈ khớp 4 byte đầu' : '✘') : ''}</td>
+                  <td>{realUid ? (r.match === 'full' ? '✔ khớp hoàn toàn' : r.match === 'prefix' ? '≈ khớp 4 byte đầu' : r.match === 'suffix' ? '≈ khớp 4 byte cuối' : '✘') : ''}</td>
                   <td>{r.hex && (r.format === format ? <b>đang dùng</b> : <button className="small secondary" onClick={() => onFormat(r.format)}>Dùng</button>)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {best?.match === 'prefix' && (
+          {(best?.match === 'prefix' || best?.match === 'suffix') && (
             <p className="notice small">
               Đầu đọc chỉ gửi 4 byte của UID 7 byte. Vẫn dùng được, nhưng phải <b>đăng ký thẻ bằng chính loại đầu đọc này</b> ở quầy —
               không liên kết bằng cách chạm điện thoại Android (Web NFC đọc đủ 7 byte nên sẽ không khớp).

@@ -52,10 +52,15 @@ Lưu ý: kiểu 10 chữ số chỉ chứa **4 byte đầu** của UID. UID 4 by
 
 - Loại **keyboard wedge**, gõ **10 chữ số thập phân** rồi Enter, ví dụ `0566367322`.
 - Tức là chỉ **4 byte** UID: `0566367322` = `0x21C2145A` → hệ thống lưu `5A14C221` (đảo byte, mặc định của terminal).
-- UID này **không bắt đầu bằng `04`**, trong khi UID 7 byte của thẻ NXP NTAG luôn bắt đầu bằng `04`. Vậy hoặc thẻ đã mua là loại UID 4 byte
-  (MIFARE Classic 1K / thẻ tương thích), hoặc đầu đọc bỏ bớt byte. Cần đọc thẻ bằng *NFC Tools* để biết chắc (dòng *Tag type* và *Serial number*).
-- Hệ quả: đăng ký thẻ và quét ở quầy **phải cùng dùng loại đầu đọc này**; sinh viên liên kết thẻ bằng mã nhận/QR do quầy hiện ra.
-  Nếu thẻ là MIFARE Classic thì iPhone không đọc được và không ghi được URL NDEF theo chuẩn NTAG — nên chọn NTAG213/215 cho lô thẻ phát cho sinh viên.
+- Thẻ đã mua: **NTAG215** (NXP, ISO 14443A, 504 byte, đọc 1–5 cm) — UID thật dài **7 byte, luôn bắt đầu bằng `04`**.
+- `5A14C221` / `21C2145A` đều không bắt đầu bằng `04` → đầu đọc **không gửi 4 byte đầu**; nhiều khả năng là 4 byte cuối của UID.
+  Xác nhận bằng mục *Hiệu chỉnh* trong terminal: nhập *Serial number* đọc từ app NFC Tools, bảng sẽ hiện "khớp 4 byte cuối" ở dòng đúng.
+- Hệ quả: đăng ký thẻ và quét ở quầy **phải cùng dùng loại đầu đọc này**; sinh viên liên kết thẻ bằng mã nhận/QR do quầy hiện ra
+  (chạm thẻ bằng điện thoại Android sẽ đọc đủ 7 byte, không khớp với 4 byte mà quầy đã lưu).
+- Tin tốt từ NTAG215: ghi được bản ghi NDEF URL `https://<domain>/c/<mã>` (bằng nút *Ghi URL vào thẻ* trên Android, hoặc app NFC Tools →
+  Write → URL), sau đó cả **iPhone và Android** chạm thẻ là mở trang cốc. 504 byte là dư cho URL này. Thẻ ghi/xoá được 100.000 lần,
+  nên chỉ khoá chỉ-đọc khi đã phát cho người dùng.
+- Khoảng đọc 1–5 cm: với bình inox cần thẻ **on-metal**, và nên đánh dấu vị trí "chạm vào đây" trên đầu đọc ở quầy.
 
 ## 4. Kịch bản thử nghiệm với phần cứng đã mua (Sprint 0)
 
@@ -74,8 +79,8 @@ Ghi lại kết quả: tỉ lệ đọc thành công, khoảng cách đọc, th�
 
 | Thẻ | Bộ nhớ | Dùng khi |
 |---|---|---|
-| NTAG213 | 144 byte | Đủ cho URL ngắn (`https://domain/c/XXXXXXXX`) — rẻ nhất, khuyên dùng |
-| NTAG215 / 216 | 504 / 888 byte | Nếu cần lưu thêm dữ liệu |
+| NTAG213 | 144 byte | Đủ cho URL ngắn (`https://domain/c/XXXXXXXX`) — rẻ nhất |
+| **NTAG215** (dự án đang dùng) / 216 | 504 / 888 byte | Dư chỗ cho URL; dùng tốt |
 | NTAG **on-metal / anti-metal** (có lớp ferrite, bọc epoxy) | như trên | **Bắt buộc** cho bình inox/nhôm; thẻ thường dán thẳng lên kim loại gần như không đọc được |
 | NTAG 424 DNA (SUN) | — | Giai đoạn sau: mỗi lần chạm sinh URL có chữ ký mật mã → không sao chép được, cho phép tự quét được coi là xác thực |
 
