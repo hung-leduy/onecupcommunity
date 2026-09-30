@@ -6,9 +6,9 @@ Cắm đầu đọc vào máy tính, mở Notepad (hoặc bất kỳ ô nhập c
 
 | Hiện tượng | Loại | Cách nối vào One-Cup |
 |---|---|---|
-| Một dãy số/chữ được **gõ ra** rồi xuống dòng | **Keyboard wedge (HID)** — thường là đầu đọc "USB RFID 13.56 MHz" giá rẻ | Không cần cài gì. Terminal `/vendor` tự nghe (Cài đặt → "Nghe đầu đọc NFC USB kiểu bàn phím"). Chọn đúng **định dạng UID** (§3). |
-| Không gõ gì; máy nhận là *smart card reader* (ACS ACR122U, ACR1252U, ACR1552U, Identiv…) | **PC/SC (CCID)** | Chạy `nfc-bridge` trên máy quầy (§2), bật "Kết nối PC/SC bridge" trong terminal. |
-| Không có đầu đọc, nhưng có điện thoại **Android + Chrome** có NFC | **Web NFC** | Mở `/vendor` trên điện thoại qua HTTPS, bấm "Bật Web NFC". |
+| Một dãy số/chữ được **gõ ra** rồi xuống dòng | **Keyboard wedge (HID)** — thường là đầu đọc "USB RFID 13.56 MHz" giá rẻ | Không cần cài gì. Terminal `/vendor` tự nghe ở mọi tab (Trợ giúp → Thiết bị đọc). Chọn đúng **định dạng UID** (§3). |
+| Không gõ gì; máy nhận là *smart card reader* (ACS ACR122U, ACR1252U, ACR1552U, Identiv…) | **PC/SC (CCID)** | Chạy `nfc-bridge` trên máy quầy (§2), bật "PC/SC bridge" trong Trợ giúp → Thiết bị đọc. |
+| Không có đầu đọc, nhưng có điện thoại **Android + Chrome** có NFC | **Web NFC** | Mở `/vendor` trên điện thoại qua HTTPS, Trợ giúp → "Bật Web NFC". |
 
 Trình duyệt không truy cập trực tiếp được đầu đọc PC/SC (Chrome chặn lớp thiết bị smart card trong WebUSB), vì vậy mới cần `nfc-bridge`.
 
@@ -35,7 +35,8 @@ Khi chạm thẻ, cửa sổ bridge in `tag 04A23B4C5D6E7F …` và terminal hi�
 
 ## 3. Định dạng UID của đầu đọc kiểu bàn phím
 
-**Cách nhanh nhất:** mở `/vendor` → chạm thẻ → mục **Hiệu chỉnh đầu đọc USB** tự mở, hiện chuỗi đầu đọc gửi và cách hiểu theo từng định dạng.
+**Cách nhanh nhất:** mở `/vendor` → tab **Trợ giúp** → chạm thẻ → mục **Hiệu chỉnh đầu đọc USB** hiện chuỗi đầu đọc gửi và cách hiểu theo từng định dạng (mục này tự mở khi định dạng đang chọn không đọc được).
+Mặc định terminal dùng **Thập phân, đảo byte** — đúng với đầu đọc của dự án.
 Đọc cùng thẻ bằng app *NFC Tools* trên điện thoại (dòng *Serial number*), nhập vào ô "UID thật" → dòng khớp được đánh dấu ✔ → bấm **Dùng**.
 Nếu chạm thẻ mà không có phản ứng gì, tăng "khoảng cách tối đa giữa 2 phím" (đầu đọc gõ chậm).
 
@@ -64,14 +65,14 @@ Lưu ý: kiểu 10 chữ số chỉ chứa **4 byte đầu** của UID. UID 4 by
 
 ## 4. Kịch bản thử nghiệm với phần cứng đã mua (Sprint 0)
 
-1. Khởi động hệ thống (xem `README.md`), đăng nhập `/vendor` bằng PIN `1111`.
-2. Chạm thẻ → phải thấy **"Không nhận ra thẻ NFC …"** kèm UID. Ghi lại UID; nếu có điện thoại Android, đọc cùng thẻ bằng app *NFC Tools* để so sánh.
-3. Bấm **Đăng ký thẻ này** → nhận *mã nhận* 8 ký tự + QR.
-4. Trên điện thoại: mở `/me`, đăng ký, **+ Thêm cốc** → quét QR hoặc nhập mã nhận.
-5. Chạm lại thẻ vào đầu đọc → **✔ tên + giảm giá**. Chạm lần nữa ngay → "vừa được quét" (chống trùng).
-6. Bật **Đo thời gian giao dịch**, luân phiên 10 lượt QR (camera) và 10 lượt NFC, bấm *Khách mới* (Space) khi khách tới quầy → xem bảng H3 ở `/admin`.
+1. Khởi động hệ thống (xem `README.md`), chạy `npm run seed -w server`, đăng nhập `/vendor` bằng PIN `1111` (Campus Café).
+2. Chạm thẻ → phải thấy **"Không nhận ra sticker …"** kèm UID. Ghi lại UID; đọc cùng thẻ bằng app *NFC Tools* trên điện thoại để so sánh (Trợ giúp → Hiệu chỉnh).
+3. Bấm **Đăng ký sticker này** → nhận *mã nhận* dạng `OCC-XXXXXX` + QR.
+4. Trên điện thoại: mở `/me`, đăng ký tài khoản → bước **Đăng ký ly** (hoặc Hồ sơ → Thêm ly) → quét QR hoặc nhập mã nhận.
+5. Chạm lại thẻ vào đầu đọc → quầy hiện **✔ Đã xác minh · OCC-… · Áp dụng giảm …**, điện thoại sinh viên (đang mở app) hiện **TUYỆT VỜI!** trong vài giây. Chạm lần nữa ngay → "vừa được quét" (chống trùng, được gắn cờ trong console).
+6. Bật **Đo thời gian giao dịch** (Trợ giúp → Thiết bị đọc), luân phiên 10 lượt QR (camera) và 10 lượt NFC, bấm *Khách mới* (Space) khi khách tới quầy → cột `tx_duration_ms` trong tệp xuất nghiên cứu (`/admin` → Xuất dữ liệu).
 7. Dán thẻ lên bình inox: thử khoảng cách/góc đọc với thẻ thường vs thẻ **on-metal**; thử sau khi rửa bình nhiều lần (độ bền lớp epoxy).
-8. (Android) Trong chế độ đăng ký, bấm **Ghi URL vào thẻ** → chạm thẻ bằng iPhone/Android khi màn hình mở khoá → phải bật trang `/c/<mã>`.
+8. (Android) Sau khi đăng ký sticker, bấm **Ghi URL vào sticker** → chạm thẻ bằng iPhone/Android khi màn hình mở khoá → phải bật trang `/c/<mã>`.
 
 Ghi lại kết quả: tỉ lệ đọc thành công, khoảng cách đọc, thời gian mỗi lượt, lỗi gặp phải — đây cũng là dữ liệu đầu vào cho giả thuyết H3.
 
