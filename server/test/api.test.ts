@@ -229,6 +229,14 @@ describe('One-Cup API', () => {
     assert.equal(o.data.vendors[0].staffShare, 0.8);
     assert.deepEqual(o.data.quality, { l1: 4, l2: 1, l3: 1, flagsThisWeek: 2, unlinkedScans: 1 }); // counter + self-scan duplicates
 
+    const an = await call('GET', '/api/admin/analysis', undefined, admin);
+    assert.equal(an.data.environment.cups, 5);
+    assert.equal(an.data.environment.plasticKg.value, 5 * 6.5 / 1000);
+    assert.equal(an.data.environment.discountsVnd, 4 * 3000); // the unlinked NFC scan got no discount
+    const qr = an.data.h3.technology.find((m: any) => m.method === 'qr');
+    assert.equal(qr.median, 4200);
+    assert.deepEqual(an.data.heatmap, [{ dow: 4, hour: 10, n: 5 }]);
+
     const p = await call('GET', '/api/admin/participants', undefined, admin);
     assert.equal(p.data.list[0].nickname, undefined);
     assert.match(p.data.list[0].participant, /^[0-9a-f]{12}$/);

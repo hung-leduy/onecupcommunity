@@ -270,6 +270,137 @@ export function arms(ctx: Ctx) {
   return { arms: armTable(ctx, data), weekly, byFaculty: participants(ctx).byFaculty };
 }
 
+const quantile = (sorted: number[], q: number) => {
+  if (!sorted.length) return null;
+  const pos = (sorted.length - 1) * q;
+  const lo = Math.floor(pos);
+  const hi = Math.ceil(pos);
+  return sorted[lo] + (sorted[hi] - sorted[lo]) * (pos - lo);
+};
+
+/**
+ * Descriptive analysis per hypothesis for the research console. Inferential tests (ITS, regression)
+ * belong in the exported data; these figures are for monitoring the pilot.
+ */
+export function analysis(ctx: Ctx) {
+  const s = readSettings(ctx);
+  const clock = studyClock(ctx, s);
+  const { last } = weekWindow(clock.week, s);
+  const tz = ctx.config.tzOffsetMin;
+  const shift = sqlShift(tz);
+  const data = loadUserScans(ctx);
+  const now = ctx.now().getTime();
+  const { impact, cupCostVnd } = ctx.config;
+
+  // ---- environment (H3 of the Introduction / H1 of the grant) ----
+  const weekly = new Map<number, number>();
+  for (const r of ctx.all('SELECT date(created_at, ?) AS day, COUNT(*) AS n FROM scans WHERE verified = 1 GROUP BY day', shift)) {
+    const w = clock.weekOfDay(r.day);
+    weekly.set(w, (weekly.get(w) ?? 0) + r.n);
+  }
+  let cumulative = 0;
+  const impactSeries = [];
+  for (let w = 1; w <= last; w++) {
+    cumulative += weekly.get(w) ?? 0;
+    impactSeries.push({ week: w, cups: weekly.get(w) ?? 0, cumulative });
+  }
+  const verified = ctx.get('SELECT COUNT(*) AS n, COALESCE(SUM(discount_vnd), 0) AS discounts FROM scans WHERE verified = 1')!;
+  const band = (x: number) => ({ value: x, low: x * (1 - impact.uncertainty), high: x * (1 + impact.uncertainty) });
+  const environment = {
+    cups: verified.n as number,
+    plasticKg: band((verified.n * impact.plasticGramsPerCup) / 1000),
+    co2eKg: band((verified.n * impact.co2eGramsPerCup) / 1000),
+    perParticipant: data.users.length ? round(verified.n / data.users.length, 1) : null,
+    outletSavingsVnd: verified.n * cupCostVnd,
+    discountsVnd: verified.discounts as number,
+    coefficients: impact,
+    series: impactSeries,
+  };
+
+  // ---- H1: reuse share before / after the intervention, per cluster ----
+  const shares = vendorDayShares(ctx, s);
+  const clusters = [...new Set(ctx.all('SELECT cluster FROM vendors').map((v) => v.cluster as string))].sort().map((cluster) => {
+    const pre = ratio(shares.filter((r) => r.cluster === cluster && !r.intervention));
+    const post = ratio(shares.filter((r) => r.cluster === cluster && r.intervention));
+    return { cluster, startWeek: clock.clusterStart(cluster), pre: round(pre), post: round(post), diffPp: pre !== null && post !== null ? round((post - pre) * 100, 1) : null };
+  });
+  const prePooled = ratio(shares.filter((r) => !r.intervention));
+  const postPooled = ratio(shares.filter((r) => r.intervention));
+  const shareSeries = [];
+  for (let w = 1; w <= last; w++) shareSeries.push({ week: w, share: round(ratio(shares.filter((r) => r.week === w))) });
+
+  // ---- H2: retention curve by arm (week k after sign-up) and the reward withdrawal ----
+  const curve = (users: Row[]) =>
+    Array.from({ length: 8 }, (_, k) => {
+      const eligible = users.filter((u) => Date.parse(u.created_at) <= now - (k + 1) * 7 * DAY_MS);
+      if (eligible.length < 5) return null;
+      const active = eligible.filter((u) => {
+        const from = Date.parse(u.created_at) + k * 7 * DAY_MS;
+        return (data.verifiedByUser.get(u.id) ?? []).some((t) => t >= from && t < from + 7 * DAY_MS);
+      });
+      return round(active.length / eligible.length);
+    });
+  const retentionCurves = ARMS.map((arm) => ({ arm, letter: ARM_LETTER[arm], values: curve(data.users.filter((u) => u.arm === arm)) }));
+
+  const rewardsEndMs = Date.parse(`${addDays(s.rewardsEnd, 1)}T00:00:00Z`) - tz * 60_000;
+  const rate = (users: Row[], from: number, to: number) => {
+    const inWindow = users.filter((u) => Date.parse(u.created_at) < from);
+    if (!inWindow.length || to <= from) return null;
+    const scans = sum(inWindow.map((u) => (data.verifiedByUser.get(u.id) ?? []).filter((t) => t >= from && t < to).length));
+    return round(scans / inWindow.length / ((to - from) / (7 * DAY_MS)), 2);
+  };
+  const afterEnd = Math.min(now, rewardsEndMs + 14 * DAY_MS);
+  const withdrawal = {
+    rewardsEnd: s.rewardsEnd,
+    started: now > rewardsEndMs,
+    arms: (['gamification', 'rewards'] as const).map((arm) => {
+      const users = data.users.filter((u) => u.arm === arm);
+      return { arm, letter: ARM_LETTER[arm], before: rate(users, rewardsEndMs - 14 * DAY_MS, rewardsEndMs), after: now > rewardsEndMs ? rate(users, rewardsEndMs, afterEnd) : null };
+    }),
+  };
+
+  // ---- H3: NFC vs QR at the counter, and adoption by cup type ----
+  const tx = new Map<string, number[]>();
+  const counts = new Map<string, number>();
+  for (const r of ctx.all('SELECT method, tx_duration_ms FROM scans WHERE tier = 1')) {
+    counts.set(r.method, (counts.get(r.method) ?? 0) + 1);
+    if (r.tx_duration_ms) tx.set(r.method, [...(tx.get(r.method) ?? []), r.tx_duration_ms]);
+  }
+  const kindOf = new Map(ctx.all('SELECT user_id, MIN(kind) AS kind FROM cups WHERE user_id IS NOT NULL GROUP BY user_id').map((r) => [r.user_id as string, r.kind as string]));
+  const technology = (['nfc', 'qr'] as const).map((method) => {
+    const sorted = (tx.get(method) ?? []).slice().sort((a, b) => a - b);
+    const users = data.users.filter((u) => kindOf.get(u.id) === method);
+    return {
+      method,
+      scans: counts.get(method) ?? 0,
+      timed: sorted.length,
+      p25: quantile(sorted, 0.25),
+      median: quantile(sorted, 0.5),
+      p75: quantile(sorted, 0.75),
+      users: users.length,
+      scansPerWeek: round(scansPerWeek(ctx, users, data), 2),
+      retentionW4: round(retention(ctx, users, data, 4)),
+    };
+  });
+
+  // ---- when cups are reused: weekday × hour (verified, local time) ----
+  const heat = ctx.all(
+    `SELECT CAST(strftime('%w', created_at, ?) AS INTEGER) AS dow, CAST(strftime('%H', created_at, ?) AS INTEGER) AS hour, COUNT(*) AS n
+     FROM scans WHERE verified = 1 GROUP BY dow, hour`,
+    shift,
+    shift,
+  );
+
+  return {
+    week: clock.week,
+    environment,
+    h1: { clusters, pre: round(prePooled), post: round(postPooled), diffPp: prePooled !== null && postPooled !== null ? round((postPooled - prePooled) * 100, 1) : null, series: shareSeries },
+    h2: { retentionCurves, withdrawal },
+    h3: { technology },
+    heatmap: heat.map((r) => ({ dow: r.dow as number, hour: r.hour as number, n: r.n as number })),
+  };
+}
+
 /** Numbers for the student-facing celebration and vendor "today" screens reuse the same coefficients. */
 export const impactPerCup = (ctx: Ctx) => ({ ...impactOf(1, ctx.config.impact), singleUseCo2eGrams: ctx.config.impact.singleUseCupCo2eGrams });
 

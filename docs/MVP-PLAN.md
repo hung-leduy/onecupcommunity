@@ -71,6 +71,13 @@ Người tham gia không thấy mình ở nhánh nào (kể cả trong tệp “
 
 **Việc vận hành bắt buộc:** mỗi quầy nhập **tổng đồ uống bán ra** mỗi ngày (tab *Hôm nay*; sửa được 7 ngày gần nhất), và trước khi cụm vào can thiệp nhập thêm số ly tái sử dụng đếm tay. Thiếu số này thì không tính được tỷ lệ cho H1.
 
+**Trang Phân tích** (`/admin/analysis`), số liệu mô tả theo giả thuyết:
+- *Tác động môi trường*: ly nhựa tránh được (chỉ lượt xác minh), nhựa và CO₂e kèm khoảng ±30% (`IMPACT_UNCERTAINTY`), tiền ly quầy tiết kiệm, chi phí giảm giá đã trả, đường cộng dồn theo tuần.
+- *H1*: tỷ lệ dùng ly tái sử dụng trước/sau can thiệp theo cụm và gộp (pp), tỷ lệ toàn campus theo tuần.
+- *H2*: đường giữ chân tuần 1–8 sau đăng ký theo nhánh; lượt/người/tuần của nhánh C và D 2 tuần trước và sau ngày rút thưởng.
+- *H3*: NFC vs QR — lượt tại quầy, thời gian giao dịch (trung vị, P25–P75), số người, quét/tuần, giữ chân tuần 4 theo loại ly.
+- *Vận hành*: bản đồ nhiệt lượt xác minh theo thứ × giờ.
+
 Xuất dữ liệu (CSV UTF-8, mã giả danh HMAC từ `STATION_SECRET`):
 - *Nghiên cứu* — từng lượt quét của người đồng ý nghiên cứu (không tên).
 - *Dataset mở* — chỉ người đồng ý công bố, tổng hợp theo người × tuần, mã giả danh riêng (không nối được với tệp nghiên cứu).

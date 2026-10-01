@@ -198,10 +198,13 @@ export function LineChart({
   const plotW = Math.max(0, width - left - right);
   const plotH = height - top - bottom;
   const all = series.flatMap((s) => s.values.filter((v): v is number => v !== null));
-  const maxV = Math.max(1, ...all);
-  const tickStep = maxV > 4 ? Math.ceil(maxV / 4) : maxV > 2 ? 1 : 0.5;
+  const maxV = Math.max(Number.EPSILON, ...all);
+  // A "nice" step (1, 2, 2.5 or 5 × 10^n) giving about four gridlines.
+  const raw = maxV / 4;
+  const pow = 10 ** Math.floor(Math.log10(raw));
+  const tickStep = ([1, 2, 2.5, 5, 10].find((m) => m * pow >= raw) ?? 10) * pow;
   const yMax = Math.ceil(maxV / tickStep) * tickStep;
-  const ticks = Array.from({ length: Math.round(yMax / tickStep) + 1 }, (_, i) => i * tickStep);
+  const ticks = Array.from({ length: Math.round(yMax / tickStep) + 1 }, (_, i) => Math.round(i * tickStep * 1e6) / 1e6);
   const sx = (i: number) => left + (xs.length > 1 ? (i / (xs.length - 1)) * plotW : plotW / 2);
   const sy = (v: number) => top + plotH - (v / yMax) * plotH;
 
@@ -216,15 +219,17 @@ export function LineChart({
   }
 
   return (
-    <figure className="chart" ref={ref} style={{ height: height + 34 }}>
-      <div className="chart-legend">
-        {series.map((s) => (
-          <span key={s.key}>
-            <i style={{ background: s.color }} />
-            {s.label}
-          </span>
-        ))}
-      </div>
+    <figure className="chart" ref={ref} style={{ height: height + (series.length > 1 ? 34 : 0) }}>
+      {series.length > 1 && (
+        <div className="chart-legend">
+          {series.map((s) => (
+            <span key={s.key}>
+              <i style={{ background: s.color }} />
+              {s.label}
+            </span>
+          ))}
+        </div>
+      )}
       {width > 0 && (
         <svg width={width} height={height} role="img" aria-label={caption} onPointerMove={move} onPointerLeave={() => setHover(null)}>
           {ticks.map((tv) => (
@@ -256,7 +261,9 @@ export function LineChart({
                     </text>
                   </>
                 )}
-                {hover !== null && s.values[hover] !== null && <circle cx={sx(hover)} cy={sy(s.values[hover]!)} r={4} fill={s.color} stroke="var(--surface)" strokeWidth={2} />}
+                {hover !== null && s.values[hover] !== null && (
+                  <circle cx={sx(hover)} cy={sy(s.values[hover]!)} r={4} fill={s.color} stroke="var(--surface)" strokeWidth={2} />
+                )}
               </g>
             );
           })}

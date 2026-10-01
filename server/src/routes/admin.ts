@@ -3,7 +3,7 @@ import { ARM_LETTER, newId, newToken } from '../domain.ts';
 import { HttpError, type Ctx } from '../http.ts';
 import { createCup, publicCup } from '../services/scans.ts';
 import { readSettings, studyClock, writeSettings } from '../services/settings.ts';
-import { arms, overview, participants, pseudonym, quality } from '../services/stats.ts';
+import { analysis, arms, overview, participants, pseudonym, quality } from '../services/stats.ts';
 import { localDay, sqlShift } from '../time.ts';
 import { publicVendor } from './vendor.ts';
 
@@ -38,6 +38,7 @@ export function adminRoutes(app: Express, ctx: Ctx) {
   app.get('/api/admin/participants', guard((_req, res) => res.json(participants(ctx))));
   app.get('/api/admin/arms', guard((_req, res) => res.json(arms(ctx))));
   app.get('/api/admin/quality', guard((_req, res) => res.json(quality(ctx))));
+  app.get('/api/admin/analysis', guard((_req, res) => res.json(analysis(ctx))));
 
   // ---- settings ----------------------------------------------------------------------------
 

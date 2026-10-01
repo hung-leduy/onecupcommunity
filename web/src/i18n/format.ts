@@ -12,7 +12,12 @@ export function makeFormat(lang: Lang) {
     num: (n: number, digits = 0) => nf({ maximumFractionDigits: digits }).format(n),
     pct: (x: number | null | undefined, digits = 0) => (x === null || x === undefined ? '—' : nf({ style: 'percent', maximumFractionDigits: digits }).format(x)),
     vnd: (n: number) => `${nf().format(n)} ${currency}`,
-    vndShort: (n: number) => (n >= 10_000 ? `${nf({ maximumFractionDigits: 0 }).format(n / 1000)}k ${currency}` : `${nf().format(n)} ${currency}`),
+    vndShort: (n: number) =>
+      n >= 1_000_000
+        ? `${nf({ maximumFractionDigits: 1 }).format(n / 1_000_000)} ${lang === 'vi' ? 'triệu' : 'M'} ${currency}`
+        : n >= 10_000
+          ? `${nf({ maximumFractionDigits: 0 }).format(n / 1000)}k ${currency}`
+          : `${nf().format(n)} ${currency}`,
     /** Grams as { value, unit } so the unit can be typeset smaller, switching to kg from 1 000 g. */
     mass: (g: number) =>
       g >= 1000 ? { value: nf({ maximumFractionDigits: 1 }).format(g / 1000), unit: 'kg' } : { value: nf({ maximumFractionDigits: g < 10 ? 1 : 0 }).format(g), unit: 'g' },

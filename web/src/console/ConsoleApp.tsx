@@ -1,10 +1,11 @@
-import { ChartColumn, Database, Download, LogOut, QrCode, Shield, Store, Users } from 'lucide-react';
+import { ChartColumn, Database, Download, Leaf, LogOut, QrCode, Shield, Store, Users } from 'lucide-react';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { ADMIN_KEY, api, ApiError } from '../api';
 import { errorText, LangSwitch, useI18n } from '../i18n';
 import { CupIcon } from '../ui/icons';
 import { Btn3D } from '../ui/kit';
+import { AnalysisPage } from './Analysis';
 import { Overview } from './Overview';
 import { ArmsPage, CupsPage, ExportPage, ParticipantsPage, QualityPage, VendorsPage } from './Pages';
 
@@ -89,6 +90,7 @@ export function ConsoleApp() {
         <main className="cs-main">
           <Routes>
             <Route index element={<Overview />} />
+            <Route path="analysis" element={<AnalysisPage />} />
             <Route path="vendors" element={<VendorsPage />} />
             <Route path="participants" element={<ParticipantsPage />} />
             <Route path="arms" element={<ArmsPage />} />
@@ -108,6 +110,7 @@ function Sidebar({ settings, onSignOut }: { settings: Settings | null; onSignOut
   const items: [string, ReactNode, string][] = [
     ['/admin', <ChartColumn size={22} />, n.overview],
     ['/admin/vendors', <Store size={22} />, n.vendors],
+    ['/admin/analysis', <Leaf size={22} />, n.analysis],
     ['/admin/participants', <Users size={22} />, n.participants],
     ['/admin/arms', <Shield size={22} />, n.arms],
     ['/admin/quality', <Database size={22} />, n.quality],

@@ -550,3 +550,54 @@
     padding: 18px 16px;
   }
 }
+
+/* analysis page */
+.cs-kpi__value--md {
+  font-size: 1.9rem;
+}
+.cs-range {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.42em;
+  font-weight: 800;
+  color: var(--muted);
+}
+.cs-heat-wrap {
+  overflow-x: auto;
+}
+.cs-heat {
+  display: grid;
+  gap: 3px;
+  min-width: 420px;
+}
+.cs-heat i {
+  display: block;
+  height: 26px;
+  border-radius: 5px;
+}
+.cs-heat__h,
+.cs-heat__d {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+  align-self: center;
+}
+.cs-heat__d {
+  text-align: left;
+}
+.cs-heat__legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+.cs-heat__legend i {
+  width: 90px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, #1b5a2d 15%, #e9f6ec), #1b5a2d);
+}

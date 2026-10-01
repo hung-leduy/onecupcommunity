@@ -20,7 +20,7 @@ export type Config = {
    * PLACEHOLDERS — replace with the values chosen from the LCA literature (e.g. Lee et al., 2025)
    * before any figure is reported.
    */
-  impact: { plasticGramsPerCup: number; co2eGramsPerCup: number; singleUseCupCo2eGrams: number };
+  impact: { plasticGramsPerCup: number; co2eGramsPerCup: number; singleUseCupCo2eGrams: number; uncertainty: number };
   /** Cups per day that complete the daily goal (and keep the streak alive). */
   dailyGoal: number;
   /** Points per counted use: verified (counter / station) and unverified self-scan. */
@@ -54,6 +54,8 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
       plasticGramsPerCup: num(env.IMPACT_PLASTIC_G, 6.5),
       co2eGramsPerCup: num(env.IMPACT_CO2E_G, 53),
       singleUseCupCo2eGrams: num(env.IMPACT_SINGLE_USE_CO2E_G, 72),
+      // ± share used for the low/high band of every impact figure (sensitivity, not a confidence interval)
+      uncertainty: num(env.IMPACT_UNCERTAINTY, 0.3),
     },
     dailyGoal: num(env.DAILY_GOAL, 3),
     points: { verified: num(env.POINTS_VERIFIED, 10), self: num(env.POINTS_SELF, 2) },

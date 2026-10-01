@@ -11,7 +11,7 @@ import { ARM_COLORS, ArmBadge, ArmsTable, QualityBars, TableToggle, type ArmRow 
 
 const ARMS = ['control', 'feedback', 'gamification', 'rewards'];
 
-function useLoad<T>(path: string) {
+export function useLoad<T>(path: string) {
   const { call } = useAdmin();
   const { t } = useI18n();
   const [data, setData] = useState<T | null>(null);
@@ -29,7 +29,7 @@ function useLoad<T>(path: string) {
   return { data, error, reload, setData };
 }
 
-function Page({ title, sub, actions, children }: { title: string; sub?: string; actions?: ReactNode; children: ReactNode }) {
+export function Page({ title, sub, actions, children }: { title: string; sub?: string; actions?: ReactNode; children: ReactNode }) {
   return (
     <div className="cs-page">
       <header className="cs-head">
@@ -44,7 +44,7 @@ function Page({ title, sub, actions, children }: { title: string; sub?: string; 
   );
 }
 
-function Card({ title, sub, action, children }: { title: string; sub?: string; action?: ReactNode; children: ReactNode }) {
+export function Card({ title, sub, action, children }: { title: string; sub?: string; action?: ReactNode; children: ReactNode }) {
   return (
     <section className="card cs-card">
       <div className="cs-card__head">
