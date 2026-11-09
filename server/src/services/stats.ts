@@ -402,6 +402,27 @@ export function analysis(ctx: Ctx) {
 }
 
 /** Numbers for the student-facing celebration and vendor "today" screens reuse the same coefficients. */
+/**
+ * Campus-wide totals for the public project site. Aggregates only — nothing per person,
+ * per arm or per outlet — so it is safe to serve without a login.
+ */
+export function publicStats(ctx: Ctx) {
+  const s = readSettings(ctx);
+  const clock = studyClock(ctx, s);
+  const { impact } = ctx.config;
+  const count = (sql: string) => ctx.get(sql)!.n as number;
+  const cups = count('SELECT COUNT(*) AS n FROM scans WHERE verified = 1');
+  return {
+    demo: s.demo,
+    today: clock.today,
+    pilot: { start: s.pilotStart, end: addDays(s.pilotStart, s.pilotWeeks * 7 - 1), weeks: s.pilotWeeks, week: clock.week },
+    participants: count('SELECT COUNT(*) AS n FROM users'),
+    outlets: count('SELECT COUNT(*) AS n FROM vendors'),
+    impact: impactOf(cups, impact),
+    perCup: { plasticGrams: impact.plasticGramsPerCup, co2eGrams: impact.co2eGramsPerCup },
+  };
+}
+
 export const impactPerCup = (ctx: Ctx) => ({ ...impactOf(1, ctx.config.impact), singleUseCo2eGrams: ctx.config.impact.singleUseCupCo2eGrams });
 
 export function vendorToday(ctx: Ctx, vendorId: string) {

@@ -156,3 +156,14 @@ export type Rewards = {
   items: { id: string; titleVi: string; titleEn: string; cost: number; vendor: string | null; affordable: boolean }[];
   vouchers: Voucher[];
 };
+
+/** Campus-wide totals served to the public project site. */
+export type PublicStats = {
+  demo: boolean;
+  today: string;
+  pilot: { start: string; end: string; weeks: number; week: number };
+  participants: number;
+  outlets: number;
+  impact: { cupsAvoided: number; plasticGrams: number; co2eGrams: number };
+  perCup: { plasticGrams: number; co2eGrams: number };
+};

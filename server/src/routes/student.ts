@@ -5,7 +5,7 @@ import { leagueFor } from '../services/leagues.ts';
 import { goalState, pointsBalance, recentScans } from '../services/progress.ts';
 import { createCup, flagDuplicate, insertScan, isDuplicate, publicCup, findCupByUid } from '../services/scans.ts';
 import { readSettings, studyClock } from '../services/settings.ts';
-import { impactPerCup } from '../services/stats.ts';
+import { impactPerCup, publicStats } from '../services/stats.ts';
 
 const clean = (v: unknown, max = 60) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 
@@ -308,6 +308,12 @@ export function studentRoutes(app: Express, ctx: Ctx) {
   });
 
   // ---- public ------------------------------------------------------------------------------
+
+  // Live totals for the public project site (aggregates only).
+  app.get('/api/public/stats', (_req, res) => {
+    res.set('cache-control', 'public, max-age=60');
+    res.json(publicStats(ctx));
+  });
 
   app.get('/api/cups/:code', (req, res) => {
     const code = parseCupCode(req.params.code);

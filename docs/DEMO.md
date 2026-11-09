@@ -70,6 +70,7 @@ Windows hỏi tường lửa → **Allow**.
 2. `http://localhost:3000/vendor/station` → màn hình mã quầy (nếu có màn hình thứ hai, quay về phía khán giả).
 3. `http://localhost:3001/admin` → admin key `change-me-admin` → console showcase.
 4. `http://localhost:3000/admin` → console live.
+5. `http://localhost:3001/` → trang giới thiệu dự án; bảng điểm campus hiện số liệu mẫu (nhãn **Dữ liệu mẫu**).
 
 **Điện thoại:** mở `http://<IP>:3000/` (chưa đăng ký).
 
@@ -77,7 +78,7 @@ Windows hỏi tường lửa → **Allow**.
 
 | # | Nói gì | Làm gì | Thấy gì |
 |---|---|---|---|
-| 1 | Vấn đề: VGU có ly tái sử dụng nhưng ít người dùng — cần biết *vì sao* và đo được *thay đổi* | Điện thoại: trang chủ → **Sinh viên & cán bộ** | Màn hình đăng ký |
+| 1 | Vấn đề: VGU có ly tái sử dụng nhưng ít người dùng — cần biết *vì sao* và đo được *thay đổi* | Màn chiếu: tab trang giới thiệu (mục **Vì sao**, **Cách hoạt động**). Điện thoại: trang giới thiệu → **Tham gia ngay** | Màn hình đăng ký |
 | 2 | Tham gia tự nguyện, đồng ý nhiều lớp, có thể rút | Nhập tên, khoa, khóa → **Tiếp tục** → bật “Đưa dữ liệu vào nghiên cứu” → **Đồng ý & tiếp tục** | Bước **Đăng ký ly** |
 | 3 | Mỗi ly có mã riêng; sticker NFC đăng ký ngay tại quầy | Laptop (tab quầy): đặt ly lên đầu đọc → **Đăng ký sticker này** | Quầy hiện **Sticker mới · OCC-…** + QR |
 | 4 | Sinh viên liên kết ly với tài khoản | Điện thoại: chọn **Ly riêng của tôi** → **Quét mã trên ly** → gõ mã `OCC-…` → **Liên kết** | “Đã liên kết ly OCC-…!” → **Tiếp tục** về trang chủ |

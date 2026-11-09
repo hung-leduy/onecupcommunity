@@ -325,6 +325,39 @@ describe('Study mode on', () => {
   });
 });
 
+describe('Public stats for the project site', () => {
+  let api: Awaited<ReturnType<typeof start>>;
+  before(async () => {
+    api = await start();
+  });
+  after(() => api.server.close());
+
+  test('count verified cups only and expose no personal data', async () => {
+    const empty = await api.call('GET', '/api/public/stats');
+    assert.equal(empty.status, 200);
+    assert.equal(empty.data.impact.cupsAvoided, 0);
+    const { week, ...pilot } = empty.data.pilot;
+    assert.deepEqual(pilot, { start: '2026-09-28', end: '2026-12-20', weeks: 12 });
+    assert.ok(week >= 1, 'the shared test clock is inside the pilot');
+
+    await api.call('POST', '/api/admin/vendors', { name: 'Kiosk', pin: '7777' }, admin);
+    const vendor = (await api.call('POST', '/api/vendor/login', { pin: '7777' })).data.token;
+    const [cup] = (await api.call('POST', '/api/admin/cups', { count: 1 }, admin)).data;
+    const u = await api.call('POST', '/api/users', { nickname: 'Mai', consentParticipate: true });
+    await api.call('POST', '/api/me/cups', { code: cup.code }, auth(u.data.token));
+    assert.equal((await api.call('POST', '/api/vendor/scans', { method: 'qr', source: 'camera', value: cup.url }, auth(vendor))).data.status, 'ok');
+    tick(120);
+    assert.equal((await api.call('POST', '/api/me/scans/self', { code: cup.code }, auth(u.data.token))).status, 201);
+
+    const r = await api.call('GET', '/api/public/stats');
+    assert.deepEqual(r.data.impact, { cupsAvoided: 1, plasticGrams: 6.5, co2eGrams: 53 }, 'the unverified self-scan is not counted');
+    assert.equal(r.data.participants, 1);
+    assert.equal(r.data.outlets, 1);
+    assert.deepEqual(Object.keys(r.data).sort(), ['demo', 'impact', 'outlets', 'participants', 'perCup', 'pilot', 'today']);
+    assert.ok(!JSON.stringify(r.data).includes('Mai'));
+  });
+});
+
 describe('Readers that only report part of the UID', () => {
   let api: Awaited<ReturnType<typeof start>>;
   before(async () => {

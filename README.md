@@ -8,15 +8,16 @@ Giao diện dựng theo bộ thiết kế *App sinh viên · Màn hình quầy �
 - Đầu đọc NFC, thẻ NTAG215, kịch bản thử phần cứng: [`docs/HARDWARE-NFC.md`](docs/HARDWARE-NFC.md)
 - Kịch bản demo từ đầu đến cuối (2 server: live + dữ liệu mẫu): [`docs/DEMO.md`](docs/DEMO.md)
 
-## Ba ứng dụng trong một
+## Các phần của app
 
 | Đường dẫn | Dành cho | Màn hình |
 |---|---|---|
+| `/` | Mọi người (trang công khai) | Trang giới thiệu dự án: cách hoạt động, bảng điểm campus trực tiếp (chỉ số tổng hợp từ `GET /api/public/stats`), máy tính tác động, nghiên cứu, lộ trình, quyền riêng tư, hỏi đáp |
 | `/me` | Sinh viên & cán bộ (điện thoại) | Trang chủ (mục tiêu ngày, chuỗi ngày, tác động, giải đấu) · Dùng ly của tôi (QR / NFC / mã 6 số) · Chúc mừng · Hành trình · Bảng xếp hạng · Đổi thưởng · Đăng ký ly · Hồ sơ & quyền riêng tư |
 | `/vendor` | Nhân viên quầy (tablet/laptop + đầu đọc USB) | Quét · Hôm nay · Trợ giúp (thiết bị đọc, hiệu chỉnh) · `/vendor/station` màn hình mã quầy xoay vòng |
 | `/admin` | Nhóm nghiên cứu | Tổng quan pilot · Quầy & cụm · Người tham gia · Nhánh nghiên cứu · Chất lượng dữ liệu · Xuất dữ liệu · Ly & mã QR |
 
-Ngôn ngữ đổi ở Hồ sơ (sinh viên), Trợ giúp (quầy), chân thanh bên (console) và trang chủ `/`.
+Ngôn ngữ đổi ở Hồ sơ (sinh viên), Trợ giúp (quầy), chân thanh bên (console) và đầu trang giới thiệu `/`.
 
 ## Cấu trúc
 

@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ConsoleApp, PrintLabels } from './console/ConsoleApp';
 import { LangProvider } from './i18n';
-import { Landing } from './Landing';
+import { IntroSite } from './site/IntroSite';
 import { Celebrate } from './student/Celebrate';
 import { CupDeepLink, StationDeepLink } from './student/DeepLinks';
 import { Home } from './student/Home';
@@ -30,7 +30,7 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <StudentSession>
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<IntroSite />} />
             <Route path="/welcome" element={<Onboarding />} />
             <Route path="/me" element={<Home />} />
             <Route path="/me/scan" element={<Scan />} />
@@ -50,7 +50,7 @@ createRoot(document.getElementById('root')!).render(
             </Route>
             <Route path="/admin/print" element={<PrintLabels />} />
             <Route path="/admin/*" element={<ConsoleApp />} />
-            <Route path="*" element={<Landing />} />
+            <Route path="*" element={<IntroSite />} />
           </Routes>
         </StudentSession>
       </BrowserRouter>
