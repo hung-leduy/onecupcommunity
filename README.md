@@ -6,6 +6,7 @@ Giao diện dựng theo bộ thiết kế *App sinh viên · Màn hình quầy �
 
 - Kế hoạch, phạm vi và các quyết định thiết kế: [`docs/MVP-PLAN.md`](docs/MVP-PLAN.md)
 - Đầu đọc NFC, thẻ NTAG215, kịch bản thử phần cứng: [`docs/HARDWARE-NFC.md`](docs/HARDWARE-NFC.md)
+- Tech stack và sơ đồ kết nối hệ thống: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Kịch bản demo từ đầu đến cuối (2 server: live + dữ liệu mẫu): [`docs/DEMO.md`](docs/DEMO.md)
 
 ## Các phần của app
