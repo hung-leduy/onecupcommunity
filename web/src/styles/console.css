@@ -1,9 +1,9 @@
-/* Research console — dark green sidebar, mint canvas, white cards. */
+/* Research console — charcoal sidebar, light sage canvas, white cards (One Cup brand). */
 .cs-app {
   display: grid;
   grid-template-columns: 290px 1fr;
   min-height: 100dvh;
-  background: #f2fcf2;
+  background: var(--bg);
 }
 .cs-side {
   position: sticky;
@@ -13,8 +13,8 @@
   flex-direction: column;
   gap: 18px;
   padding: 22px 14px 18px;
-  background: #104928;
-  color: #dcefe2;
+  background: var(--charcoal);
+  color: rgba(255, 255, 255, 0.86);
 }
 .cs-brand {
   display: flex;
@@ -24,14 +24,15 @@
 }
 .cs-brand b {
   display: block;
-  font-size: 1.25rem;
-  font-weight: 900;
+  font-family: 'Lilita One', var(--font);
+  font-size: 1.35rem;
+  font-weight: 400;
   color: #fff;
 }
 .cs-brand span:not(.cs-brand__logo) {
   font-weight: 800;
   font-size: 0.86rem;
-  color: #b9dcc4;
+  color: rgba(255, 255, 255, 0.7);
 }
 .cs-brand__logo {
   display: grid;
@@ -39,8 +40,11 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: var(--green);
+  background: rgba(255, 255, 255, 0.06);
   color: #fff;
+}
+.cs-brand.dark .cs-brand__logo {
+  background: var(--charcoal);
 }
 .cs-brand.dark b {
   color: var(--ink);
@@ -62,7 +66,7 @@
   gap: 14px;
   padding: 13px 16px;
   border-radius: 16px;
-  color: #cfe7d6;
+  color: rgba(255, 255, 255, 0.78);
   font-weight: 800;
   font-size: 1.05rem;
   text-decoration: none;
@@ -71,8 +75,8 @@
   background: rgba(255, 255, 255, 0.06);
 }
 .cs-nav a.active {
-  background: #35674b;
-  color: #fff;
+  background: rgba(255, 123, 15, 0.16);
+  color: var(--orange);
 }
 .cs-side__foot {
   margin-top: auto;
@@ -83,18 +87,7 @@
   border-top: 2px solid rgba(255, 255, 255, 0.12);
   font-weight: 800;
   font-size: 0.88rem;
-  color: #a9cdb4;
-}
-.lang-switch.on-dark {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: transparent;
-}
-.lang-switch.on-dark button {
-  color: #a9cdb4;
-}
-.lang-switch.on-dark button.on {
-  background: #35674b;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.66);
 }
 .cs-signout {
   display: inline-flex;
@@ -102,7 +95,7 @@
   gap: 6px;
   border: 0;
   background: none;
-  color: #a9cdb4;
+  color: rgba(255, 255, 255, 0.66);
   font-weight: 800;
   cursor: pointer;
 }
@@ -375,13 +368,13 @@
   border-radius: 999px;
 }
 .cs-meter--green {
-  background: #e7efe9;
+  background: #ffe9d6;
 }
 .cs-meter--green i {
   background: var(--green);
 }
 .cs-meter--blue {
-  background: #e6eef2;
+  background: #e6e9e7;
 }
 .cs-meter--blue i {
   background: var(--blue);
@@ -465,7 +458,7 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: #f2fcf2;
+  background: var(--bg);
 }
 .cs-login .card {
   width: min(440px, 100%);
@@ -599,5 +592,5 @@
   width: 90px;
   height: 10px;
   border-radius: 999px;
-  background: linear-gradient(90deg, color-mix(in srgb, #1b5a2d 15%, #e9f6ec), #1b5a2d);
+  background: linear-gradient(90deg, color-mix(in srgb, #c4580a 15%, #fff1e4), #c4580a);
 }

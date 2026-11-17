@@ -274,7 +274,7 @@ function Tile({
   );
 }
 
-/** Weekday × hour, one green hue from light (few) to dark (many); values on hover and in the cell title. */
+/** Weekday × hour, one orange hue from light (few) to dark (many); values on hover and in the cell title. */
 function Heatmap({ cells }: { cells: { dow: number; hour: number; n: number }[] }) {
   const { t } = useI18n();
   const a = t.console.analysis;
@@ -300,7 +300,7 @@ function Heatmap({ cells }: { cells: { dow: number; hour: number; n: number }[] 
               const n = get(d, from + i);
               const pct = Math.round(15 + (n / max) * 85);
               return (
-                <i key={i} title={`${label(d)} ${from + i}:00 · ${n}`} style={{ background: n ? `color-mix(in srgb, #1b5a2d ${pct}%, #e9f6ec)` : '#f3f6f4' }} />
+                <i key={i} title={`${label(d)} ${from + i}:00 · ${n}`} style={{ background: n ? `color-mix(in srgb, #b04f00 ${pct}%, #fff1e4)` : '#f2f3f1' }} />
               );
             })}
           </Row>

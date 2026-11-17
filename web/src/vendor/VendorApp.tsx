@@ -1,9 +1,10 @@
-import { ChartColumn, CircleHelp, ScanLine, Store } from 'lucide-react';
+import { ChartColumn, CircleHelp, ScanLine } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { api } from '../api';
 import { errorText, LangSwitch, useI18n } from '../i18n';
 import { Btn3D } from '../ui/kit';
+import { Mascot } from '../ui/Mascot';
 import { TerminalProvider, useTerminal, useVendorSession, type Vendor } from './terminal';
 import '../styles/vendor.css';
 
@@ -34,7 +35,7 @@ function VendorLayout() {
     <div className="vd-app">
       <header className="vd-header">
         <span className="vd-header__icon">
-          <Store size={24} />
+          <Mascot size={30} />
         </span>
         <div className="grow">
           <h1>{vendor.name}</h1>
@@ -78,12 +79,12 @@ function VendorLogin({ onLogin }: { onLogin: (token: string, v: Vendor, staff: s
     <div className="vd-app">
       <header className="vd-header">
         <span className="vd-header__icon">
-          <Store size={24} />
+          <Mascot size={30} />
         </span>
         <div className="grow">
           <h1>{t.vendor.signIn}</h1>
         </div>
-        <LangSwitch className="on-blue" />
+        <LangSwitch className="on-dark" />
       </header>
       <main className="vd-main">
         <form

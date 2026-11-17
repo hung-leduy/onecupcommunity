@@ -54,7 +54,7 @@ export const vi = {
     server_error: 'Lỗi máy chủ, hãy thử lại sau.',
     network: 'Không kết nối được máy chủ.',
     camera: 'Không mở được camera. Hãy cho phép quyền camera (cần HTTPS).',
-    not_onecup_code: 'Đây không phải mã One-Cup.',
+    not_onecup_code: 'Đây không phải mã One Cup.',
     nfc_unavailable: 'Thiết bị này không đọc được NFC trong trình duyệt.',
   } as Record<string, string>,
 
@@ -67,7 +67,7 @@ export const vi = {
     hero: {
       kicker: 'Sáng kiến của sinh viên VGU',
       title: ['Một chiếc ly.', 'Cả một cộng đồng.'],
-      body: 'Mang ly riêng khi mua đồ uống, chạm NFC hoặc quét QR ở quầy — mỗi lần như vậy là một ly nhựa không bị vứt đi. One-Cup đếm giúp bạn, và cả campus cùng xem thói quen xanh có thật sự ở lại không.',
+      body: 'Mang ly riêng khi mua đồ uống, chạm NFC hoặc quét QR ở quầy — mỗi lần như vậy là một ly nhựa không bị vứt đi. One Cup đếm giúp bạn, và cả campus cùng xem thói quen xanh có thật sự ở lại không.',
       cta: 'Tham gia ngay',
       how: 'Xem cách hoạt động',
       stickers: ['Không cần cài app', 'QR + NFC', 'Pilot 04–06/2027'],
@@ -127,7 +127,7 @@ export const vi = {
         { title: 'Tác động của bạn', body: 'Số ly, gam nhựa và CO₂e bạn đã tránh — cộng dồn theo thời gian.' },
       ],
       note: 'Trong thời gian nghiên cứu, mỗi người có thể thấy một bộ tính năng khác nhau — đó là thí nghiệm. Khi nghiên cứu kết thúc, mọi tính năng mở cho tất cả.',
-      mockLabel: 'Màn hình chính của app One-Cup',
+      mockLabel: 'Màn hình chính của app One Cup',
       mockName: 'Minh Anh',
     },
     impact: {
@@ -206,7 +206,7 @@ export const vi = {
       label: 'Kết quả mong đợi',
       title: 'Sau 12 tháng, campus sẽ có…',
       items: [
-        { title: 'Một nền tảng chạy thật', body: 'App One-Cup và hệ thống ly gắn mã, vận hành trong điều kiện thực tế ở campus.' },
+        { title: 'Một nền tảng chạy thật', body: 'App One Cup và hệ thống ly gắn mã, vận hành trong điều kiện thực tế ở campus.' },
         { title: 'Tác động đo được', body: 'Số ly nhựa, lượng nhựa và CO₂e giảm, chi phí quầy tiết kiệm — kèm khoảng bất định.' },
         { title: 'Bộ dữ liệu cho nghiên cứu', body: 'Một trong những bộ dữ liệu ẩn danh, có cấu trúc đầu tiên về thói quen dùng lại ly ở một đại học Việt Nam.' },
         { title: 'Bài báo khoa học', body: 'Gửi tới một hội nghị quốc tế có phản biện, thuộc danh mục Scopus.' },
@@ -246,7 +246,7 @@ export const vi = {
       label: 'Hỏi đáp',
       title: 'Câu hỏi hay gặp',
       items: [
-        { q: 'Có phải cài app không?', a: 'Không. One-Cup là web app (PWA): mở bằng trình duyệt trên điện thoại, thích thì thêm vào màn hình chính.' },
+        { q: 'Có phải cài app không?', a: 'Không. One Cup là web app (PWA): mở bằng trình duyệt trên điện thoại, thích thì thêm vào màn hình chính.' },
         { q: 'Mình dùng bình giữ nhiệt bằng kim loại thì sao?', a: 'Nhóm dán nhãn NFC chống kim loại dưới đáy bình. Đến quầy chỉ cần chạm vào đầu đọc.' },
         { q: 'Mượn ly của bạn thì có được tính không?', a: 'Có — đó vẫn là một ly nhựa được tránh. Điểm được cộng cho chủ ly.' },
         { q: 'Tự quét ly có được tính không?', a: 'Có, nhưng được đánh dấu “chưa xác minh” và ít điểm hơn. Phân tích chỉ dùng lượt đã xác minh tại quầy.' },
@@ -540,7 +540,7 @@ export const vi = {
       signOut: 'Đăng xuất',
     },
     stationScreen: {
-      prompt: 'Dùng ly tái sử dụng? Quét mã bằng app One-Cup',
+      prompt: 'Dùng ly tái sử dụng? Quét mã bằng app One Cup',
       typeIt: 'Hoặc nhập mã 6 số',
       next: (s: number) => `Mã đổi sau ${s} giây`,
       back: 'Về terminal',

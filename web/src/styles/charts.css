@@ -9,11 +9,11 @@
   overflow: visible;
 }
 .chart-axis {
-  stroke: #cfdad2;
+  stroke: #d5dad7;
   stroke-width: 1;
 }
 .chart-grid {
-  stroke: #edf2ee;
+  stroke: #eef0ee;
   stroke-width: 1;
 }
 .chart-tick {
@@ -31,13 +31,13 @@
   font-weight: 900;
 }
 .chart-col--blue {
-  fill: #bfe8fb;
+  fill: #dfe3e0;
 }
 .chart-col--blue.is-emphasis {
   fill: var(--blue);
 }
 .chart-col--green {
-  fill: #b9e6c4;
+  fill: #ffd3ad;
 }
 .chart-col--green.is-emphasis {
   fill: var(--green);
@@ -51,7 +51,7 @@
   filter: brightness(0.93);
 }
 .chart-pre {
-  fill: #eef2ef;
+  fill: #f0f1ef;
 }
 .chart-area {
   fill: var(--green);
@@ -70,7 +70,7 @@
   stroke-dasharray: 4 4;
 }
 .chart-cross {
-  stroke: #9fb3a6;
+  stroke: #9aa49f;
   stroke-width: 1;
 }
 .chart-dot {

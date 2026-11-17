@@ -2,7 +2,7 @@
 
 Ứng dụng web (PWA) ghi nhận việc tái sử dụng ly tại VGU bằng **QR code** và **NFC**, song ngữ **Tiếng Việt / English** —
 phục vụ đề tài *One-Cup-Community: An NFC-Enabled Digital Platform for Sustainable Behavioral Change* (Sustainability Working Group, VGU).
-Giao diện dựng theo bộ thiết kế *App sinh viên · Màn hình quầy · Research console*.
+Giao diện dựng theo bộ thiết kế *App sinh viên · Màn hình quầy · Research console* và bộ nhận diện **One Cup** (than chì #2B2E35, cam #FF7B0F, xám xanh #8D9993; font Lilita One + Quicksand).
 
 - Kế hoạch, phạm vi và các quyết định thiết kế: [`docs/MVP-PLAN.md`](docs/MVP-PLAN.md)
 - Đầu đọc NFC, thẻ NTAG215, kịch bản thử phần cứng: [`docs/HARDWARE-NFC.md`](docs/HARDWARE-NFC.md)

@@ -53,7 +53,7 @@ export const en: Dict = {
     server_error: 'Server error — please try again later.',
     network: 'Cannot reach the server.',
     camera: 'Cannot open the camera. Allow camera access (HTTPS is required).',
-    not_onecup_code: 'This is not a One-Cup code.',
+    not_onecup_code: 'This is not a One Cup code.',
     nfc_unavailable: 'This device cannot read NFC in the browser.',
   },
 
@@ -65,7 +65,7 @@ export const en: Dict = {
     hero: {
       kicker: 'A VGU student initiative',
       title: ['One cup.', 'A whole community.'],
-      body: 'Bring your own cup when you buy a drink, then tap NFC or scan the QR at the counter — every time, one plastic cup stays out of the bin. One-Cup keeps count for you, and the whole campus finds out whether green habits really stick.',
+      body: 'Bring your own cup when you buy a drink, then tap NFC or scan the QR at the counter — every time, one plastic cup stays out of the bin. One Cup keeps count for you, and the whole campus finds out whether green habits really stick.',
       cta: 'Join now',
       how: 'See how it works',
       stickers: ['No install needed', 'QR + NFC', 'Pilot Apr–Jun 2027'],
@@ -125,7 +125,7 @@ export const en: Dict = {
         { title: 'Your impact', body: 'Cups, grams of plastic and CO₂e you avoided — adding up over time.' },
       ],
       note: 'During the study, different people may see different sets of features — that is the experiment. When the study ends, every feature opens up for everyone.',
-      mockLabel: 'Home screen of the One-Cup app',
+      mockLabel: 'Home screen of the One Cup app',
       mockName: 'Minh Anh',
     },
     impact: {
@@ -204,7 +204,7 @@ export const en: Dict = {
       label: 'Expected outcomes',
       title: 'After 12 months, the campus will have…',
       items: [
-        { title: 'A platform that really runs', body: 'The One-Cup app and tagged-cup system, operating under real campus conditions.' },
+        { title: 'A platform that really runs', body: 'The One Cup app and tagged-cup system, operating under real campus conditions.' },
         { title: 'Measured impact', body: 'Plastic cups, plastic and CO₂e avoided, and the outlets’ savings — each with an uncertainty range.' },
         { title: 'A research dataset', body: 'One of the first structured, anonymised datasets on cup reuse at a Vietnamese university.' },
         { title: 'A scientific paper', body: 'Submitted to a peer-reviewed, Scopus-indexed international conference.' },
@@ -244,7 +244,7 @@ export const en: Dict = {
       label: 'FAQ',
       title: 'Questions people ask',
       items: [
-        { q: 'Do I have to install an app?', a: 'No. One-Cup is a web app (PWA): open it in your phone’s browser and add it to your home screen if you like.' },
+        { q: 'Do I have to install an app?', a: 'No. One Cup is a web app (PWA): open it in your phone’s browser and add it to your home screen if you like.' },
         { q: 'What about my metal tumbler?', a: 'The team sticks an anti-metal NFC tag under it. At the counter you just tap the reader.' },
         { q: 'Does it count if I borrow a friend’s cup?', a: 'Yes — it is still a plastic cup avoided. The points go to the cup’s owner.' },
         { q: 'Does scanning my own cup count?', a: 'Yes, but it is marked “unverified” and earns fewer points. The analysis only counts uses verified at the counter.' },
@@ -538,7 +538,7 @@ export const en: Dict = {
       signOut: 'Sign out',
     },
     stationScreen: {
-      prompt: 'Using a reusable cup? Scan this code in the One-Cup app',
+      prompt: 'Using a reusable cup? Scan this code in the One Cup app',
       typeIt: 'Or type the 6-digit code',
       next: (s: number) => `New code in ${s} s`,
       back: 'Back to terminal',

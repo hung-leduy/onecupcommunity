@@ -384,7 +384,7 @@
   font-weight: 900;
 }
 .tone-green {
-  color: var(--green-ink);
+  color: var(--ok-ink);
 }
 .tone-yellow {
   color: var(--yellow-dark);
@@ -503,7 +503,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d6e2da;
+  background: #d5dad7;
 }
 
 /* leaderboard */
@@ -788,7 +788,7 @@
   padding: 14px;
   border-radius: 20px;
   background: var(--purple-soft);
-  border: 2px solid #e2d9ff;
+  border: 2px solid #d5d8dd;
 }
 .st-research svg {
   flex: none;

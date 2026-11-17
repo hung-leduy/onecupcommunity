@@ -28,7 +28,7 @@ type OverviewData = {
 };
 
 /** Ordinal ramp for the cumulative arms A → D (validated: monotone, ≥ 2:1 light end on white). */
-export const ARM_COLORS: Record<string, string> = { control: '#6fbf83', feedback: '#45a45c', gamification: '#2c8142', rewards: '#1b5a2d' };
+export const ARM_COLORS: Record<string, string> = { control: '#ffc28c', feedback: '#ff9a45', gamification: '#d9630a', rewards: '#8a3d05' };
 
 export function ArmBadge({ arm, letter }: { arm: string; letter: string }) {
   return (

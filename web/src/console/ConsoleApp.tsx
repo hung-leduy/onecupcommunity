@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { ADMIN_KEY, api, ApiError } from '../api';
 import { errorText, LangSwitch, useI18n } from '../i18n';
-import { CupIcon } from '../ui/icons';
+import { Mascot } from '../ui/Mascot';
 import { Btn3D } from '../ui/kit';
 import { AnalysisPage } from './Analysis';
 import { Overview } from './Overview';
@@ -122,10 +122,10 @@ function Sidebar({ settings, onSignOut }: { settings: Settings | null; onSignOut
     <aside className="cs-side">
       <div className="cs-brand">
         <span className="cs-brand__logo">
-          <CupIcon size={26} />
+          <Mascot size={30} />
         </span>
         <div>
-          <b>One-Cup</b>
+          <b>One Cup</b>
           <span>{t.console.brand}</span>
         </div>
       </div>
@@ -170,10 +170,10 @@ function Login({ onKey, error }: { onKey: (k: string) => void; error: string | n
       >
         <div className="cs-brand dark">
           <span className="cs-brand__logo">
-            <CupIcon size={26} />
+            <Mascot size={30} />
           </span>
           <div>
-            <b>One-Cup</b>
+            <b>One Cup</b>
             <span>{t.console.brand}</span>
           </div>
           <LangSwitch />

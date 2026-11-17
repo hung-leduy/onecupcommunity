@@ -47,7 +47,7 @@ import { LangSwitch, useI18n, type Dict } from '../i18n';
 import { useSession } from '../student/session';
 import { CrownIcon, CupIcon, FlameIcon, GemIcon } from '../ui/icons';
 import { Bubble, Confetti, IconChip, Qty, Ring } from '../ui/kit';
-import { Mascot } from '../ui/Mascot';
+import { Logo, Mascot } from '../ui/Mascot';
 import '../styles/site.css';
 
 type Tone = 'green' | 'blue' | 'yellow' | 'red' | 'purple';
@@ -164,9 +164,8 @@ function SiteHeader() {
   return (
     <header className="site-top">
       <div className="site-wrap site-top__in">
-        <a className="site-logo" href="#top">
-          <Mascot size={30} />
-          <span>One-Cup</span>
+        <a className="site-logo" href="#top" aria-label="One Cup">
+          <Logo size={34} onDark />
         </a>
         <nav className="site-nav" aria-label="One-Cup-Community">
           {NAV.map((key) => (
@@ -885,7 +884,7 @@ function Finale() {
         <Mascot size={140} mood="cheer" className="site-bob" />
         <h2 id="cta-title">{c.title}</h2>
         <p>{c.body}</p>
-        <Link className="btn3d btn3d--yellow" to="/me">
+        <Link className="btn3d" to="/me">
           <span>{join}</span>
           <ArrowRight size={20} strokeWidth={3} />
         </Link>
@@ -901,8 +900,7 @@ function Finale() {
       <footer className="site-foot">
         <div className="site-wrap site-foot__in">
           <span className="site-logo">
-            <Mascot size={26} />
-            <span>One-Cup-Community</span>
+            <Logo size={30} onDark />
           </span>
           <p>{ft.org}</p>
           <p>{ft.period}</p>

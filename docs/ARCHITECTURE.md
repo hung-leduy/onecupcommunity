@@ -9,7 +9,7 @@
 | Ngôn ngữ | i18n tự viết, có kiểu (`web/src/i18n/vi.ts`, `en.ts`) | Tiếng Việt / English, định dạng số & ngày theo `vi-VN` / `en-GB` |
 | Quét QR | `qr-scanner` (camera trình duyệt), `qrcode` (in mã) | Cần HTTPS hoặc `localhost` để mở camera |
 | Quét NFC | **Web NFC** (Chrome Android) · đầu đọc **USB dạng bàn phím** · **cầu PC/SC** (`nfc-bridge`) | Thẻ NTAG215; UID 7 byte, đầu đọc USB gửi 4 byte đầu (số thập phân) |
-| Giao diện phụ | `lucide-react` (icon), font Nunito, biểu đồ SVG tự vẽ | Linh vật, nút 3D theo bộ thiết kế |
+| Giao diện phụ | `lucide-react` (icon), font Lilita One + Quicksand, biểu đồ SVG tự vẽ | Linh vật, nút 3D theo bộ thiết kế |
 | Máy chủ | **Node.js ≥ 22.6** + **Express 5**, TypeScript chạy trực tiếp (`--experimental-strip-types`) | Một tiến trình phục vụ cả API lẫn bản build web |
 | Cơ sở dữ liệu | **SQLite** qua `node:sqlite` (có sẵn trong Node) | Một tệp `.sqlite`; migration theo `PRAGMA user_version` |
 | Cầu NFC | `nfc-bridge/`: Node + `nfc-pcsc` + `ws` | Chạy trên máy quầy, chỉ lắng nghe `127.0.0.1:7777` |

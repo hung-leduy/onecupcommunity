@@ -1,41 +1,40 @@
-// The One-Cup mascot: a VGU reusable cup with a sprout. "hello" waves, "cheer" celebrates.
+// The One Cup mark: an orange cup whose straw is a "1", with a smiling face on a charcoal panel.
+// "hello" is the logo's own wink; "cheer" laughs with both eyes closed.
 export function Mascot({ mood = 'hello', size = 96, className = '' }: { mood?: 'hello' | 'cheer'; size?: number; className?: string }) {
-  const arm = { stroke: 'var(--green)', strokeWidth: 6, strokeLinecap: 'round' as const, fill: 'none' };
+  const o = 'var(--orange)';
+  const face = { stroke: o, strokeWidth: 6, strokeLinecap: 'round' as const, fill: 'none' };
   return (
     <svg className={`mascot ${className}`} width={size} height={(size * 150) / 120} viewBox="0 0 120 150" aria-hidden="true">
-      <ellipse cx="60" cy="143" rx="28" ry="5" fill="#1d3b2a" opacity=".08" />
+      <ellipse cx="60" cy="144" rx="30" ry="4.5" fill="#2b2e35" opacity=".1" />
+      <path d="M59 14q0-6 6-6h3q6 0 6 6v28h-15Z" fill={o} />
+      <path d="M59 13 47.5 19.5q-3.5 2-1.5 5.5l1.5 2.6q2 3.2 5.4 1.3L59 25.5Z" fill={o} />
+      <rect x="30" y="38" width="60" height="11" rx="5.5" fill={o} />
+      <rect x="17" y="47" width="86" height="16" rx="8" fill={o} />
+      <path d="M25 66h70l-8 62q-1.2 8-9 8H42q-7.8 0-9-8Z" fill={o} />
+      <path d="M36 74h48l-6.2 46q-.8 5-5.8 5H48q-5 0-5.8-5Z" fill="#2b2e35" />
       {mood === 'cheer' ? (
         <>
-          <path d="M35 82 L16 58" {...arm} />
-          <path d="M85 82 L104 58" {...arm} />
+          <path d="M47 89q4.5-6.5 9 0" {...face} strokeWidth={5} />
+          <path d="M64 89q4.5-6.5 9 0" {...face} strokeWidth={5} />
+          <path d="M48 98q12 17 24 0Z" fill={o} stroke={o} strokeWidth="3" strokeLinejoin="round" />
         </>
       ) : (
         <>
-          <path d="M35 86 L19 98" {...arm} />
-          <path d="M85 86 L101 98" {...arm} />
+          <circle cx="69" cy="88" r="5.6" fill={o} />
+          <path d="M48 101q11 11 25-3" {...face} />
+          <path d="M45.5 103.5 49.5 99" {...face} strokeWidth={5} />
         </>
       )}
-      <path d="M31 40 H89 L83.2 128 Q82.6 134 76.5 134 H43.5 Q37.4 134 36.8 128 Z" fill="#fff" stroke="#dbeadf" strokeWidth="2" />
-      <path d="M60 31 V19" stroke="#3f9e57" strokeWidth="3" strokeLinecap="round" />
-      <path d="M60 22 C50 22 42 16 39.5 7.5 C49.5 6.5 58 12 60 22 Z" fill="var(--green)" />
-      <path d="M60 25 C68 25 76 20 78.5 12.5 C69.5 11.5 62 15.5 60 25 Z" fill="#74d38b" />
-      <rect x="26" y="30" width="68" height="14" rx="7" fill="var(--green)" />
-      <rect x="29" y="40" width="62" height="4" rx="2" fill="#3fa75a" opacity=".55" />
-      <ellipse cx="49" cy="67" rx="5.5" ry="7.5" fill="#1d3b2a" />
-      <ellipse cx="71" cy="67" rx="5.5" ry="7.5" fill="#1d3b2a" />
-      <circle cx="51" cy="64" r="2" fill="#fff" />
-      <circle cx="73" cy="64" r="2" fill="#fff" />
-      <ellipse cx="40.5" cy="80" rx="5" ry="3" fill="#ff9c9c" opacity=".75" />
-      <ellipse cx="79.5" cy="80" rx="5" ry="3" fill="#ff9c9c" opacity=".75" />
-      {mood === 'cheer' ? (
-        <path d="M53.5 78 Q60 90 66.5 78 Z" fill="#1d3b2a" />
-      ) : (
-        <path d="M54 79 Q60 85 66 79" stroke="#1d3b2a" strokeWidth="2.6" strokeLinecap="round" fill="none" />
-      )}
-      <rect x="39" y="101" width="42" height="15" rx="3" fill="var(--green)" />
-      <text x="60" y="112" textAnchor="middle" fontSize="9.5" fontWeight="800" fill="#fff" fontFamily="var(--font)" letterSpacing=".5">
-        VGU
-      </text>
     </svg>
+  );
+}
+
+/** Mark + "One Cup" wordmark. `onDark` sets the word in white (orange mark stays). */
+export function Logo({ size = 32, onDark = false, className = '' }: { size?: number; onDark?: boolean; className?: string }) {
+  return (
+    <span className={`logo ${onDark ? 'logo--dark' : ''} ${className}`} style={{ fontSize: size * 0.72 }}>
+      <Mascot size={size} />
+      <span className="logo__word">One Cup</span>
+    </span>
   );
 }

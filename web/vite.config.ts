@@ -14,11 +14,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'One-Cup-Community',
-        short_name: 'One-Cup',
+        name: 'One Cup Community',
+        short_name: 'One Cup',
         description: 'Tái sử dụng cốc tại VGU — quét QR hoặc chạm NFC',
-        theme_color: '#4fc16b',
-        background_color: '#f2fcf4',
+        theme_color: '#2b2e35',
+        background_color: '#f3f4f2',
         display: 'standalone',
         start_url: '/me',
         icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }],

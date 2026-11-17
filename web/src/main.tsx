@@ -1,4 +1,5 @@
-import '@fontsource-variable/nunito';
+import '@fontsource/lilita-one';
+import '@fontsource-variable/quicksand';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
