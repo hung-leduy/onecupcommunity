@@ -1,40 +1,59 @@
-// The One Cup mark: an orange cup whose straw is a "1", with a smiling face on a charcoal panel.
-// "hello" is the logo's own wink; "cheer" laughs with both eyes closed.
+// The One Cup mark, traced from the brand logo: domed lid with a slit, a "1" straw in the lid's
+// hole, an orange-rimmed cup on a charcoal panel, two dot eyes and a lopsided smile.
+// "hello" is the logo itself; "cheer" closes the eyes and opens the smile.
 export function Mascot({ mood = 'hello', size = 96, className = '' }: { mood?: 'hello' | 'cheer'; size?: number; className?: string }) {
-  const o = 'var(--orange)';
-  const face = { stroke: o, strokeWidth: 6, strokeLinecap: 'round' as const, fill: 'none' };
+  const o = 'var(--orange, #ff7b0f)';
+  const c = 'var(--charcoal, #2b2e35)';
   return (
     <svg className={`mascot ${className}`} width={size} height={(size * 150) / 120} viewBox="0 0 120 150" aria-hidden="true">
-      <ellipse cx="60" cy="144" rx="30" ry="4.5" fill="#2b2e35" opacity=".1" />
-      <path d="M59 14q0-6 6-6h3q6 0 6 6v28h-15Z" fill={o} />
-      <path d="M59 13 47.5 19.5q-3.5 2-1.5 5.5l1.5 2.6q2 3.2 5.4 1.3L59 25.5Z" fill={o} />
-      <rect x="30" y="38" width="60" height="11" rx="5.5" fill={o} />
-      <rect x="17" y="47" width="86" height="16" rx="8" fill={o} />
-      <path d="M25 66h70l-8 62q-1.2 8-9 8H42q-7.8 0-9-8Z" fill={o} />
-      <path d="M36 74h48l-6.2 46q-.8 5-5.8 5H48q-5 0-5.8-5Z" fill="#2b2e35" />
-      {mood === 'cheer' ? (
-        <>
-          <path d="M47 89q4.5-6.5 9 0" {...face} strokeWidth={5} />
-          <path d="M64 89q4.5-6.5 9 0" {...face} strokeWidth={5} />
-          <path d="M48 98q12 17 24 0Z" fill={o} stroke={o} strokeWidth="3" strokeLinejoin="round" />
-        </>
-      ) : (
-        <>
-          <circle cx="69" cy="88" r="5.6" fill={o} />
-          <path d="M48 101q11 11 25-3" {...face} />
-          <path d="M45.5 103.5 49.5 99" {...face} strokeWidth={5} />
-        </>
-      )}
+      <MarkPaths orange={o} charcoal={c} mood={mood} />
     </svg>
   );
 }
 
-/** Mark + "One Cup" wordmark. `onDark` sets the word in white (orange mark stays). */
+export function MarkPaths({ orange: o, charcoal: c, mood = 'hello' }: { orange: string; charcoal: string; mood?: 'hello' | 'cheer' }) {
+  const line = { stroke: o, strokeLinecap: 'round' as const, fill: 'none' };
+  return (
+    <>
+      {/* cup: orange shell, charcoal panel */}
+      <path d="M20 71h80l-9 67q-1 7-8 7H37q-7 0-8-7Z" fill={o} />
+      <path d="M27.5 80h65l-7.6 55q-.7 5-5 5H40.1q-4.3 0-5-5Z" fill={c} />
+      {/* lid: rim, dome, slit, straw hole */}
+      <rect x="12" y="58" width="96" height="16" rx="8" fill={o} />
+      <path d="M21 61q2-18.5 39-19.5 37 1 39 19.5Z" fill={o} />
+      <path d="M22 61.5q38-4 76 0" stroke={c} strokeWidth="3.6" strokeLinecap="round" fill="none" />
+      <ellipse cx="62" cy="48.5" rx="13" ry="4.4" fill={c} />
+      {/* the "1" straw, leaning right as in the logo */}
+      <g transform="rotate(9 62 51)">
+      <path d="M55 51V11q0-7 7-7h2q7 0 7 7v40q0 2.5-2.5 2.5h-11Q55 53.5 55 51Z" fill={o} />
+      <path d="M58 9 48.5 15" stroke={o} strokeWidth="10" strokeLinecap="round" />
+      </g>
+      {/* face */}
+      {mood === 'cheer' ? (
+        <>
+          <path d="M56.3 99q4.2-5.5 8.4 0" {...line} strokeWidth="4.4" />
+          <path d="M70.3 95q4.2-5.5 8.4 0" {...line} strokeWidth="4.4" />
+          <path d="M42 105q12 17 27-3Z" fill={o} stroke={o} strokeWidth="3" strokeLinejoin="round" />
+        </>
+      ) : (
+        <>
+          <circle cx="60.5" cy="98.5" r="4.6" fill={o} />
+          <circle cx="74.5" cy="94.5" r="4.6" fill={o} />
+          <path d="M42 104.5q10.5 15 26.5 4" {...line} strokeWidth="5.6" />
+        </>
+      )}
+    </>
+  );
+}
+
+/** Mark + "One Cup" wordmark (big O and C, small "nE", as in the logo). `onDark` sets the word in white. */
 export function Logo({ size = 32, onDark = false, className = '' }: { size?: number; onDark?: boolean; className?: string }) {
   return (
     <span className={`logo ${onDark ? 'logo--dark' : ''} ${className}`} style={{ fontSize: size * 0.72 }}>
       <Mascot size={size} />
-      <span className="logo__word">One Cup</span>
+      <span className="logo__word">
+        O<small>nE</small> Cup
+      </span>
     </span>
   );
 }

@@ -737,3 +737,6 @@ th.num {
 .logo .mascot {
   margin-top: -0.2em;
 }
+.logo__word small {
+  font-size: 0.8em;
+}
