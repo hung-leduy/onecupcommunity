@@ -110,7 +110,7 @@
     <circle cx="170" cy="312" r="6" fill="${INK}"/><circle cx="220" cy="308" r="6" fill="${INK}"/>
     <path d="M168 360 Q194 352 222 360" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>` : ''}
   </g></svg>`;
-  put('h1cup', plasticCup());
+  put('aCup', plasticCup());
 
   // plastic cups raining behind the big number
   const rain = $('rain');
@@ -228,6 +228,59 @@
   const heart = (x, y, s, f) => `<path class="ht" transform="translate(${x} ${y}) scale(${s})" d="M0 -14 C -10 -34 -40 -26 -36 -2 C -32 18 0 34 0 42 C 0 34 32 18 36 -2 C 40 -26 10 -34 0 -14 Z" fill="${f}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`;
   put('zHearts', `<svg viewBox="0 0 300 300" width="300" height="300" style="overflow:visible"><g filter="url(#wobble)">
     ${heart(70, 200, 1.5, OR)}${heart(170, 110, 1.1, OR)}${heart(240, 210, 0.8, CR)}</g></svg>`);
+
+  // ---- drawings for the explainer cut ----------------------------------------------------------------------
+  // an open bin the plastic cup drops into
+  put('aBin', `<svg viewBox="0 0 320 400" width="100%" height="100%"><g filter="url(#wobble)">
+    <ellipse cx="160" cy="388" rx="122" ry="12" fill="${INK}" opacity=".14"/>
+    <path d="M42 92 H278 L252 370 Q250 386 234 386 H86 Q70 386 68 370 Z" fill="#a39c8c" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M112 140 L122 340 M160 140 V340 M208 140 L198 340" stroke="${INK}" stroke-width="7" stroke-linecap="round" opacity=".45"/>
+    <rect x="24" y="68" width="272" height="34" rx="12" fill="#8a8377" stroke="${INK}" stroke-width="${W}"/>
+  </g></svg>`);
+
+  // a reusable bottle character (the student's own bottle)
+  const bottle = (happy) => `<svg viewBox="0 0 360 480" width="100%" height="100%"><g filter="url(#wobble)">
+    <ellipse cx="180" cy="462" rx="104" ry="13" fill="${INK}" opacity=".14"/>
+    <rect x="138" y="20" width="84" height="66" rx="20" fill="${INK}"/>
+    <path d="M146 82 H214 L224 116 H136 Z" fill="${YE}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <rect x="104" y="110" width="152" height="342" rx="62" fill="${YE}" stroke="${INK}" stroke-width="${W}"/>
+    <path d="M130 170 V300" stroke="${PA}" stroke-width="11" stroke-linecap="round" opacity=".8"/>
+    <circle cx="160" cy="236" r="9" fill="${INK}"/><circle cx="206" cy="232" r="9" fill="${INK}"/>
+    ${happy
+      ? `<path d="M148 262 Q180 296 216 258" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>`
+      : `<path d="M154 276 Q182 266 210 274" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
+         <path d="M146 222 l24 -8 M220 218 l-22 -8" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`}
+  </g></svg>`;
+  put('bBottle', bottle(false));
+  put('dBottle', bottle(true));
+  put('dT2', mascotTag);
+
+  // the three pictures of the idea: TAG, TAP, REWARD
+  put('oTag', `<svg viewBox="0 0 360 360" width="100%" height="100%">
+    <g transform="translate(70 0) scale(.82) rotate(-8 180 220)">${mascotTag.replace('width="100%" height="100%"', 'width="360" height="440"')}</g></svg>`);
+  put('oTap', `<svg viewBox="0 0 360 360" width="100%" height="100%"><g filter="url(#wobble)">
+    <path d="M40 270 L250 238 L330 288 L120 324 Z" fill="${PA}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M40 270 L120 324 L120 352 L40 298 Z" fill="${OR}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M120 324 L330 288 L330 316 L120 352 Z" fill="${OR}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <g transform="translate(120 44) scale(.42)">
+      <rect x="138" y="20" width="84" height="66" rx="20" fill="${INK}"/>
+      <path d="M146 82 H214 L224 116 H136 Z" fill="${YE}" stroke="${INK}" stroke-width="12" stroke-linejoin="round"/>
+      <rect x="104" y="110" width="152" height="342" rx="62" fill="${YE}" stroke="${INK}" stroke-width="12"/>
+      <circle cx="160" cy="236" r="12" fill="${INK}"/><circle cx="206" cy="232" r="12" fill="${INK}"/>
+      <path d="M148 262 Q180 296 216 258" fill="none" stroke="${INK}" stroke-width="12" stroke-linecap="round"/></g>
+    <g fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round">
+      <path d="M262 150 q18 22 0 44"/><path d="M286 132 q30 40 0 80"/><path d="M310 114 q42 58 0 116"/></g>
+  </g></svg>`);
+  put('oReward', `<svg viewBox="0 0 360 360" width="100%" height="100%"><g filter="url(#wobble)">
+    <rect x="96" y="30" width="168" height="300" rx="30" fill="${PA}" stroke="${INK}" stroke-width="${W}"/>
+    <rect x="152" y="44" width="56" height="12" rx="6" fill="${INK}"/>
+    <path d="M180 92 l17 35 38 5 -28 26 7 38 -34 -18 -34 18 7 -38 -28 -26 38 -5 Z" fill="${YE}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
+    <text x="180" y="270" text-anchor="middle" font-family="Anton" font-size="54" fill="${OR}">+10</text>
+  </g></svg>`);
+
+  // the One Cup mark for the cloud card
+  put('gIcon', `<svg viewBox="0 0 120 120" width="120" height="120"><rect width="120" height="120" rx="28" fill="${OR}" stroke="${INK}" stroke-width="5"/>
+    <g transform="translate(26 4) scale(.19)">${cupChar(face(214))}</g></svg>`);
 
   // iPhone-style status bar above every phone screenshot (they carry a blank 44 px band)
   const bar = `<div class="sb"><span>9:41</span><svg viewBox="0 0 66 14" width="66" height="14"><g fill="${INK}">

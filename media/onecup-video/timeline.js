@@ -1,13 +1,18 @@
-// One Cup pitch video (~86 s) — follows the 2-page written submission:
-// problem → solution (gear + six steps) → technology → business model → impact → feasibility → close.
-// Every scene change sits on a bar line of the soundtrack (118 BPM, one bar = 2.034 s). The bar grid is
-// anchored on the first music splice at 34.389 s (bar 17); see render.mjs for the music edit.
+// One Cup pitch video (~86 s), explainer cut: one idea per scene, one short headline, a slow voice-over.
+//   A problem → B why students don't bring a cup → C meet One Cup: TAG → TAP → REWARD →
+//   D–G the four steps of the system (a tracker at the bottom shows where we are) →
+//   H who pays → I impact → J it already works → K end card.
+// Scene changes sit on bar lines of the soundtrack (118 BPM, one bar = 2.034 s; grid anchored on the music
+// splice at 34.389 s = bar 17). Inside a scene, pictures follow the voice-over: window.VO (vo-timing.js,
+// written by voiceover.py) gives the start of every sentence; offsets inside a sentence were measured on the
+// voice track (word timestamps) and are noted next to each cue.
 (() => {
   const BEAT = 60 / 118.0, BAR = 4 * BEAT;
   const B = (k) => +(34.389 + (k - 17) * BAR).toFixed(3);
   const END = 2054 / 24; // 85.583 s
-  const BREAK = 432 / 24; // 18.000 s: the music comes back in right after its silent break (measured on the edited track)
-  const beat = (t, n) => +(t + n * BEAT).toFixed(3);
+  const BREAK = 432 / 24; // 18.000 s: the music comes back in right after its silent break
+  const VO = window.VO;
+  const v = (scene, i, off = 0) => +(VO[scene].s[i] + off).toFixed(3);
 
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
@@ -15,12 +20,10 @@
   const cues = [];
   const cue = (t, kind) => cues.push([+t.toFixed(3), kind]);
 
-  // ---- helpers ------------------------------------------------------------------------------------------
   const show = (sel, tin, tout) => {
     tl.set(sel, { visibility: 'visible' }, tin);
     if (tout != null) tl.set(sel, { visibility: 'hidden' }, tout);
   };
-  // a scene slides in over the 0.42 s before its bar line, alternating from below / from the right
   let flip = 0;
   const scene = (sel, t, tNext, mode) => {
     const m = mode ?? (flip++ % 2 ? 'right' : 'up');
@@ -30,7 +33,6 @@
     if (m !== 'cut') cue(t - 0.42, 'swish');
   };
   const fadeUp = (sel, t, d = 0.5, y = 50) => tl.fromTo(sel, { y, opacity: 0 }, { y: 0, opacity: 1, duration: d }, t);
-  const titleIn = (title, sub, t) => { fadeUp(title, t - 0.2, 0.5, 60); if (sub) fadeUp(sub, t, 0.45, 30); };
   const pop = (sel, t, from = 0.5, rot = 0, sound) => {
     tl.fromTo(sel, { scale: from, opacity: 0, rotation: rot - 8 }, { scale: 1, opacity: 1, rotation: rot, duration: 0.5, ease: 'back.out(1.9)' }, t);
     if (sound) cue(t, sound);
@@ -42,123 +44,119 @@
   };
   const typeOn = (sel, t, d = 0.6) =>
     tl.fromTo(sel, { clipPath: 'inset(-20% 100% -20% 0%)' }, { clipPath: 'inset(-20% 0% -20% 0%)', duration: d, ease: 'none' }, t);
-  const words = (sel, t, step = 0.15) =>
-    $$(`${sel} .word`).forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, ease: 'back.out(2)' }, t + i * step));
   const count = (sel, from, to, t, d, fmt) => {
     const el = $(sel), o = { v: from };
     tl.fromTo(o, { v: from }, { v: to, duration: d, ease: 'power2.out', onUpdate: () => { el.textContent = fmt(o.v); } }, t);
     cue(t, 'tick');
-    cue(t + d * 0.5, 'tick');
   };
-  const n0 = (v) => Math.round(v).toLocaleString('en-US');
+  // tracker: step n becomes active at t (earlier steps turn "done")
+  const step = (n, t) => {
+    for (let i = 1; i <= 4; i++) {
+      const on = i === n, done = i < n;
+      tl.set(`#tk${i}`, { backgroundColor: on ? '#ec7d35' : done ? '#e4ddcd' : '#fffdf8', color: on || done ? '#252429' : '#8a8377', scale: on ? 1.12 : 1 }, t);
+      tl.set(`#tk${i} i`, { backgroundColor: on ? '#fffdf8' : '#e4ddcd' }, t);
+    }
+    tl.fromTo(`#tk${n}`, { scale: 1.3 }, { scale: 1.12, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, t);
+  };
 
-  // ===== 01 · hook ==========================================================================================
-  scene('#s01', 0, B(2), 'cut');
-  tl.fromTo('#h1cup', { y: -760, rotation: -8 }, { y: 0, rotation: 0, duration: 0.65, ease: 'back.out(1.3)' }, 0.1);
+  // ===== A · ten minutes, then the bin ==========================================================================
+  scene('#sA', 0, v('A', 1, -0.4), 'cut');
+  tl.fromTo('#aCup', { y: -760, rotation: -8 }, { y: 0, rotation: 0, duration: 0.65, ease: 'back.out(1.3)' }, 0.1);
   cue(0.7, 'pop');
-  words('#h1q', 0.35, 0.17);
-  typeOn('#h1c', 1.75, 0.8);
-  tl.to('#h1cup', { rotation: 22, duration: 0.25, ease: 'power1.inOut' }, 2.95);
-  tl.to('#h1cup', { y: 1000, rotation: 75, duration: 0.6, ease: 'power2.in' }, 3.2);
-  cue(3.2, 'whoosh');
-
-  // ===== 02 · 3.1 million tonnes ================================================================================
-  scene('#s02', B(2), B(4));
+  pop('#aClock', v('A', 0, 2.7), 0.4, -4, 'tick'); // "ten minutes" +2.8
+  tl.fromTo('#aBin', { y: 650, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' }, v('A', 0, 2.9));
+  // "then the bin" +3.8–4.1: the cup arcs into the bin (it passes behind the bin's front)
+  const tBin = v('A', 0, 3.3);
+  tl.to('#aClock', { opacity: 0, scale: 0.6, duration: 0.2 }, tBin);
+  tl.to('#aCup', { x: 590, duration: 0.8, ease: 'none' }, tBin);
+  tl.to('#aCup', { y: -180, rotation: 60, duration: 0.4, ease: 'power2.out' }, tBin);
+  tl.to('#aCup', { y: 190, rotation: 160, scale: 0.5, duration: 0.4, ease: 'power2.in' }, tBin + 0.4);
+  tl.to('#aBin', { rotation: 4, duration: 0.08, yoyo: true, repeat: 3, ease: 'sine.inOut', transformOrigin: '50% 100%' }, tBin + 0.8);
+  cue(tBin + 0.8, 'stamp');
+  // the number: "Vietnam dumps over three million tonnes…"
+  scene('#sA2', v('A', 1, -0.4) + 0.42, B(5), 'up');
   $$('#rain .drop').forEach((d, i) => {
-    const t = B(2) - 0.3 + (i % 5) * 0.32 + Math.floor(i / 5) * 0.16;
-    tl.fromTo(d, { y: 0, rotation: (i % 2 ? -1 : 1) * 10 }, { y: 1500, rotation: (i % 2 ? 1 : -1) * 40, duration: 3.2, ease: 'none' }, t);
+    const t = v('A', 1, -0.6) + (i % 5) * 0.4 + Math.floor(i / 5) * 0.2;
+    tl.fromTo(d, { y: 0, rotation: (i % 2 ? -1 : 1) * 10 }, { y: 1500, rotation: (i % 2 ? 1 : -1) * 40, duration: 4.4, ease: 'none' }, t);
   });
-  fadeUp('#s2a', B(2) + 0.05, 0.45, 30);
-  pop('#s2n', B(2) + 0.35, 0.8, 0);
-  count('#s2num', 0, 3.1, B(2) + 0.35, 1.1, (v) => v.toFixed(1));
-  fadeUp('#s2b', B(2) + 1.15, 0.45, 30);
-  fadeUp('#s2c', B(2) + 1.75, 0.45, 20);
+  pop('#a2n', v('A', 1, 0.9), 0.8, 0);
+  count('#a2num', 0, 3.1, v('A', 1, 0.9), 1.1, (x) => x.toFixed(1)); // "three million" +1.2
+  fadeUp('#a2l', v('A', 1, 2.3), 0.5, 30); // "of plastic every year" +2.3
+  fadeUp('#a2s', v('A', 1, 2.8), 0.4, 10);
 
-  // ===== 03 · it's just a hassle =================================================================================
-  scene('#s03', B(4), B(6));
-  fadeUp('#s3a', B(4) - 0.15, 0.5, 60);
-  typeOn('#s3b', B(4) + 0.5, 0.6);
-  ['#s3c1', '#s3c2', '#s3c3'].forEach((c, i) => pop(c, beat(B(4), 2 + i), 0.5, i === 1 ? 1.5 : -1.5, 'pop'));
-  ['#s3x1', '#s3x2', '#s3x3'].forEach((x, i) =>
-    tl.fromTo(x, { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: 'power4.in' }, beat(B(4), 2.5 + i)));
+  // ===== B · why bother? ===========================================================================================
+  scene('#sB', B(5), BREAK);
+  tl.fromTo('#bBottle', { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.4)' }, v('B', 0, -0.1));
+  cue(v('B', 0), 'pop');
+  stamp('#bHl', v('B', 1, 0.15)); // "why bring it?"
+  pop('#bQ', v('B', 1, 0.5), 0.3, 10);
+  tl.to('#bBottle', { rotation: -6, duration: 0.25, yoyo: true, repeat: 3, ease: 'sine.inOut', transformOrigin: '50% 100%' }, v('B', 1, 0.3));
+  pop('#bC1', v('B', 2, 0.35), 0.5, -1, 'pop'); // "no reward" +0.3
+  pop('#bC2', v('B', 2, 1.5), 0.5, 1, 'pop'); // "no proof it matters" +1.5
+  tl.to(['#bHl', '#bQ', '#bC1', '#bC2', '#bBottle'], { y: 90, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'power2.in' }, BREAK - 0.42);
 
-  // ===== 04 · 2030 ==================================================================================================
-  scene('#s04', B(6), BREAK);
-  fadeUp('#s4a', B(6) + 0.05, 0.45, 20);
-  stamp('#s4n', beat(B(6), 1.2), 0);
-  typeOn('#s4b', beat(B(6), 2.2), 0.9);
-  fadeUp('#s4c', 14.85, 0.5, 60); // with the voice-over: "Campuses need a habit that sticks"
-  pop('#s4d', 16.25, 0.5, -2, 'pop');
-  tl.to(['#s4a', '#s4n', '#s4b', '#s4c', '#s4d'], { y: 90, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'power2.in' }, BREAK - 0.42);
-
-  // ===== 05 · meet ONE CUP (on the musical break) =========================================================================
-  scene('#s05', BREAK, B(11), 'cut');
+  // ===== C · meet One Cup (on the musical break), then the idea: TAG → TAP → REWARD ===============================
+  scene('#sC', BREAK, v('C', 1, -0.45), 'cut');
   tl.fromTo('#posterWrap', { y: 660 }, { y: 0, duration: 0.7, ease: 'back.out(1.25)' }, BREAK);
-  tl.fromTo('#posterWrap', { scale: 1 }, { scale: 1.035, duration: 3.4, ease: 'none', immediateRender: false }, BREAK + 0.7);
-  typeOn('#tagline', beat(B(9), 1.6), 0.7);
+  typeOn('#tagline', BREAK + 0.9, 0.6);
   cue(BREAK + 0.05, 'whoosh');
+  scene('#sC2', v('C', 1, -0.45) + 0.42, B(13), 'right');
+  pop('#o1', v('C', 1), 0.5, 0, 'pop'); // "Tag your cup."
+  tl.fromTo('#oA1', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, v('C', 2, -0.35));
+  pop('#o2', v('C', 2), 0.5, 0, 'pop'); // "Tap it at the counter."
+  tl.fromTo('#oA2', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, v('C', 3, -0.35));
+  pop('#o3', v('C', 3), 0.5, 0, 'ding'); // "Get rewarded."
 
-  // ===== 06 · pick your tag =======================================================================================
-  scene('#s06', B(11), B(13));
-  titleIn('#gTitle', '#gSub', B(11));
-  [['#t1', -10], ['#t2', 6], ['#t3', -6], ['#t4', 9]].forEach(([s, r], i) => {
-    const t = beat(B(11), 0.4 + i * 0.45);
-    pop(s, t, 0.4, r, 'pop');
-    tl.to(s, { y: -12, duration: 0.6, yoyo: true, repeat: 1, ease: 'sine.inOut' }, t + 0.5);
-  });
-  fadeUp('#tLabel', beat(B(11), 2.3), 0.35, 20);
-  tl.to('#tLabel', { opacity: 0, duration: 0.2 }, B(12) - 0.3);
-  tl.to('#tags', { scale: 0.5, x: 960, y: -150, duration: 0.55, ease: 'power3.inOut' }, B(12) - 0.3);
-  ['#g1', '#g2', '#g3'].forEach((s, i) => {
-    const t = beat(B(12), 0.25 + i * 0.45);
-    tl.fromTo(s, { y: 160, opacity: 0, rotation: i === 1 ? 3 : -3 }, { y: 0, opacity: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.5)' }, t);
-    cue(t, 'pop');
-  });
-  stamp('#gStamp', beat(B(12), 2.3), 12);
+  // ===== the four steps; the tracker stays at the bottom ===========================================================
+  tl.fromTo('#track', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, B(13) - 0.2);
+  tl.to('#track', { y: 160, opacity: 0, duration: 0.35, ease: 'power2.in' }, B(29) - 0.45);
 
-  // ===== 07 · steps 1–2 ================================================================================================
-  scene('#s07', B(13), B(15));
-  titleIn('#lTitle', '#lSub', B(13));
-  pop('#lP1', beat(B(13), 0.4), 0.6, -2, 'pop');
-  fadeUp('#lC1', beat(B(13), 0.8), 0.35, 16);
-  pop('#lP2', beat(B(13), 1.2), 0.6, 2, 'pop');
-  fadeUp('#lC2', beat(B(13), 1.6), 0.35, 16);
-  tl.fromTo('#lPhone', { x: 300, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, B(13) - 0.1);
-  pop('#lToast', beat(B(13), 3), 0.5, -2, 'ding');
+  // ===== D · step 1: tag your cup ===================================================================================
+  scene('#sD', B(13), B(17));
+  step(1, B(13) - 0.1);
+  fadeUp('#dHl', B(13) - 0.2, 0.5, 60);
+  tl.fromTo('#dBottle', { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.4)' }, B(13));
+  [['#dT1', -10], ['#dT2', 6], ['#dT3', 8]].forEach(([s, r], i) => pop(s, v('D', 0, 0.3 + i * 0.25), 0.4, r, i === 1 ? 'pop' : null));
+  // "stick a One Cup tag on any cup you own" (+1.2–3.0): the One Cup tag flies onto the bottle
+  const tStick = v('D', 0, 1.9);
+  tl.to(['#dT1', '#dT3'], { opacity: 0.35, scale: 0.85, duration: 0.3 }, tStick);
+  tl.to('#dT2', { x: -645, y: 212, scale: 0.55, rotation: 0, duration: 0.6, ease: 'power3.inOut' }, tStick);
+  tl.to('#dBottle', { scaleY: 0.96, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: '50% 100%' }, tStick + 0.6);
+  cue(tStick + 0.6, 'stamp');
+  // "Scan it with your phone, and it's yours."
+  tl.fromTo('#dPhone', { x: 340, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: -4, duration: 0.55 }, v('D', 1, -0.3));
+  tl.set('#dRip', { opacity: 1 }, v('D', 1, 0.5));
+  $$('#dRip .ripple').forEach((r, i) =>
+    tl.fromTo(r, { scale: 0.4, opacity: 0.9 }, { scale: 2.4, opacity: 0, duration: 0.9, ease: 'power2.out' }, v('D', 1, 0.5 + i * 0.18)));
+  cue(v('D', 1, 0.5), 'nfc');
+  pop('#dOk', v('D', 1, 1.8), 0.5, -2, 'ding'); // "it's yours" +1.8
 
-  // ===== 08 · step 3: tap & check in ==========================================================================================
-  scene('#s08', B(15), B(17));
-  titleIn('#pTitle', '#pSub', B(15));
-  tl.fromTo('#pP3wrap', { y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.3)' }, B(15) - 0.1);
-  tl.fromTo('#pTab', { x: 300, opacity: 0, rotation: 5 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, B(15) + 0.05);
-  const tTap = beat(B(15), 2.5);
-  tl.to('#pP3wrap', { scaleY: 0.95, scaleX: 1.03, duration: 0.09, yoyo: true, repeat: 1, ease: 'power1.out' }, tTap);
-  tl.set('.wv', { opacity: 0 }, 0);
-  $$('#pWaves .wv').forEach((w, i) => {
-    tl.fromTo(w, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.15, ease: 'none', immediateRender: false }, tTap + i * 0.09);
-    tl.to(w, { opacity: 0, duration: 0.3 }, tTap + 0.7 + i * 0.05);
+  // ===== E · step 2: tap at the counter ===============================================================================
+  scene('#sE', B(17), B(21));
+  step(2, B(17) - 0.1);
+  fadeUp('#eHl', B(17) - 0.2, 0.5, 60);
+  tl.fromTo('#eP3', { y: 220, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.3)' }, B(17));
+  tl.fromTo('#eTab', { x: 320, opacity: 0, rotation: 5 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, B(17) + 0.15);
+  const tTap = v('E', 0, 2.1); // "tap your cup on the reader"
+  tl.to('#eP3', { scaleY: 0.95, scaleX: 1.03, duration: 0.09, yoyo: true, repeat: 1, ease: 'power1.out' }, tTap);
+  tl.set('#eWaves .wv', { opacity: 0 }, 0);
+  $$('#eWaves .wv').forEach((w, i) => {
+    tl.fromTo(w, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.15, ease: 'none', immediateRender: false }, tTap + i * 0.1);
+    tl.to(w, { opacity: 0, duration: 0.3 }, tTap + 1.4 + i * 0.05);
   });
   cue(tTap, 'nfc');
-  const tOk = B(16);
-  tl.to('#pRes', { opacity: 1, duration: 0.15, ease: 'none' }, tOk);
-  stamp('#pStamp', tOk, -12);
-  fadeUp('#pCap', beat(tOk, 0.6), 0.35, 16);
-  pop('#pDisc', beat(tOk, 1.2), 0.5, -1, 'tick');
+  tl.to('#eRes', { opacity: 1, duration: 0.15, ease: 'none' }, v('E', 1, 1.2)); // "checked in" +1.3
+  stamp('#eStamp', v('E', 1, 1.3), -12);
+  pop('#eDisc', v('E', 1, 2.1), 0.5, -2, 'tick'); // "with a discount" +1.8–2.1
 
-  // ===== 09 · step 4: stack your cups ==========================================================================================
-  scene('#s09', B(17), B(19));
-  titleIn('#kTitle', '#kSub', B(17));
-  tl.set('#kP4', { clipPath: 'inset(100% 0% 0% 0%)' }, 0);
-  [[69, 0.5], [56, 1.0], [0, 1.6]].forEach(([top, n], i) => {
-    tl.to('#kP4', { clipPath: `inset(${top}% 0% 0% 0%)`, duration: i === 2 ? 0.45 : 0.18, ease: i === 2 ? 'power2.out' : 'back.out(2)' }, beat(B(17), n));
-    cue(beat(B(17), n), i === 2 ? 'whoosh' : 'pop');
-  });
-  pop('#kBubble', beat(B(17), 3), 0.3, 0);
-  fadeUp('#kCap', beat(B(17), 2.4), 0.35, 16);
-  tl.fromTo('#kPhone', { x: 300, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, B(17));
-  const tCel = B(18);
-  tl.to('#kCele', { opacity: 1, duration: 0.15, ease: 'none' }, tCel);
-  tl.to('#kPhone', { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }, tCel);
+  // ===== F · step 3: get rewarded ========================================================================================
+  scene('#sF', B(21), B(25));
+  step(3, B(21) - 0.1);
+  fadeUp('#fHl', B(21) - 0.2, 0.5, 60);
+  tl.fromTo('#fPhone', { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, B(21));
+  const tCel = v('F', 0, 1.1);
+  tl.to('#fCele', { opacity: 1, duration: 0.15, ease: 'none' }, tCel);
+  tl.to('#fPhone', { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }, tCel);
   let seed = 11;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   tl.set('#kConf', { opacity: 0 }, 0);
@@ -169,120 +167,74 @@
       { x: Math.cos(a) * d, y: Math.sin(a) * d + 140, rotation: rnd() * 540 - 270, opacity: 0, duration: 1.2, ease: 'power2.out' }, tCel + rnd() * 0.1);
   });
   cue(tCel, 'chime');
-  pop('#kPts', beat(tCel, 0.6), 0.5, -3, 'tick');
-  pop('#kStreak', beat(tCel, 1.1), 0.5, 2, 'tick');
+  pop('#f1', v('F', 0, 2.0), 0.5, -2, 'tick'); // "points" +2.0
+  pop('#f2', v('F', 0, 2.6), 0.5, 1.5, 'tick'); // "streak" +2.7
+  pop('#f3', v('F', 0, 3.6), 0.5, -1, 'tick'); // "the plastic you saved" +3.5
+  pop('#fV', v('F', 1, 0.6), 0.5, -4, 'ding'); // "Points become free drinks."
 
-  // ===== 10 · steps 5–6 ===================================================================================================
-  scene('#s10', B(19), B(21));
-  titleIn('#cTitle', '#cSub', B(19));
-  pop('#cP5', beat(B(19), 0.4), 0.6, -2, 'pop');
-  tl.fromTo('#cPhone', { y: 260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, B(19));
-  pop('#cV', beat(B(19), 1.2), 0.5, -4, 'pop');
-  fadeUp('#cC5', beat(B(19), 1.8), 0.35, 16);
-  pop('#cP6', beat(B(19), 2), 0.6, 3, 'pop');
-  pop('#cFill1', B(20), 0.2, 0, 'tick');
-  pop('#cFill2', beat(B(20), 0.5), 0.2, 0, 'tick');
-  typeOn('#cImpact', beat(B(20), 1.1), 0.6);
-  fadeUp('#cC6', beat(B(20), 1.6), 0.35, 16);
-  tl.to('#cRew', { opacity: 1, duration: 0.25, ease: 'none' }, beat(B(20), 1));
+  // ===== G · step 4: every cup counts =====================================================================================
+  scene('#sG', B(25), B(29));
+  step(4, B(25) - 0.1);
+  fadeUp('#gHl', B(25) - 0.2, 0.5, 60);
+  tl.fromTo('#gTabW', { x: -200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, B(25));
+  tl.fromTo('#gCloud', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, v('G', 0, 0.7));
+  tl.fromTo('#gLines', { opacity: 0 }, { opacity: 1, duration: 0.3 }, v('G', 0, 0.8));
+  tl.fromTo('#gLines g', { strokeDashoffset: 0 }, { strokeDashoffset: -240, duration: 6, ease: 'none' }, v('G', 0, 0.8));
+  const sec = $('#sG');
+  for (let i = 0; i < 3; i++) {
+    const d = document.createElement('div'); d.className = 'dot'; sec.appendChild(d);
+    const t = v('G', 0, 1.3 + i * 0.9);
+    tl.fromTo(d, { left: 520, top: 600, opacity: 0 }, { left: 740, opacity: 1, duration: 0.45, ease: 'power1.inOut' }, t);
+    tl.to(d, { opacity: 0, duration: 0.1 }, t + 0.45);
+  }
+  pop('#gv1', v('G', 0, 2.0), 0.6, 0, 'tick'); // "verified" +2.0
+  pop('#gv2', v('G', 0, 3.1), 0.6, 0, 'tick'); // "counted only once" +3.1
+  // "So the campus sees exactly how much plastic it saves."
+  tl.fromTo('#gLapW', { x: 220, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, v('G', 1, 0));
+  tl.fromTo('#gLapL', { opacity: 0 }, { opacity: 1, duration: 0.4 }, v('G', 1, 0.3));
+  for (let i = 0; i < 2; i++) {
+    const d = document.createElement('div'); d.className = 'dot'; sec.appendChild(d);
+    const t = v('G', 1, 0.4 + i * 0.8);
+    tl.fromTo(d, { left: 1180, top: 600, opacity: 0 }, { left: 1370, opacity: 1, duration: 0.45, ease: 'power1.inOut' }, t);
+    tl.to(d, { opacity: 0, duration: 0.1 }, t + 0.45);
+  }
+  tl.fromTo('#gLapW', { scale: 1 }, { scale: 1.12, duration: 1.6, ease: 'power2.inOut', transformOrigin: '50% 40%', immediateRender: false }, v('G', 1, 0.9));
 
-  // ===== 11 · verified, not guessed =========================================================================================
-  scene('#s11', B(21), B(23));
-  titleIn('#vTitle', '#vSub', B(21));
-  ['#v1', '#v2', '#v3'].forEach((c, i) => pop(c, beat(B(21), 0.6 + i * 0.7), 0.6, i === 1 ? 1 : -1, 'pop'));
-  pop('#vChip', beat(B(22), 0.9), 0.5, -1, 'tick');
+  // ===== H · who pays ========================================================================================================
+  scene('#sH', B(29), B(33));
+  stamp('#hHl', v('H', 0, 0.2));
+  pop('#h1', v('H', 1, -0.1), 0.6, -1, 'pop'); // "Canteens subscribe…"
+  pop('#h2', v('H', 2, -0.1), 0.6, 1, 'pop'); // "Brands sponsor rewards."
+  pop('#h3', v('H', 3, -0.1), 0.6, -1, 'pop'); // "Students buy tags."
 
-  // ===== 12 · proof, not promises ===========================================================================================
-  scene('#s12', B(23), B(25));
-  titleIn('#mTitle', '#mSub', B(23));
-  tl.fromTo('#mLap', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, B(23) - 0.15);
-  ['#m1', '#m2', '#m3'].forEach((s, i) => pop(s, beat(B(23), 1 + i * 0.5), 0.5, i % 2 ? 1.5 : -1.5, 'tick'));
-  tl.fromTo('#mNote', { opacity: 0 }, { opacity: 1, duration: 0.4 }, beat(B(23), 2.8));
-  tl.fromTo('#mImg', { scale: 1 }, { scale: 1.45, transformOrigin: '520px 30px', duration: 1.6, ease: 'power2.inOut', immediateRender: false }, B(24) - 0.2);
-
-  // ===== 13 · who pays ========================================================================================================
-  scene('#s13', B(25), B(27));
-  titleIn('#bTitle', '#bSub', B(25));
-  ['#b1', '#b2', '#b3'].forEach((c, i) => pop(c, beat(B(25), 0.7 + i * 0.8), 0.6, i === 1 ? 1 : -1, 'pop'));
-
-  // ===== 14 · market & edge ====================================================================================================
-  scene('#s14', B(27), B(29));
-  pop('#kN', B(27) + 0.05, 0.8, 0);
-  count('#kNum', 0, 550000, B(27) + 0.05, 1.1, n0);
-  fadeUp('#kL', B(27) + 0.8, 0.45, 24);
-  pop('#kA', B(28) - 0.1, 0.6, -1, 'pop');
-  tl.fromTo('#kAx', { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: 'power4.in' }, beat(B(28), 0.8));
-  cue(beat(B(28), 0.8) + 0.2, 'stamp');
-  pop('#kB', beat(B(28), 1.5), 0.6, 1, 'ding');
-
-  // ===== 15 · small habit, real numbers =========================================================================================
-  scene('#s15', B(29), B(31));
-  fadeUp('#iTitle', B(29) - 0.2, 0.5, 60);
-  ['#i1', '#ix1', '#i2', '#ix2', '#i3'].forEach((s, i) => pop(s, B(29) - 0.05 + i * 0.2, 0.5, 0, i % 2 ? null : 'pop'));
-  pop('#iEq', 59.8, 0.8, 0);
-  count('#iNum', 0, 8.27, 59.8, 0.6, (v) => v.toFixed(2));
-  typeOn('#iRes', 60.5, 0.6);
-  fadeUp('#iFoot', 61.0, 0.4, 10);
-
-  // ===== 16 · from awareness to habit =========================================================================================
-  scene('#s16', B(31), B(33));
-  titleIn('#aTitle', '#aSub', B(31));
+  // ===== I · impact ===========================================================================================================
+  scene('#sI', B(33), B(37));
+  typeOn('#iL1', v('I', 0, 0), 1.3); // "If one in ten new students joins"
+  pop('#iN', v('I', 0, 2.7), 0.8, 0);
+  count('#iNum', 0, 8, v('I', 0, 2.7), 0.7, (x) => Math.round(x)); // "eight million" +2.8
+  typeOn('#iL2', v('I', 0, 3.4), 0.9); // "fewer plastic cups, every year" +3.5
   $$('#aHero .cc').forEach((g, i) => {
-    tl.fromTo(g, { y: 260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, beat(B(31), 0.3 + i * 0.4));
-    cue(beat(B(31), 0.3 + i * 0.4), 'pop');
+    tl.fromTo(g, { y: 260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, v('I', 0, 0.4 + i * 0.45));
+    cue(v('I', 0, 0.4 + i * 0.45), 'pop');
   });
-  ['#a1', '#a2', '#a3', '#a4'].forEach((s, i) => pop(s, beat(B(31), 1.4 + i * 0.6), 0.5, i % 2 ? 1 : -1, 'tick'));
+  fadeUp('#iFoot', v('I', 0, 4.8), 0.4, 10);
 
-  // ===== 17 · the MVP already works =============================================================================================
-  scene('#s17', B(33), B(35));
-  titleIn('#fTitle', '#fSub', B(33));
-  tl.fromTo('#fLapWrap', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, B(33) - 0.1);
-  tl.fromTo('#fTabWrap', { y: 160, opacity: 0, rotation: -4 }, { y: 0, opacity: 1, rotation: -3, duration: 0.6 }, B(33) + 0.15);
-  tl.fromTo('#fPhWrap', { y: 160, opacity: 0, rotation: 4 }, { y: 0, opacity: 1, rotation: 3, duration: 0.6 }, B(33) + 0.3);
-  ['#f1', '#f2', '#f3', '#f4'].forEach((s, i) => pop(s, beat(B(33), 1.4 + i * 0.6), 0.5, i % 2 ? 1 : -1, 'tick'));
+  // ===== J · it already works ===================================================================================================
+  scene('#sJ', B(37), B(40));
+  stamp('#jHl', v('J', 0, 0.9)); // "And it already works."
+  tl.fromTo('#jLapW', { y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, B(37) - 0.1);
+  tl.fromTo('#jTabW', { y: 200, opacity: 0, rotation: -4 }, { y: 0, opacity: 1, rotation: -3, duration: 0.6 }, B(37) + 0.1);
+  tl.fromTo('#jPhW', { y: 200, opacity: 0, rotation: 4 }, { y: 0, opacity: 1, rotation: 3, duration: 0.6 }, B(37) + 0.25);
+  typeOn('#jWhere', v('J', 1, 0.75), 1.6); // "campus, café or office" +0.8–2.3
 
-  // ===== 18 · grows with every cup (market path, no dates) ==================================================
-  // timed to the voice-over: "Profit and impact grow together (71.6–72.9), from campuses (73.4),
-  // to cafés (74.1), offices (75.1) and Southeast Asia (75.8)."
-  scene('#s18', B(35), B(38));
-  titleIn('#gwTitle', '#gwSub', B(35));
-  [['#st1', 71.35], ['#st2', 71.6], ['#st3', 71.85]].forEach(([st, t]) =>
-    tl.fromTo(st, { y: 700 }, { y: 0, duration: 0.55, ease: 'back.out(1.2)' }, t));
-  cue(71.35, 'whoosh');
-  pop('#gwRev', 71.75, 0.5, -2, 'tick');
-  pop('#gwImp', 72.15, 0.5, 2, 'tick');
-  const climb = [[325, 492], [885, 352], [1455, 212]];
-  tl.fromTo('#climb', { left: 325, top: 160, opacity: 0 }, { top: 492, opacity: 1, duration: 0.4, ease: 'bounce.out' }, 73.15);
-  cue(73.35, 'pop');
-  [[1, 74.0], [2, 75.65]].forEach(([i, t]) => {
-    const [x0, y0] = climb[i - 1], [x1, y1] = climb[i];
-    tl.to('#climb', { left: x1, duration: 0.42, ease: 'none' }, t);
-    tl.to('#climb', { top: Math.min(y0, y1) - 110, duration: 0.21, ease: 'power2.out' }, t);
-    tl.to('#climb', { top: y1, duration: 0.21, ease: 'power2.in' }, t + 0.21);
-    cue(t + 0.42, 'pop');
-  });
-  [['#st1 h3', 73.3], ['#st2 h3', 74.35], ['#st3 h3', 76.0]].forEach(([h, t]) =>
-    tl.fromTo(h, { scale: 1.12, transformOrigin: '0% 50%' }, { scale: 1, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, t));
-
-  // ===== 19 · your bottle is a relationship ============================================================================================
-  scene('#s19', B(38), B(40));
-  tl.fromTo('#zHero', { y: 260, opacity: 0, rotation: -6 }, { y: 0, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.5)' }, B(38) - 0.15);
-  $$('#zHearts .ht').forEach((h, i) => {
-    tl.fromTo(h, { scale: 0, opacity: 0, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2.4)' }, beat(B(38), 1 + i * 0.5));
-    cue(beat(B(38), 1 + i * 0.5), 'pop');
-  });
-  words('#zQ', B(38) + 0.3, 0.2);
-  typeOn('#zL', beat(B(38), 3.2), 0.9);
-  tl.to('#zHero', { rotation: -4, y: -10, duration: 0.25, yoyo: true, repeat: 3, ease: 'sine.inOut' }, B(39) + 0.6);
-
-  // ===== 20 · end card on the drop ========================================================================================================
+  // ===== K · end card on the drop ================================================================================================
   tl.fromTo('#flash', { scale: 0, opacity: 1 }, { scale: 1, duration: 0.5, ease: 'power2.in' }, B(40) - 0.5);
   cue(B(40) - 0.8, 'riser');
-  scene('#s20', B(40), END, 'cut');
+  scene('#sK', B(40), END, 'cut');
   tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'none' }, B(40));
   stamp('#eLogo', B(40) + 0.2, 0);
-  typeOn('#eTag', B(40) + 0.75, 0.7);
-  fadeUp('#eLine', B(40) + 1.6, 0.45, 16);
+  typeOn('#eTag', v('K', 1, -0.1), 0.7); // "Your cup, no drama."
+  fadeUp('#eLine', v('K', 1, 0.9), 0.45, 16);
   ['#e1', '#e2', '#e3', '#e4'].forEach((s, i) => pop(s, B(40) + 0.35 + i * 0.15, 0.4, [-6, 5, -3, 7][i], i === 0 ? 'pop' : null));
   tl.set({}, {}, END);
 

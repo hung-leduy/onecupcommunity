@@ -2,60 +2,49 @@
 
 Một clip độc lập 85,6 giây (dưới giới hạn 90 s), toàn bộ theo bộ nhận diện chiến dịch One Cup: nền kem `#EDE9DD`,
 cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton** (tiêu đề), **Patrick Hand** (viết tay),
-**Quicksand** (thân bài); minh họa nét tay của nhóm. Nội dung đi theo tài liệu 2 trang (`docs/mit50k/`).
+**Quicksand** (thân bài); minh họa nét tay của nhóm.
 
-| Giây | Phần trong tài liệu | Cảnh |
+**Bản giải thích (sau góp ý của người xem thử):** mỗi cảnh một ý và một tiêu đề ngắn; hệ thống được kể thành một luồng
+duy nhất **TAG → TAP → REWARD → COUNT** với thanh tiến trình ở chân màn hình; giọng đọc chậm (~2,1 từ/giây, có ngắt câu)
+và hình xuất hiện đúng lúc từ khóa được đọc (mốc câu trong `vo-timing.js`).
+
+| Giây | Cảnh | Trên màn hình |
 |---|---|---|
-| 0–4 | Vấn đề | “Plastic cups are a one-night stand.” — ly nhựa rơi |
-| 4–8 | | 3,1 triệu tấn rác nhựa/năm (World Bank 2022) |
-| 8–12 | | “It’s not that we don’t care. It’s just a hassle.” — no reward / no feedback / no proof |
-| 12–18 | | Nghị định 08/2022: 2030 — “Campuses need a habit that sticks.” |
-| 18–22 | Giải pháp | Poster ONE CUP — your cup. no drama. (đúng khoảng lặng của nhạc) |
-| 22–26 | | PICK YOUR TAG: NFC tag trang trí, ly QR, dây đeo NFC, quai ly/bình có NFC |
-| 26–42 | | HOW IT WORKS ①–⑥ với tranh của nhóm + màn hình app thật |
-| 42–46 | Đổi mới công nghệ | VERIFIED, NOT GUESSED: 3 tầng xác minh, chống ghi trùng |
-| 46–51 | | PROOF, NOT PROMISES: console, thử nghiệm “nudge” nào hiệu quả, đo từng ly, quyền riêng tư (dữ liệu mô phỏng) |
-| 51–55 | Mô hình kinh doanh | WHO PAYS?: thuê bao trường/quầy · tài trợ phần thưởng · bán One Cup gear |
-| 55–59 | | 550.000+ tân sinh viên/năm (MOET 2024) · so sánh với giảm giá theo chuỗi |
-| 59–63 | Tác động xã hội | 1/10 tân sinh viên (55.000) × 1 ly × 150 ngày = 8,27 triệu ly/năm ≈ 54 t nhựa ≈ 440 t CO₂e |
-| 63–67 | | From awareness to habit |
-| 67–71 | Khả thi | THE MVP ALREADY WORKS |
-| 71–77 | Lợi nhuận + tác động | GROWS WITH EVERY CUP: revenue ↑ / impact ↑, linh vật leo bậc thị trường: trường đại học VN → café & văn phòng → Đông Nam Á (không có mốc triển khai) |
-| 77–81 | Kết | “Your bottle is a relationship.” |
-| 81–86 | | Thẻ kết ONE CUP — your cup. no drama. (đúng điểm drop của nhạc) với One Cup gear: ly thủy tinh in logo, NFC tag (tag linh vật + tag tròn), quai đeo bình in logo (ảnh mẫu của nhóm), dây đeo in chữ ONE CUP |
+| 0–10 | A · Vấn đề | ly nhựa “10 MIN” rơi vào thùng rác → **3.1 MILLION TONNES** |
+| 10–18 | B · Vì sao không mang ly | chai buồn · **WHY BOTHER?** · ✗ no reward · ✗ no proof it matters |
+| 18–26 | C · Ý tưởng | poster ONE CUP → **TAG → TAP → REWARD** |
+| 26–34 | D · Bước 1 | **TAG YOUR CUP**: tag bay lên chai, quét bằng điện thoại → LINKED |
+| 34–43 | E · Bước 2 | **TAP AT THE COUNTER**: chạm đầu đọc → máy quầy “Verified” · CHECKED IN · −3,000 ₫ |
+| 43–51 | F · Bước 3 | **GET REWARDED**: app “AWESOME!” · +10 points · streak · plastic saved · voucher free drink |
+| 51–59 | G · Bước 4 | **EVERY CUP COUNTS**: quầy → One Cup (verified · counted once) → bảng số liệu của trường |
+| 59–67 | H · Lợi nhuận | **WHO PAYS?** canteens subscribe · brands sponsor rewards · students buy tags |
+| 67–75 | I · Tác động | if 1 in 10 new students joins… **8 MILLION** fewer plastic cups, every year |
+| 75–81 | J · Khả thi | **IT ALREADY WORKS** (app, máy quầy, console) · campus · café · office |
+| 81–86 | K · Kết | ONE CUP — your cup. no drama. + One Cup gear (ly thủy tinh, NFC tag, quai bình, dây đeo) |
 
 ## Âm thanh
 
-- **Giọng đọc** (tiếng Anh, giọng nữ `af_heart` của Kokoro TTS — mô hình mở, Apache-2.0, chạy offline): một câu cho mỗi cảnh,
-  viết theo đúng chữ trên màn hình, trong `voiceover.json`. `voiceover.py` đặt mỗi câu 0,18 s sau khi cảnh vào và bảo đảm
-  câu kết thúc trước khi cảnh sau trượt vào (đọc nhanh hơn tối đa 1,18× nếu cần); xuất kèm phụ đề `.srt`.
-  Muốn dùng giọng thật của nhóm: thu theo đúng file `.srt` và thay `vo.wav`.
-- **Nhạc nền**: nhạc của video cũ, **đã tách bỏ giọng đọc cũ** bằng `separate.py` (UVR MDX-Net Inst HQ 3, ONNX) — bản cũ
-  có lời đọc lẫn trong nhạc nên khi lặp nhạc thì lời bị lặp. Nhạc kéo dài theo ô nhịp (118 BPM): chạy từ đầu đến 34,389 s,
-  câu groove 16 phách lặp 4 lần, nhảy 24 phách rồi chạy tới đoạn kết gốc; tự hạ âm lượng khi có lời đọc.
+- **Giọng đọc** (tiếng Anh, giọng nữ `af_heart` của Kokoro TTS — mô hình mở, Apache-2.0, chạy offline), trong `voiceover.json`.
+  `voiceover.py` đọc chậm (tốc độ 0,86), ngắt 0,3 s giữa các câu, đặt câu ngay sau khi cảnh vào, bảo đảm kết thúc trước cảnh sau,
+  xuất phụ đề `.srt` và `vo-timing.js` (mốc bắt đầu từng câu) để hình bám theo lời. Muốn dùng giọng thật của nhóm: thu theo đúng
+  file `.srt` và thay `vo.wav`.
+- **Nhạc nền**: nhạc của video cũ, **đã tách bỏ giọng đọc cũ** bằng `separate.py` (UVR MDX-Net Inst HQ 3, ONNX). Nhạc kéo dài
+  theo ô nhịp (118 BPM): chạy từ đầu đến 34,389 s, câu groove 16 phách lặp 4 lần, nhảy 24 phách rồi chạy tới đoạn kết gốc;
+  tự hạ âm lượng khi có lời đọc.
 
 | Cảnh | Lời đọc |
 |---|---|
-| 01 | Plastic cups are a one-night stand. Ten minutes, then the bin. |
-| 02 | Vietnam dumps 3.1 million tonnes of plastic every year. |
-| 03 | It's not that we don't care. It's just a hassle. |
-| 04 | By twenty thirty, single-use plastics are out. Campuses need a habit that sticks. |
-| 05 | Meet One Cup. Reuse, made easy. |
-| 06 | Pick your tag: NFC tags, QR cups, lanyards and straps. |
-| 07 | Register it in the app, then attach it to any tumbler. |
-| 08 | Order, tap the reader, and you're checked in, with a discount. |
-| 09 | Every check-in stacks your cup: points, streaks, milestones. |
-| 10 | See your community, earn rewards, and watch your impact grow. |
-| 11 | Every reuse is verified at the counter, and never counted twice. |
-| 12 | Live data for the campus: proof, not promises. |
-| 13 | Campuses subscribe, brands sponsor, students buy the gear. |
-| 14 | Over half a million new students a year. Any cup, every outlet. |
-| 15 | If one in ten new students joins: eight million cups a year. |
-| 16 | From awareness to habit, with the cup you already own. |
-| 17 | And it's real: the app, the counter and the console already work. |
-| 18 | Profit and impact grow together, from campuses to cafés, offices and Southeast Asia. |
-| 19 | Because your bottle is a relationship. |
-| 20 | One Cup. Your cup, no drama. |
+| A | Plastic cups are a one-night stand: ten minutes with you, then the bin. Vietnam dumps over three million tonnes of plastic every year. |
+| B | Many students own a bottle. But why bring it? There's no reward, and no proof it matters. |
+| C | Meet One Cup. Tag your cup. Tap it at the counter. Get rewarded. |
+| D | Step one: stick a One Cup tag on any cup you own. Scan it with your phone, and it's yours. |
+| E | Step two: buy a drink, and tap your cup on the reader. One second later: checked in, with a discount. |
+| F | Step three: the app adds your points, your streak, and the plastic you saved. Points become free drinks. |
+| G | Step four: every tap is verified, and counted only once. So the campus sees exactly how much plastic it saves. |
+| H | Who pays? Canteens subscribe: reused cups save them money. Brands sponsor rewards. Students buy tags. |
+| I | If one in ten new students joins, that's eight million fewer plastic cups, every year. |
+| J | And it already works. It's ready for any campus, café or office. |
+| K | One Cup. Your cup, no drama. |
 
 ## Tài nguyên
 

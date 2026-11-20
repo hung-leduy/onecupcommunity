@@ -1,123 +1,82 @@
 {
   "voice": "af_heart",
-  "note": "One line per scene. 'bar' is the bar line the scene starts on (see timeline.js); the line is placed just after the scene lands and must finish before the next scene slides in.",
+  "speed": 0.86,
+  "max_speed": 0.95,
+  "gap": 0.32,
+  "note": "One line per scene, said slowly with a pause between sentences. 'bar' is the bar line the scene starts on (see timeline.js); the line starts just after the scene lands and must end before the next scene slides in. voiceover.py writes the start of every sentence to vo-timing.js, and the pictures follow those times.",
   "lines": [
     {
-      "scene": "01 hook",
+      "scene": "A",
       "bar": 0,
-      "next": 2,
-      "text": "Plastic cups are a one-night stand. Ten minutes, then the bin."
+      "next": 5,
+      "text": "Plastic cups are a one-night stand: ten minutes with you, then the bin. Vietnam dumps over three million tonnes of plastic every year."
     },
     {
-      "scene": "02 3.1 Mt",
-      "bar": 2,
-      "next": 4,
-      "text": "Vietnam dumps 3.1 million tonnes of plastic every year."
-    },
-    {
-      "scene": "03 hassle",
-      "bar": 4,
-      "next": 6,
-      "text": "It's not that we don't care. It's just a hassle."
-    },
-    {
-      "scene": "04 2030",
-      "bar": 6,
+      "scene": "B",
+      "bar": 5,
       "next": "break",
-      "text": "By twenty thirty, single-use plastics are out. Campuses need a habit that sticks."
+      "text": "Many students own a bottle. But why bring it? There's no reward, and no proof it matters."
     },
     {
-      "scene": "05 meet One Cup",
+      "scene": "C",
       "bar": "break",
-      "next": 11,
-      "text": "Meet One Cup. Reuse, made easy."
-    },
-    {
-      "scene": "06 pick your tag",
-      "bar": 11,
       "next": 13,
-      "text": "Pick your tag: NFC tags, QR cups, lanyards and straps."
+      "text": "Meet One Cup. Tag your cup. Tap it at the counter. Get rewarded.",
+      "gaps": [
+        1.0,
+        0.45,
+        0.45
+      ]
     },
     {
-      "scene": "07 steps 1-2",
+      "scene": "D",
       "bar": 13,
-      "next": 15,
-      "text": "Register it in the app, then attach it to any tumbler."
-    },
-    {
-      "scene": "08 step 3",
-      "bar": 15,
       "next": 17,
-      "text": "Order, tap the reader, and you're checked in, with a discount."
+      "text": "Step one: stick a One Cup tag on any cup you own. Scan it with your phone, and it's yours."
     },
     {
-      "scene": "09 step 4",
+      "scene": "E",
       "bar": 17,
-      "next": 19,
-      "text": "Every check-in stacks your cup: points, streaks, milestones."
-    },
-    {
-      "scene": "10 steps 5-6",
-      "bar": 19,
       "next": 21,
-      "text": "See your community, earn rewards, and watch your impact grow."
+      "text": "Step two: buy a drink, and tap your cup on the reader. One second later: checked in, with a discount."
     },
     {
-      "scene": "11 verified",
+      "scene": "F",
       "bar": 21,
-      "next": 23,
-      "text": "Every reuse is verified at the counter, and never counted twice."
-    },
-    {
-      "scene": "12 proof",
-      "bar": 23,
       "next": 25,
-      "text": "Live data for the campus: proof, not promises."
+      "text": "Step three: the app adds your points, your streak, and the plastic you saved. Points become free drinks."
     },
     {
-      "scene": "13 who pays",
+      "scene": "G",
       "bar": 25,
-      "next": 27,
-      "text": "Campuses subscribe, brands sponsor, students buy the gear."
-    },
-    {
-      "scene": "14 market",
-      "bar": 27,
       "next": 29,
-      "text": "Over half a million new students a year. Any cup, every outlet."
+      "text": "Step four: every tap is verified, and counted only once. So the campus sees exactly how much plastic it saves."
     },
     {
-      "scene": "15 numbers",
+      "scene": "H",
       "bar": 29,
-      "next": 31,
-      "text": "If one in ten new students joins: eight million cups a year."
-    },
-    {
-      "scene": "16 habit",
-      "bar": 31,
       "next": 33,
-      "text": "From awareness to habit, with the cup you already own."
+      "text": "Who pays? Canteens subscribe: reused cups save them money. Brands sponsor rewards. Students buy tags.",
+      "gaps": [
+        0.28,
+        0.28,
+        0.28
+      ]
     },
     {
-      "scene": "17 MVP",
+      "scene": "I",
       "bar": 33,
-      "next": 35,
-      "text": "And it's real: the app, the counter and the console already work."
+      "next": 37,
+      "text": "If one in ten new students joins, that's eight million fewer plastic cups, every year."
     },
     {
-      "scene": "18 grows together",
-      "bar": 35,
-      "next": 38,
-      "text": "Profit and impact grow together, from campuses to cafés, offices and Southeast Asia."
-    },
-    {
-      "scene": "19 relationship",
-      "bar": 38,
+      "scene": "J",
+      "bar": 37,
       "next": 40,
-      "text": "Because your bottle is a relationship."
+      "text": "And it already works. It's ready for any campus, café or office."
     },
     {
-      "scene": "20 end",
+      "scene": "K",
       "bar": 40,
       "next": "end",
       "text": "One Cup. Your cup, no drama."

@@ -78,6 +78,30 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
 .step p { font: 400 42px/1.1 'Patrick Hand'; margin-top: 10px; color: var(--ink); }
 .polaroid { background: var(--paper); padding: 14px 14px 8px; border: 4px solid var(--ink); border-radius: 6px; box-shadow: 12px 14px 0 rgba(37,36,41,.16); }
 .elab { font-size: 36px; text-align: center; color: #57524b; margin-top: 4px; }
+.hl { position: absolute; left: 120px; top: 70px; font-size: 140px; color: var(--ink); white-space: nowrap; }
+.bubble { position: relative; padding: 18px 34px; border-radius: 40px; background: var(--paper); border: 6px solid var(--ink); font-size: 72px; color: var(--orange);
+  box-shadow: 10px 12px 0 rgba(37,36,41,.16); }
+.bubble:after { content: ''; position: absolute; left: 40px; bottom: -34px; border: 18px solid transparent; border-top: 26px solid var(--ink); }
+.chip .x { font: 400 56px/1 'Anton'; color: var(--orange); margin-left: 6px; }
+.ov { position: absolute; top: 230px; width: 420px; text-align: center; }
+.ov .ring { width: 420px; height: 420px; border-radius: 50%; border: 8px solid var(--ink); box-shadow: 14px 16px 0 rgba(37,36,41,.16); display: grid; place-items: center; overflow: hidden; }
+.ov .pic { width: 320px; height: 320px; }
+.ov .ow { font: 400 110px/1 'Anton'; margin-top: 36px; letter-spacing: .01em; }
+.arrow { position: absolute; width: 160px; height: 80px; overflow: visible; }
+#track { position: absolute; left: 0; width: 1920px; top: 972px; display: flex; justify-content: center; align-items: center; gap: 16px; z-index: 40; }
+.tk { display: flex; align-items: center; gap: 12px; padding: 8px 26px 8px 8px; border-radius: 999px; border: 4px solid var(--ink); background: var(--paper);
+  font: 400 34px/1 'Anton'; letter-spacing: .02em; color: #8a8377; }
+.tk i { width: 46px; height: 46px; border-radius: 50%; background: var(--taupe); display: grid; place-items: center; font-style: normal; color: var(--ink); }
+.tkar { font: 400 40px/1 'Anton'; color: #8a8377; }
+.glab { position: absolute; left: 0; width: 100%; text-align: center; font: 400 46px/1 'Patrick Hand'; color: var(--cream); }
+.cloudcard { width: 440px; height: 420px; border-radius: 40px; background: var(--paper); border: 6px solid var(--cream); padding: 40px 30px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); }
+.gl { font: 400 54px/1 'Patrick Hand'; margin-top: 26px; text-align: center; }
+.gl .ok { font-family: 'Anton'; color: #2e9d57; }
+.pay { top: 300px; width: 540px; height: 560px; }
+.pay .art { height: 260px; }
+.pay h3 { font-size: 76px; }
+.pay p { font-size: 54px; }
+.ripple { position: absolute; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; border: 8px solid var(--orange); opacity: 0; }
 .ms { position: absolute; width: 330px; text-align: center; }
 .ms .dot { width: 56px; height: 56px; margin: 0 auto; border-radius: 50%; background: var(--orange); border: 6px solid var(--cream); }
 .ms .d { font: 400 54px/1 'Anton'; color: var(--cream); letter-spacing: .01em; }
@@ -92,276 +116,147 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
 </svg>
 <div id="stage">
 
-  <!-- 01 · hook ------------------------------------------------------------------------------------------>
-  <section id="s01">
+  <!-- A · the problem: ten minutes, then the bin ------------------------------------------------------------->
+  <section id="sA">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="h1q" class="abs hand-b" style="left:150px;top:360px;width:1150px;font-size:126px;line-height:1.02">
-      <span class="word">“Plastic</span> <span class="word">cups</span> <span class="word">are</span> <span class="word">a</span> <span class="word">one-night</span> <span class="word">stand.”</span></div>
-    <div id="h1c" class="abs hand" style="left:156px;top:690px;font-size:60px;color:var(--orange)">ten minutes, then the bin.</div>
-    <div id="h1cup" class="abs" style="left:1330px;top:290px;width:380px;height:520px"></div>
+    <div id="aCup" class="abs" style="left:620px;top:260px;width:380px;height:520px;z-index:2"></div>
+    <div id="aClock" class="abs" style="left:980px;top:230px;z-index:3"><div class="bubble anton">10 MIN</div></div>
+    <div id="aBin" class="abs" style="left:1240px;top:480px;width:320px;height:400px;z-index:4"></div>
   </section>
-
-  <!-- 02 · the scale of it -------------------------------------------------------------------------------->
-  <section id="s02">
+  <section id="sA2">
     <div class="full" style="background:var(--orange)"></div>
     <div id="rain" class="full"></div>
-    <div id="s2a" class="abs hand" style="left:140px;top:200px;font-size:66px">Every year, Vietnam dumps</div>
-    <div id="s2n" class="abs anton rough" style="left:128px;top:290px;font-size:200px;color:var(--cream);white-space:nowrap"><span id="s2num">3.1</span> MILLION TONNES</div>
-    <div id="s2b" class="abs hand" style="left:140px;top:500px;font-size:66px">of plastic waste on land.</div>
-    <div id="s2c" class="abs" style="left:144px;top:620px;font-size:36px">At least 10% reaches our rivers and the sea · World Bank, 2022</div>
+    <div id="a2n" class="abs anton rough" style="left:0;width:1920px;top:310px;text-align:center;font-size:190px;color:var(--cream);white-space:nowrap"><span id="a2num">3.1</span> MILLION TONNES</div>
+    <div id="a2l" class="abs hand-b" style="left:0;width:1920px;top:560px;text-align:center;font-size:80px">of plastic dumped in Vietnam, every year</div>
+    <div id="a2s" class="abs" style="left:0;width:1920px;top:990px;text-align:center;font-size:28px">World Bank, 2022</div>
   </section>
 
-  <!-- 03 · the real problem: friction -------------------------------------------------------------------->
-  <section id="s03">
+  <!-- B · why don't students bring their own? ------------------------------------------------------------------>
+  <section id="sB">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="s3a" class="abs anton rough" style="left:120px;top:170px;font-size:140px;white-space:nowrap">IT’S NOT THAT WE DON’T CARE.</div>
-    <div id="s3b" class="abs hand-b" style="left:126px;top:330px;font-size:116px;color:var(--orange)">it’s just a hassle.</div>
-    <div class="chip big" id="s3c1" style="left:126px;top:620px"><span>no reward</span></div>
-    <div class="chip big" id="s3c2" style="left:590px;top:620px"><span>no feedback</span></div>
-    <div class="chip big" id="s3c3" style="left:1100px;top:620px"><span>no proof it matters</span></div>
-    <svg id="s3x1" class="xmark" style="left:396px;top:580px" viewBox="0 0 90 90"><path d="M14 14 76 76M76 14 14 76" stroke="#ec7d35" stroke-width="15" stroke-linecap="round" filter="url(#wobble)"/></svg>
-    <svg id="s3x2" class="xmark" style="left:916px;top:580px" viewBox="0 0 90 90"><path d="M14 14 76 76M76 14 14 76" stroke="#ec7d35" stroke-width="15" stroke-linecap="round" filter="url(#wobble)"/></svg>
-    <svg id="s3x3" class="xmark" style="left:1590px;top:580px" viewBox="0 0 90 90"><path d="M14 14 76 76M76 14 14 76" stroke="#ec7d35" stroke-width="15" stroke-linecap="round" filter="url(#wobble)"/></svg>
+    <div id="bBottle" class="abs" style="left:230px;top:250px;width:420px;height:560px"></div>
+    <div id="bQ" class="abs anton" style="left:600px;top:200px;font-size:140px;color:var(--orange)">?</div>
+    <div id="bHl" class="abs anton rough" style="left:820px;top:300px;font-size:170px">WHY BOTHER?</div>
+    <div class="chip big" id="bC1" style="left:830px;top:560px"><span class="x">✗</span><span>no reward</span></div>
+    <div class="chip big" id="bC2" style="left:830px;top:710px"><span class="x">✗</span><span>no proof it matters</span></div>
   </section>
 
-  <!-- 04 · the deadline ------------------------------------------------------------------------------------->
-  <section id="s04" class="dark">
-    <div class="full" style="background:var(--ink)"></div>
-    <div id="s4a" class="abs hand" style="left:128px;top:160px;font-size:54px;color:var(--cream)">Decree 08/2022/ND-CP</div>
-    <div id="s4n" class="abs anton rough" style="left:112px;top:240px;font-size:340px;line-height:.85;color:var(--orange)">2030</div>
-    <div id="s4b" class="abs hand" style="left:850px;top:300px;font-size:70px;line-height:1.08;color:var(--cream)">single-use plastic products<br>phased out by the end of 2030.</div>
-    <div id="s4c" class="abs anton rough" style="left:120px;top:690px;font-size:112px;color:var(--cream);white-space:nowrap">CAMPUSES NEED A HABIT THAT STICKS.</div>
-    <div id="s4d" class="abs hand-b" style="left:126px;top:830px;font-size:84px;color:var(--orange)">starting now.</div>
-  </section>
-
-  <!-- 05 · meet ONE CUP --------------------------------------------------------------------------------------->
-  <section id="s05">
+  <!-- C · meet One Cup, then the whole idea in three pictures ---------------------------------------------------->
+  <section id="sC">
     <div class="full" style="background:var(--orange)"></div>
     <div id="posterWrap" class="abs" style="left:0;top:165px;width:1920px;height:915px;transform-origin:50% 100%">
       <img src="assets/brand/poster-base.jpg" alt="" style="width:1920px;height:915px">
       <img id="tagline" class="abs" src="assets/brand/poster-tagline.png" alt="" style="left:57px;top:144px;width:481px;height:101px">
     </div>
   </section>
-
-  <!-- 06 · pick your tag ---------------------------------------------------------------------------------------->
-  <section id="s06">
+  <section id="sC2">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="gTitle" class="title anton rough">PICK YOUR TAG</div>
-    <div id="gSub" class="sub hand" style="transform:rotate(-1.5deg);transform-origin:0 0">clip it, stick it, carry it</div>
-    <div id="tags" class="abs" style="left:0;top:0;width:1920px;height:1080px;transform-origin:0 0">
-      <img id="t1" class="abs sticker" src="assets/brand/tag-avocado.png" alt="" style="left:330px;top:430px;width:286px">
-      <img id="t2" class="abs sticker" src="assets/brand/tag-bubbletea.png" alt="" style="left:660px;top:420px;width:288px">
-      <img id="t3" class="abs sticker" src="assets/brand/tag-coffee.png" alt="" style="left:990px;top:450px;width:285px">
-      <div id="t4" class="abs sticker" style="left:1310px;top:410px;width:290px;height:354px"></div>
-      <div id="tLabel" class="abs hand" style="left:560px;top:850px;width:800px;text-align:center;font-size:46px">decorated NFC tags <span style="color:var(--orange)">✦</span> ours or yours</div>
-    </div>
-    <div id="g1" class="abs" style="left:140px;top:380px;width:480px">
-      <div class="panel" style="position:relative;width:480px;height:470px;background:var(--yellow)"><div id="artCup" class="abs" style="left:60px;top:20px;width:360px;height:440px"></div></div>
-      <div class="hand" style="font-size:42px;margin-top:14px">QR cups</div></div>
-    <div id="g2" class="abs" style="left:720px;top:380px;width:480px">
-      <div class="panel" style="position:relative;width:480px;height:470px;background:var(--taupe)"><div id="artLanyard" class="abs" style="left:60px;top:15px;width:360px;height:440px"></div></div>
-      <div class="hand" style="font-size:42px;margin-top:14px">NFC lanyards</div></div>
-    <div id="g3" class="abs" style="left:1300px;top:380px;width:480px">
-      <div class="panel" style="position:relative;width:480px;height:470px;background:var(--yellow)"><div id="artStrap" class="abs" style="left:60px;top:15px;width:360px;height:440px"></div></div>
-      <div class="hand" style="font-size:42px;margin-top:14px">cup &amp; bottle straps, NFC inside</div></div>
-    <div id="gStamp" class="stamp" style="left:1600px;top:300px;width:240px;height:240px;transform:rotate(12deg)"><span>COMING<br>SOON</span></div>
+    <div class="abs anton" style="left:120px;top:80px;font-size:76px;color:var(--orange)">ONE CUP</div>
+    <div class="ov" id="o1" style="left:150px"><div class="ring" style="background:var(--yellow)"><div id="oTag" class="pic"></div></div><div class="ow">TAG</div></div>
+    <div class="ov" id="o2" style="left:750px"><div class="ring" style="background:var(--taupe)"><div id="oTap" class="pic"></div></div><div class="ow">TAP</div></div>
+    <div class="ov" id="o3" style="left:1350px"><div class="ring" style="background:var(--orange)"><div id="oReward" class="pic"></div></div><div class="ow">REWARD</div></div>
+    <svg id="oA1" class="arrow" style="left:582px;top:420px" viewBox="0 0 160 80"><path d="M10 44 Q70 10 132 40 M108 18 L136 42 L104 62" fill="none" stroke="#252429" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" filter="url(#wobble)"/></svg>
+    <svg id="oA2" class="arrow" style="left:1182px;top:420px" viewBox="0 0 160 80"><path d="M10 44 Q70 10 132 40 M108 18 L136 42 L104 62" fill="none" stroke="#252429" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" filter="url(#wobble)"/></svg>
   </section>
 
-  <!-- 07 · steps 1–2 ------------------------------------------------------------------------------------------>
-  <section id="s07">
+  <!-- D · step 1: tag your cup -------------------------------------------------------------------------------------->
+  <section id="sD">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="lTitle" class="title anton rough">HOW IT WORKS</div>
-    <div id="lSub" class="sub" style="font-size:38px">Six steps. No tutorial, no lecture.</div>
-    <img id="lP1" class="abs" src="assets/brand/p1.png" alt="" style="left:110px;top:300px;width:400px">
-    <div id="lC1" class="cap" style="left:124px;top:780px"><span class="num">1</span>Register your NFC tag</div>
-    <img id="lP2" class="abs" src="assets/brand/p2.png" alt="" style="left:540px;top:300px;width:400px">
-    <div id="lC2" class="cap" style="left:554px;top:780px"><span class="num">2</span>Attach it to your tumbler</div>
-    <div class="phone" id="lPhone" style="left:1250px;top:150px"><div class="island"></div><div class="scr"><img src="assets/student-register.png" alt=""></div></div>
-    <div class="chip" id="lToast" style="left:1010px;top:700px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>tag linked&nbsp; <b>OCC-539EUY</b></span></div>
+    <div id="dHl" class="hl anton rough">TAG YOUR CUP</div>
+    <div id="dBottle" class="abs" style="left:170px;top:290px;width:420px;height:560px"></div>
+    <img id="dT1" class="abs sticker" src="assets/brand/tag-avocado.png" alt="" style="left:690px;top:330px;width:200px">
+    <div id="dT2" class="abs sticker" style="left:920px;top:300px;width:210px;height:256px"></div>
+    <img id="dT3" class="abs sticker" src="assets/brand/tag-bubbletea.png" alt="" style="left:700px;top:600px;width:200px">
+    <div id="dRip" class="abs" style="left:380px;top:640px;opacity:0"><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div></div>
+    <div class="phone" id="dPhone" style="left:1330px;top:150px"><div class="island"></div><div class="scr"><img src="assets/student-register.png" alt=""></div></div>
+    <div class="chip" id="dOk" style="left:960px;top:720px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>LINKED</b>&nbsp; to you</span></div>
   </section>
 
-  <!-- 08 · step 3 ------------------------------------------------------------------------------------------------>
-  <section id="s08">
+  <!-- E · step 2: tap at the counter -------------------------------------------------------------------------------------->
+  <section id="sE">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="pTitle" class="title anton rough">TAP &amp; CHECK IN</div>
-    <div id="pSub" class="sub hand">Order your drink and tap your tag<br>on the reader to check in.</div>
-    <div id="pP3wrap" class="abs" style="left:120px;top:330px;width:440px;height:600px;transform-origin:50% 100%">
-      <img src="assets/brand/p3.png" alt="" style="width:440px">
-      <svg id="pWaves" class="abs" style="left:270px;top:390px;overflow:visible" width="160" height="160" viewBox="0 0 160 160">
+    <div id="eHl" class="hl anton rough">TAP AT THE COUNTER</div>
+    <div id="eP3" class="abs" style="left:150px;top:300px;width:460px;height:640px;transform-origin:50% 100%">
+      <img src="assets/brand/p3.png" alt="" style="width:460px">
+      <svg id="eWaves" class="abs" style="left:285px;top:405px;overflow:visible" width="160" height="160" viewBox="0 0 160 160">
         <g fill="none" stroke="#252429" stroke-width="9" stroke-linecap="round">
           <path class="wv" d="M20 40 q30 40 0 80"/><path class="wv" d="M50 22 q48 58 0 116"/><path class="wv" d="M82 4 q66 76 0 152"/></g></svg>
     </div>
-    <div id="pCap" class="cap" style="left:126px;top:950px"><span class="num">3</span>verified in under a second</div>
-    <div class="tablet" id="pTab" style="left:1180px;top:210px"><div class="scr"><img src="assets/vendor-scan-idle.png" alt=""><img id="pRes" src="assets/vendor-scan-result.png" alt="" style="opacity:0"></div></div>
-    <div id="pStamp" class="stamp" style="left:880px;top:300px;width:300px;height:300px;transform:rotate(-12deg)"><span>CHECKED<br>IN!</span></div>
-    <div class="chip" id="pDisc" style="left:700px;top:820px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M3 9a3 3 0 0 0 0 6v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a3 3 0 0 0 0-6V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg></span><span><b>−3,000 ₫</b>&nbsp; reusable-cup discount</span></div>
+    <div class="tablet" id="eTab" style="left:1200px;top:170px"><div class="scr"><img src="assets/vendor-scan-idle.png" alt=""><img id="eRes" src="assets/vendor-scan-result.png" alt="" style="opacity:0"></div></div>
+    <div id="eStamp" class="stamp" style="left:770px;top:330px;width:320px;height:320px"><span>CHECKED<br>IN!</span></div>
+    <div class="chip big" id="eDisc" style="left:720px;top:720px"><span><b style="font-size:60px">−3,000 ₫</b></span></div>
   </section>
 
-  <!-- 09 · step 4 ------------------------------------------------------------------------------------------------>
-  <section id="s09">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="kTitle" class="title anton rough">KEEP SHOWING UP</div>
-    <div id="kSub" class="sub hand">Each check-in stacks your cup.<br>Keep showing up and it grows.</div>
-    <div class="abs" style="left:146px;top:338px;width:470px;height:534px;border-radius:17px;background:#e4ddcd"></div>
-    <img id="kP4" class="abs" src="assets/brand/p4.png" alt="" style="left:140px;top:334px;width:478px">
-    <svg id="kBubble" class="abs" style="left:440px;top:330px;overflow:visible" width="420" height="150" viewBox="0 0 420 150">
-      <path d="M18 14 L392 6 L410 62 L386 112 L120 104 L52 146 L70 104 L22 98 Z" fill="#ec7d35" stroke="#252429" stroke-width="7" stroke-linejoin="round" filter="url(#wobble)"/>
-      <text x="212" y="72" text-anchor="middle" font-family="Patrick Hand" font-size="46" fill="#252429">I am waiting on top</text></svg>
-    <div id="kCap" class="cap" style="left:150px;top:900px"><span class="num">4</span>streaks, points, milestones</div>
-    <div class="phone" id="kPhone" style="left:1250px;top:150px"><div class="island"></div><div class="scr"><img src="assets/student-home.png" alt=""><img id="kCele" src="assets/student-celebrate.png" alt="" style="opacity:0"></div></div>
-    <div id="kConf" class="abs" style="left:1438px;top:330px"></div>
-    <div class="chip" id="kPts" style="left:880px;top:560px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span><b>+10</b>&nbsp; points</span></div>
-    <div class="chip" id="kStreak" style="left:840px;top:690px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span><b>13-day</b>&nbsp; streak</span></div>
-  </section>
-
-  <!-- 10 · steps 5–6 ------------------------------------------------------------------------------------------------>
-  <section id="s10">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="cTitle" class="title anton rough">SEE YOUR COMMUNITY</div>
-    <div id="cSub" class="sub hand">See your community, reward and impact.</div>
-    <img id="cP5" class="abs" src="assets/brand/p5.png" alt="" style="left:110px;top:300px;width:470px">
-    <div id="cV" class="abs" style="left:140px;top:640px;width:430px;height:273px">
-      <img src="assets/brand/p5b.png" alt="" style="width:430px">
-      <div class="abs hand" style="left:96px;top:166px;width:260px;text-align:center;font-size:36px;color:#fffdf8;transform:rotate(-3deg)">Milestone unlocked!</div>
-    </div>
-    <div class="cap" id="cC5" style="left:120px;top:935px"><span class="num">5</span>weekly league &amp; rewards</div>
-    <div class="phone" id="cPhone" style="left:660px;top:300px;transform:scale(.92);transform-origin:0 0"><div class="island"></div><div class="scr"><img src="assets/student-league.png" alt=""><img id="cRew" src="assets/student-rewards.png" alt="" style="opacity:0"></div></div>
-    <div id="cP6" class="abs" style="left:1150px;top:300px;width:520px;height:586px">
-      <img src="assets/brand/p6.png" alt="" style="width:520px">
-      <div id="cFill1" class="abs" style="left:222px;top:302px;width:84px;height:84px;border-radius:50%;background:#ec7d35;border:6px solid #252429;filter:url(#wobble)"></div>
-      <div id="cFill2" class="abs" style="left:344px;top:300px;width:84px;height:84px;border-radius:50%;background:#ec7d35;border:6px solid #252429;filter:url(#wobble)"></div>
-      <div id="cImpact" class="abs hand" style="left:88px;top:410px;width:360px;font-size:40px;transform:rotate(-2.5deg)">325 g <span style="color:#ec7d35">plastic</span> reduction</div>
-    </div>
-    <div class="cap" id="cC6" style="left:1160px;top:935px"><span class="num">6</span>your impact, adding up</div>
-  </section>
-
-  <!-- 11 · technology: verified, not guessed ---------------------------------------------------------------------->
-  <section id="s11">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="vTitle" class="title anton rough">VERIFIED, NOT GUESSED</div>
-    <div id="vSub" class="sub hand">QR + NFC in one data pipeline — no new till needed.</div>
-    <div id="v1" class="card" style="left:120px;top:330px;width:520px;height:500px;background:var(--yellow)">
-      <div class="art" id="artReader"></div>
-      <div class="txt"><h3>STAFF SCAN / NFC READER</h3><p>✓ verified</p></div></div>
-    <div id="v2" class="card" style="left:700px;top:330px;width:520px;height:500px;background:var(--taupe)">
-      <div class="art"><img src="assets/vendor-station-code.png" alt="" style="height:200px;border-radius:14px;border:5px solid var(--ink)"></div>
-      <div class="txt"><h3>ROTATING 6-DIGIT CODE</h3><p>✓ verified, when no staff is free</p></div></div>
-    <div id="v3" class="card" style="left:1280px;top:330px;width:520px;height:500px;background:var(--paper)">
-      <div class="art" id="artSelf"></div>
-      <div class="txt"><h3>SELF-SCAN</h3><p style="color:var(--orange)">flagged — never rewarded</p></div></div>
-    <div class="chip" id="vChip" style="left:120px;top:890px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span><span>cooldowns &amp; flags stop double counting</span></div>
-  </section>
-
-  <!-- 12 · proof for the campus ------------------------------------------------------------------------------------>
-  <section id="s12" class="dark">
-    <div class="full" style="background:var(--ink)"></div>
-    <div id="mTitle" class="title anton rough">PROOF, NOT PROMISES</div>
-    <div id="mSub" class="sub hand">Live, anonymised data for canteens,<br>the university and research.</div>
-    <div class="laptop" id="mLap" style="left:660px;top:300px"><div class="lid"><div class="scr"><img id="mImg" src="assets/console-overview.png" alt=""></div></div><div class="base"></div></div>
-    <div class="chip" id="m1" style="left:120px;top:440px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.83L3 3"/><path d="m15 9 6-6"/></svg></span><span>tests which nudges work</span></div>
-    <div class="chip" id="m2" style="left:120px;top:570px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span>every cup measured</span></div>
-    <div class="chip" id="m3" style="left:120px;top:700px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>privacy by design</span></div>
-    <div id="mNote" class="abs hand" style="left:124px;top:850px;font-size:34px;color:var(--yellow)">✶ simulated pilot data · MVP demo</div>
-  </section>
-
-  <!-- 13 · business: who pays -------------------------------------------------------------------------------------->
-  <section id="s13">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="bTitle" class="title anton rough">WHO PAYS?</div>
-    <div id="bSub" class="sub hand">Three revenue streams — pricing tested in the pilot.</div>
-    <div id="b1" class="card" style="left:120px;top:320px;width:540px;height:600px;background:var(--yellow)">
-      <div class="art" id="artCampus"></div>
-      <div class="txt"><h3>CAMPUSES &amp; CANTEENS</h3><p>a platform subscription, priced below the cups they stop buying</p></div></div>
-    <div id="b2" class="card" style="left:690px;top:320px;width:540px;height:600px;background:var(--taupe)">
-      <div class="art"><img src="assets/brand/p5b.png" alt="" style="width:330px"></div>
-      <div class="txt"><h3>BRANDS</h3><p>sponsored rewards &amp; campaigns that reach eco-minded students</p></div></div>
-    <div id="b3" class="card" style="left:1260px;top:320px;width:540px;height:600px;background:var(--orange)">
-      <div class="art" style="position:relative"><img src="assets/brand/tag-avocado.png" alt="" class="sticker" style="height:180px;transform:rotate(-8deg)"><div id="b3tag" class="abs sticker" style="left:300px;top:20px;width:150px;height:184px"></div></div>
-      <div class="txt"><h3>STUDENTS &amp; CLUBS</h3><p>One Cup gear — tags, cups, straps, co-branded too</p></div></div>
-  </section>
-
-  <!-- 14 · market & edge ------------------------------------------------------------------------------------------>
-  <section id="s14">
+  <!-- F · step 3: get rewarded -------------------------------------------------------------------------------------------->
+  <section id="sF">
     <div class="full" style="background:var(--yellow)"></div>
-    <div id="kN" class="abs anton rough" style="left:116px;top:90px;font-size:250px;line-height:.9"><span id="kNum">550,000</span>+</div>
-    <div id="kL" class="abs hand" style="left:126px;top:340px;font-size:58px">students started university in Vietnam in 2024 alone (MOET)</div>
-    <div id="kA" class="card" style="left:120px;top:500px;width:760px;height:400px;background:var(--taupe)">
-      <div class="txt" style="padding-top:44px"><h3 style="font-size:58px">CHAIN DISCOUNTS<br>&amp; DEPOSIT CUPS</h3><p style="font-size:46px;margin-top:22px">one brand · no shared data</p></div></div>
-    <svg id="kAx" class="xmark" style="left:740px;top:520px;width:130px;height:130px" viewBox="0 0 90 90"><path d="M14 14 76 76M76 14 14 76" stroke="#ec7d35" stroke-width="14" stroke-linecap="round" filter="url(#wobble)"/></svg>
-    <div id="kB" class="card" style="left:940px;top:500px;width:860px;height:400px;background:var(--orange)">
-      <div class="txt" style="padding-top:40px"><h3 style="font-size:96px;color:var(--cream)">ONE CUP</h3><p style="font-size:46px;margin-top:18px">brand-neutral · any cup · every outlet<br>impact you can audit</p></div></div>
-  </section>
-
-  <!-- 15 · impact in numbers ------------------------------------------------------------------------------------>
-  <section id="s15">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="iTitle" class="title anton rough">SMALL HABIT, NATIONAL SCALE</div>
-    <div id="iRow" class="abs" style="left:120px;top:300px;display:flex;align-items:center;gap:34px">
-      <div id="i1" class="card" style="position:relative;width:420px;height:230px;background:var(--yellow);padding:24px 30px"><div class="anton" style="font-size:110px">55,000</div><div class="hand" style="font-size:42px">students · 1 in 10 new</div></div>
-      <div id="ix1" class="anton" style="font-size:110px;color:var(--orange)">×</div>
-      <div id="i2" class="card" style="position:relative;width:420px;height:230px;background:var(--taupe);padding:24px 30px"><div class="anton" style="font-size:110px">1 CUP</div><div class="hand" style="font-size:42px">a day</div></div>
-      <div id="ix2" class="anton" style="font-size:110px;color:var(--orange)">×</div>
-      <div id="i3" class="card" style="position:relative;width:420px;height:230px;background:var(--paper);padding:24px 30px"><div class="anton" style="font-size:110px">150</div><div class="hand" style="font-size:42px">campus days</div></div>
+    <div id="fHl" class="hl anton rough">GET REWARDED</div>
+    <div class="phone" id="fPhone" style="left:1400px;top:150px"><div class="island"></div><div class="scr"><img src="assets/student-home.png" alt=""><img id="fCele" src="assets/student-celebrate.png" alt="" style="opacity:0"></div></div>
+    <div id="kConf" class="abs" style="left:1588px;top:330px"></div>
+    <div class="chip big" id="f1" style="left:120px;top:340px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span><b>+10</b>&nbsp; points</span></div>
+    <div class="chip big" id="f2" style="left:120px;top:490px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span><b>13-day</b>&nbsp; streak</span></div>
+    <div class="chip big" id="f3" style="left:120px;top:640px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span><span><b>6.5 g</b>&nbsp; plastic saved</span></div>
+    <div id="fV" class="abs" style="left:780px;top:420px;width:520px;height:330px">
+      <img src="assets/brand/p5b.png" alt="" style="width:520px">
+      <div class="abs hand-b" style="left:120px;top:196px;width:320px;text-align:center;font-size:52px;color:#fffdf8;transform:rotate(-3deg)">free drink!</div>
     </div>
-    <div id="iEq" class="abs anton rough" style="left:116px;top:580px;font-size:170px;color:var(--orange);white-space:nowrap">= <span id="iNum">8.27</span> MILLION CUPS</div>
-    <div id="iRes" class="abs hand-b" style="left:126px;top:790px;font-size:72px">≈ 54 tonnes of plastic · ≈ 440 tonnes of CO<span style="font-size:.6em">2</span>e a year</div>
-    <div id="iFoot" class="abs" style="left:128px;top:960px;font-size:26px;color:#57524b">1 in 10 of the 551,479 students who started university in 2024 (MOET) · provisional factors: 6.5 g plastic, 53 g CO₂e per reuse</div>
   </section>
 
-  <!-- 16 · from awareness to habit ------------------------------------------------------------------------------->
-  <section id="s16">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="aTitle" class="title anton rough">FROM AWARENESS TO HABIT</div>
-    <div id="aSub" class="sub hand">Good for people, not just for the planet.</div>
-    <div class="chip" id="a1" style="left:120px;top:340px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><path d="m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8"/><path d="M5 8h14"/><path d="m12 8 1-6h2"/></svg></span><span>works with the cup you already own</span></div>
-    <div class="chip" id="a2" style="left:120px;top:470px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>nobody is ranked last or named at the till</span></div>
-    <div class="chip" id="a3" style="left:120px;top:600px"><span class="ic t"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span><span>an open, anonymised dataset for research</span></div>
-    <div class="chip" id="a4" style="left:120px;top:730px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span><span>SDG 12 · Vietnam’s 2030 plastics goals</span></div>
-    <div id="aHero" class="abs" style="left:1260px;top:290px;width:520px;height:640px"></div>
-  </section>
-
-  <!-- 17 · feasibility: the MVP already works -------------------------------------------------------------------->
-  <section id="s17">
-    <div class="full" style="background:var(--cream)"></div>
-    <div id="fTitle" class="title anton rough">THE MVP ALREADY WORKS</div>
-    <div id="fSub" class="sub hand">Built, demoed end to end, tested with real NFC tags.</div>
-    <div id="fLapWrap" class="abs" style="left:780px;top:330px;width:722px;height:480px">
-      <div class="laptop" style="left:0;top:0;transform:scale(.62);transform-origin:0 0"><div class="lid"><div class="scr"><img src="assets/console-overview.png" alt=""></div></div><div class="base"></div></div></div>
-    <div id="fTabWrap" class="abs" style="left:590px;top:430px;width:320px;height:420px">
-      <div class="tablet" style="left:0;top:0;transform:scale(.55);transform-origin:0 0"><div class="scr"><img src="assets/vendor-scan-result.png" alt=""></div></div></div>
-    <div id="fPhWrap" class="abs" style="left:1500px;top:360px;width:240px;height:500px">
-      <div class="phone" style="left:0;top:0;transform:scale(.62);transform-origin:0 0"><div class="island"></div><div class="scr"><img src="assets/student-home.png" alt=""></div></div></div>
-    <div class="chip" id="f1" style="left:120px;top:330px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>student web app</span></div>
-    <div class="chip" id="f2" style="left:120px;top:450px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>counter + USB NFC reader</span></div>
-    <div class="chip" id="f3" style="left:120px;top:570px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>research console</span></div>
-    <div class="chip" id="f4" style="left:120px;top:690px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>automated tests</span></div>
-  </section>
-
-  <!-- 18 · grows with every cup ----------------------------------------------------------------------------------------------->
-  <section id="s18" class="dark">
+  <!-- G · step 4: every cup counts ------------------------------------------------------------------------------------------>
+  <section id="sG" class="dark">
     <div class="full" style="background:var(--ink)"></div>
-    <div id="gwTitle" class="title anton rough">GROWS WITH EVERY CUP</div>
-    <div id="gwSub" class="sub hand">Profit and impact, side by side.</div>
-    <div class="chip" id="gwRev" style="left:120px;top:310px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span><span><b>REVENUE</b>&nbsp; ↑</span></div>
-    <div class="chip" id="gwImp" style="left:430px;top:310px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span><span><b>IMPACT</b>&nbsp; ↑</span></div>
-    <div id="st1" class="step" style="left:140px;top:700px;width:520px;height:400px;background:var(--yellow)"><h3>VIETNAM’S CAMPUSES</h3><p>550,000+ new students a year</p></div>
-    <div id="st2" class="step" style="left:700px;top:560px;width:520px;height:540px;background:var(--taupe)"><h3>CAFÉS &amp; OFFICES</h3><p>every takeaway counter</p></div>
-    <div id="st3" class="step" style="left:1260px;top:420px;width:540px;height:680px;background:var(--orange)"><h3>SOUTHEAST ASIA</h3><p>the same model, new cities</p></div>
-    <div id="climb" class="abs sticker" style="left:325px;top:492px;width:150px;height:225px"></div>
+    <div id="gHl" class="hl anton rough" style="color:var(--cream)">EVERY CUP COUNTS</div>
+    <svg id="gLines" class="abs" style="left:0;top:0" width="1920" height="1080"><g fill="none" stroke="#ec7d35" stroke-width="7" stroke-dasharray="6 18" stroke-linecap="round">
+      <path d="M520 600 H740"/><path d="M1180 600 H1370"/></g></svg>
+    <div id="gTabW" class="abs" style="left:150px;top:330px;width:350px;height:470px">
+      <div class="tablet" style="left:0;top:0;transform:scale(.6);transform-origin:0 0"><div class="scr"><img src="assets/vendor-scan-result.png" alt=""></div></div>
+      <div class="glab" style="top:500px">counter</div></div>
+    <div id="gCloud" class="abs" style="left:740px;top:380px;width:440px;height:420px">
+      <div class="cloudcard"><div id="gIcon" style="width:120px;height:120px;margin:0 auto"></div>
+        <div id="gv1" class="gl"><span class="ok">✓</span> verified</div>
+        <div id="gv2" class="gl"><span class="ok">✓</span> counted once</div></div>
+      <div class="glab" style="top:450px">One Cup</div></div>
+    <div id="gLapW" class="abs" style="left:1370px;top:420px;width:420px;height:300px">
+      <div class="laptop" style="left:0;top:0;transform:scale(.36);transform-origin:0 0"><div class="lid"><div class="scr"><img src="assets/console-overview.png" alt=""></div></div><div class="base"></div></div>
+      </div>
+    <div id="gLapL" class="glab" style="left:1370px;width:420px;top:830px">campus</div>
+    <div id="gDots"></div>
   </section>
 
-  <!-- 19 · your bottle is a relationship ------------------------------------------------------------------------>
-  <section id="s19">
-    <div class="full" style="background:var(--yellow)"></div>
-    <div id="zHero" class="abs" style="left:160px;top:190px;width:560px;height:700px"></div>
-    <div id="zHearts" class="abs" style="left:470px;top:120px;width:300px;height:300px"></div>
-    <div id="zQ" class="abs hand-b" style="left:840px;top:330px;width:960px;font-size:120px;line-height:1.02">
-      <span class="word">“Your</span> <span class="word">bottle</span> <span class="word">is</span> <span class="word">a</span> <span class="word">relationship.”</span></div>
-    <div id="zL" class="abs hand" style="left:846px;top:640px;width:960px;font-size:56px;line-height:1.15">it turns up every morning. it knows your order.</div>
+  <!-- H · who pays ------------------------------------------------------------------------------------------------------------>
+  <section id="sH">
+    <div class="full" style="background:var(--cream)"></div>
+    <div id="hHl" class="hl anton rough">WHO PAYS?</div>
+    <div id="h1" class="card pay" style="left:120px;background:var(--yellow)"><div class="art" id="artCampus"></div><div class="txt"><h3>CANTEENS</h3><p>subscribe</p></div></div>
+    <div id="h2" class="card pay" style="left:690px;background:var(--taupe)"><div class="art"><img src="assets/brand/p5b.png" alt="" style="width:330px"></div><div class="txt"><h3>BRANDS</h3><p>sponsor rewards</p></div></div>
+    <div id="h3" class="card pay" style="left:1260px;background:var(--orange)"><div class="art" style="position:relative"><img src="assets/brand/tag-avocado.png" alt="" class="sticker" style="height:180px;transform:rotate(-8deg)"><div id="b3tag" class="abs sticker" style="left:300px;top:20px;width:150px;height:184px"></div></div><div class="txt"><h3>STUDENTS</h3><p>buy tags</p></div></div>
   </section>
 
-  <!-- 20 · end card -------------------------------------------------------------------------------------------------->
-  <section id="s20">
+  <!-- I · impact ------------------------------------------------------------------------------------------------------------------>
+  <section id="sI">
+    <div class="full" style="background:var(--orange)"></div>
+    <div id="iL1" class="abs hand-b" style="left:120px;top:150px;font-size:76px">if 1 in 10 new students joins…</div>
+    <div id="iN" class="abs anton rough" style="left:110px;top:300px;font-size:270px;color:var(--cream);line-height:.9;white-space:nowrap"><span id="iNum">8</span> MILLION</div>
+    <div id="iL2" class="abs hand-b" style="left:120px;top:590px;font-size:84px">fewer plastic cups, every year</div>
+    <div id="aHero" class="abs" style="left:1320px;top:330px;width:520px;height:640px"></div>
+    <div id="iFoot" class="abs" style="left:122px;top:990px;font-size:26px">≈ 54 t plastic · ≈ 440 t CO₂e · 1 in 10 of 551,479 new students (MOET 2024) · provisional factors</div>
+  </section>
+
+  <!-- J · it already works ------------------------------------------------------------------------------------------------------------>
+  <section id="sJ">
+    <div class="full" style="background:var(--cream)"></div>
+    <div id="jHl" class="hl anton rough">IT ALREADY WORKS</div>
+    <div id="jLapW" class="abs" style="left:560px;top:290px;width:780px;height:520px">
+      <div class="laptop" style="left:0;top:0;transform:scale(.67);transform-origin:0 0"><div class="lid"><div class="scr"><img src="assets/console-overview.png" alt=""></div></div><div class="base"></div></div></div>
+    <div id="jTabW" class="abs" style="left:300px;top:390px;width:350px;height:470px">
+      <div class="tablet" style="left:0;top:0;transform:scale(.6);transform-origin:0 0"><div class="scr"><img src="assets/vendor-scan-result.png" alt=""></div></div></div>
+    <div id="jPhW" class="abs" style="left:1330px;top:330px;width:270px;height:560px">
+      <div class="phone" style="left:0;top:0;transform:scale(.7);transform-origin:0 0"><div class="island"></div><div class="scr"><img src="assets/student-home.png" alt=""></div></div></div>
+    <div id="jWhere" class="abs hand-b" style="left:0;width:1920px;top:910px;text-align:center;font-size:70px">campus <span style="color:var(--orange)">·</span> café <span style="color:var(--orange)">·</span> office</div>
+  </section>
+
+  <!-- K · end card ---------------------------------------------------------------------------------------------------------->
+  <section id="sK">
     <div class="full" style="background:var(--cream)"></div>
     <div id="e1" class="abs" style="left:150px;top:64px;width:310px">
       <div id="artGlass" class="sticker" style="width:310px;height:396px"></div>
@@ -391,7 +286,17 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
   <div id="flash" class="abs" style="left:960px;top:540px;width:2400px;height:2400px;margin:-1200px 0 0 -1200px;border-radius:50%;background:var(--orange);transform:scale(0)"></div>
 </div>
 
+  <div id="track">
+    <div class="tk" id="tk1"><i>1</i>TAG</div><span class="tkar">→</span>
+    <div class="tk" id="tk2"><i>2</i>TAP</div><span class="tkar">→</span>
+    <div class="tk" id="tk3"><i>3</i>REWARD</div><span class="tkar">→</span>
+    <div class="tk" id="tk4"><i>4</i>COUNT</div>
+  </div>
+
+</div>
+
 <script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="vo-timing.js"></script>
 <script src="art.js"></script>
 <script src="timeline.js"></script>
 </body>
