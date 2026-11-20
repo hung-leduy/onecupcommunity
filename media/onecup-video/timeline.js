@@ -87,8 +87,8 @@
   fadeUp('#s4a', B(6) + 0.05, 0.45, 20);
   stamp('#s4n', beat(B(6), 1.2), 0);
   typeOn('#s4b', beat(B(6), 2.2), 0.9);
-  fadeUp('#s4c', B(8) - 0.1, 0.5, 60);
-  pop('#s4d', beat(B(8), 1.2), 0.5, -2, 'pop');
+  fadeUp('#s4c', 14.85, 0.5, 60); // with the voice-over: "Campuses need a habit that sticks"
+  pop('#s4d', 16.25, 0.5, -2, 'pop');
   tl.to(['#s4a', '#s4n', '#s4b', '#s4c', '#s4d'], { y: 90, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'power2.in' }, BREAK - 0.42);
 
   // ===== 05 · meet ONE CUP (on the musical break) =========================================================================

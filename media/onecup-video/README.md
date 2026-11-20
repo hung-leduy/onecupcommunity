@@ -24,8 +24,38 @@ cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton
 | 77–81 | Kết | “Your bottle is a relationship.” |
 | 81–86 | | ONE CUP — your cup. no drama. (đúng điểm drop của nhạc) |
 
-Nhạc: nhạc nền từ video cũ của nhóm, kéo dài theo ô nhịp (118 BPM): chạy từ đầu đến 34,389 s, câu groove 16 phách
-lặp 4 lần, nhảy 24 phách rồi chạy tiếp tới đoạn kết gốc. Mọi cảnh đổi trên vạch ô nhịp.
+## Âm thanh
+
+- **Giọng đọc** (tiếng Anh, giọng nữ `af_heart` của Kokoro TTS — mô hình mở, Apache-2.0, chạy offline): một câu cho mỗi cảnh,
+  viết theo đúng chữ trên màn hình, trong `voiceover.json`. `voiceover.py` đặt mỗi câu 0,18 s sau khi cảnh vào và bảo đảm
+  câu kết thúc trước khi cảnh sau trượt vào (đọc nhanh hơn tối đa 1,18× nếu cần); xuất kèm phụ đề `.srt`.
+  Muốn dùng giọng thật của nhóm: thu theo đúng file `.srt` và thay `vo.wav`.
+- **Nhạc nền**: nhạc của video cũ, **đã tách bỏ giọng đọc cũ** bằng `separate.py` (UVR MDX-Net Inst HQ 3, ONNX) — bản cũ
+  có lời đọc lẫn trong nhạc nên khi lặp nhạc thì lời bị lặp. Nhạc kéo dài theo ô nhịp (118 BPM): chạy từ đầu đến 34,389 s,
+  câu groove 16 phách lặp 4 lần, nhảy 24 phách rồi chạy tới đoạn kết gốc; tự hạ âm lượng khi có lời đọc.
+
+| Cảnh | Lời đọc |
+|---|---|
+| 01 | Plastic cups are a one-night stand. Ten minutes, then the bin. |
+| 02 | Vietnam dumps 3.1 million tonnes of plastic every year. |
+| 03 | It's not that we don't care. It's just a hassle. |
+| 04 | By twenty thirty, single-use plastics are out. Campuses need a habit that sticks. |
+| 05 | Meet One Cup. Reuse, made easy. |
+| 06 | Pick your tag: NFC tags, QR cups, lanyards and straps. |
+| 07 | Register it in the app, then attach it to any tumbler. |
+| 08 | Order, tap the reader, and you're checked in, with a discount. |
+| 09 | Every check-in stacks your cup: points, streaks, milestones. |
+| 10 | See your community, earn rewards, and watch your impact grow. |
+| 11 | Every reuse is verified at the counter, and never counted twice. |
+| 12 | Live data for the campus: proof, not promises. |
+| 13 | Campuses subscribe, brands sponsor, students buy the gear. |
+| 14 | Over half a million new students a year. Any cup, every outlet. |
+| 15 | A thousand students, one cup a day: 150,000 cups. |
+| 16 | From awareness to habit, with the cup you already own. |
+| 17 | And it's real: the app, the counter and the console already work. |
+| 18 | Next, a twelve-week pilot at VGU in twenty twenty-seven, then more campuses and coffee chains. |
+| 19 | Because your bottle is a relationship. |
+| 20 | One Cup. Your cup, no drama. |
 
 ## Tài nguyên
 
@@ -44,9 +74,16 @@ lặp 4 lần, nhảy 24 phách rồi chạy tiếp tới đoạn kết gốc. M
 
 ```bash
 cd media/onecup-video && npm install                       # GSAP + font Anton, Patrick Hand
-node render.mjs <video-cu.mp4> out                         # ~12 phút → out/onecup-pitch.mp4
-node render.mjs <video-cu.mp4> out --preview=6.6,41.9      # chỉ xuất ảnh xem trước
-node render.mjs <video-cu.mp4> out --reuse-frames          # giữ khung hình, làm lại âm thanh
+pip install onnxruntime kokoro-onnx librosa soundfile scipy
+# mô hình (không lưu trong repo):
+#   UVR-MDX-NET-Inst_HQ_3.onnx  github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/
+#   kokoro-v1.0.onnx, voices-v1.0.bin  github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/
+ffmpeg -i <video-cu.mp4> -vn -ar 48000 orig.wav
+python3 separate.py UVR-MDX-NET-Inst_HQ_3.onnx orig.wav music.wav           # bỏ giọng đọc cũ
+python3 voiceover.py kokoro-v1.0.onnx voices-v1.0.bin vo.wav vo.srt         # giọng đọc mới + phụ đề
+node render.mjs music.wav out --vo=vo.wav                                   # ~12 phút → out/onecup-pitch.mp4
+node render.mjs music.wav out --preview=6.6,41.9                            # chỉ ảnh xem trước
+node render.mjs music.wav out --vo=vo.wav --reuse-frames                    # giữ hình, làm lại âm thanh
 ```
 
-`<video-cu.mp4>` chỉ dùng để lấy nhạc nền. Cần Node 22, Python 3 (Pillow, NumPy, SciPy), ffmpeg và Playwright (Chromium).
+Cần Node 22, Python 3 (Pillow, NumPy, SciPy, librosa, soundfile, onnxruntime, kokoro-onnx), ffmpeg và Playwright (Chromium).

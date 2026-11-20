@@ -1,0 +1,126 @@
+{
+  "voice": "af_heart",
+  "note": "One line per scene. 'bar' is the bar line the scene starts on (see timeline.js); the line is placed just after the scene lands and must finish before the next scene slides in.",
+  "lines": [
+    {
+      "scene": "01 hook",
+      "bar": 0,
+      "next": 2,
+      "text": "Plastic cups are a one-night stand. Ten minutes, then the bin."
+    },
+    {
+      "scene": "02 3.1 Mt",
+      "bar": 2,
+      "next": 4,
+      "text": "Vietnam dumps 3.1 million tonnes of plastic every year."
+    },
+    {
+      "scene": "03 hassle",
+      "bar": 4,
+      "next": 6,
+      "text": "It's not that we don't care. It's just a hassle."
+    },
+    {
+      "scene": "04 2030",
+      "bar": 6,
+      "next": "break",
+      "text": "By twenty thirty, single-use plastics are out. Campuses need a habit that sticks."
+    },
+    {
+      "scene": "05 meet One Cup",
+      "bar": "break",
+      "next": 11,
+      "text": "Meet One Cup. Reuse, made easy."
+    },
+    {
+      "scene": "06 pick your tag",
+      "bar": 11,
+      "next": 13,
+      "text": "Pick your tag: NFC tags, QR cups, lanyards and straps."
+    },
+    {
+      "scene": "07 steps 1-2",
+      "bar": 13,
+      "next": 15,
+      "text": "Register it in the app, then attach it to any tumbler."
+    },
+    {
+      "scene": "08 step 3",
+      "bar": 15,
+      "next": 17,
+      "text": "Order, tap the reader, and you're checked in, with a discount."
+    },
+    {
+      "scene": "09 step 4",
+      "bar": 17,
+      "next": 19,
+      "text": "Every check-in stacks your cup: points, streaks, milestones."
+    },
+    {
+      "scene": "10 steps 5-6",
+      "bar": 19,
+      "next": 21,
+      "text": "See your community, earn rewards, and watch your impact grow."
+    },
+    {
+      "scene": "11 verified",
+      "bar": 21,
+      "next": 23,
+      "text": "Every reuse is verified at the counter, and never counted twice."
+    },
+    {
+      "scene": "12 proof",
+      "bar": 23,
+      "next": 25,
+      "text": "Live data for the campus: proof, not promises."
+    },
+    {
+      "scene": "13 who pays",
+      "bar": 25,
+      "next": 27,
+      "text": "Campuses subscribe, brands sponsor, students buy the gear."
+    },
+    {
+      "scene": "14 market",
+      "bar": 27,
+      "next": 29,
+      "text": "Over half a million new students a year. Any cup, every outlet."
+    },
+    {
+      "scene": "15 numbers",
+      "bar": 29,
+      "next": 31,
+      "text": "A thousand students, one cup a day: 150,000 cups."
+    },
+    {
+      "scene": "16 habit",
+      "bar": 31,
+      "next": 33,
+      "text": "From awareness to habit, with the cup you already own."
+    },
+    {
+      "scene": "17 MVP",
+      "bar": 33,
+      "next": 35,
+      "text": "And it's real: the app, the counter and the console already work."
+    },
+    {
+      "scene": "18 roadmap",
+      "bar": 35,
+      "next": 38,
+      "text": "Next, a twelve-week pilot at VGU in twenty twenty-seven, then more campuses and coffee chains."
+    },
+    {
+      "scene": "19 relationship",
+      "bar": 38,
+      "next": 40,
+      "text": "Because your bottle is a relationship."
+    },
+    {
+      "scene": "20 end",
+      "bar": 40,
+      "next": "end",
+      "text": "One Cup. Your cup, no drama."
+    }
+  ]
+}

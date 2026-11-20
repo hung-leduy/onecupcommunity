@@ -1,30 +1,33 @@
-// Renders the One Cup pitch video (~86 s) from index.html + timeline.js.
+// Renders the One Cup pitch video (~86 s) from index.html + timeline.js, with the voice-over.
 //
-//   node render.mjs <music-source.mp4> <outDir>                  full render (~12 min)
-//   node render.mjs <music-source.mp4> <outDir> --preview=4,20.5  stills at the given times
-//   node render.mjs <music-source.mp4> <outDir> --reuse-frames    keep frames, redo the sound
-//   node render.mjs <music-source.mp4> <outDir> --range=400-480   re-render only those frames
+//   node render.mjs <music.wav> <outDir> --vo=<vo.wav>                 full render (~12 min)
+//   node render.mjs <music.wav> <outDir> --preview=4,20.5               stills at the given times
+//   node render.mjs <music.wav> <outDir> --vo=<vo.wav> --reuse-frames   keep frames, redo the sound
+//   node render.mjs <music.wav> <outDir> --vo=<vo.wav> --range=0-110    re-render only those frames
 //
-// <music-source.mp4> is the team's earlier cut; only its soundtrack is used. The 40.9 s track is
-// stretched to 85.6 s on its own bar grid (118 BPM): it plays from the top to 34.389 s, the 16-beat
-// groove phrase (26.254–34.389 s, found by cross-correlation) repeats four times, then a 24-beat jump
-// back to 22.186 s runs on into the original ending — so the musical break lands on "meet ONE CUP"
-// (18.1 s) and the final drop on the end card (81.2 s).
+// <music.wav> is the team's soundtrack with its old voice-over removed (separate.py). The 40.9 s
+// track is stretched to 85.6 s on its own bar grid (118 BPM): it plays from the top to 34.389 s,
+// the 16-beat groove phrase (26.254–34.389 s, found by cross-correlation) repeats four times, then
+// a 24-beat jump back to 22.186 s runs on into the original ending — so the musical break lands on
+// "meet ONE CUP" (18.0 s) and the final drop on the end card (81.2 s).
+// <vo.wav> comes from voiceover.py; the music ducks under it.
 //
-// Output: <outDir>/onecup-pitch.mp4 (1920×1080, 24 fps, H.264 + AAC).
+// Output: <outDir>/onecup-pitch.mp4 (1920×1080, 24 fps, H.264 + AAC) and onecup-pitch.srt if the
+// voice-over subtitles sit next to vo.wav.
 import { createRequire } from 'node:module';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, rmSync, existsSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, existsSync, writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const { chromium } = createRequire(import.meta.url)('playwright');
 const here = dirname(fileURLToPath(import.meta.url));
 const [src, outArg = 'out', ...rest] = process.argv.slice(2);
-if (!src || !existsSync(src)) throw new Error('usage: node render.mjs <music-source.mp4> <outDir> [--preview=t1,t2] [--reuse-frames]');
+if (!src || !existsSync(src)) throw new Error('usage: node render.mjs <music.wav> <outDir> [--vo=vo.wav] [--preview=t1,t2] [--reuse-frames] [--range=a-b]');
 const out = resolve(outArg);
 const preview = rest.find((a) => a.startsWith('--preview='))?.slice(10).split(',').map(Number);
 const reuse = rest.includes('--reuse-frames');
+const vo = rest.find((a) => a.startsWith('--vo='))?.slice(5);
 const range = rest.find((a) => a.startsWith('--range='))?.slice(8).split('-').map(Number); // re-render frames a..b only
 mkdirSync(out, { recursive: true });
 
@@ -102,12 +105,24 @@ for (let i = 1; i < pieces.length; i++) {
 const musicWav = join(out, 'music.wav');
 ff(...pieces.flatMap((f) => ['-i', f]), '-filter_complex', chain.join(';'), '-map', '[music]', musicWav);
 
-// ---- encode -----------------------------------------------------------------------------------------------------------
-ff('-framerate', String(FPS), '-i', join(frames, '%04d.png'), '-i', musicWav, '-i', sfxWav, '-filter_complex',
-  `[0:v]scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[v];` +
-  `[1:a]atrim=0:${LEN},asetpts=PTS-STARTPTS,volume=0.85,afade=t=out:st=${(LEN - 0.6).toFixed(3)}:d=0.6[m];` +
-  `[m][2:a]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.84:level=disabled[a]`,
-  '-map', '[v]', '-map', '[a]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-r', String(FPS),
+// ---- encode: music ducked under the voice-over, effects kept light --------------------------------------------------
+const inputs = ['-framerate', String(FPS), '-i', join(frames, '%04d.png'), '-i', musicWav, '-i', sfxWav];
+let audio =
+  `[1:a]atrim=0:${LEN},asetpts=PTS-STARTPTS,aresample=48000,volume=0.8,afade=t=out:st=${(LEN - 0.6).toFixed(3)}:d=0.6[m];` +
+  `[2:a]volume=0.7[fx];`;
+if (vo) {
+  inputs.push('-i', vo);
+  audio +=
+    `[3:a]atrim=0:${LEN},asetpts=PTS-STARTPTS,aformat=channel_layouts=stereo,asplit=2[v][key];` +
+    `[m][key]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=350:makeup=1[md];` +
+    `[md][v][fx]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.84:level=disabled[a]`;
+} else {
+  audio += `[m][fx]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.84:level=disabled[a]`;
+}
+ff(...inputs, '-filter_complex', `[0:v]scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[v0];` + audio,
+  '-map', '[v0]', '-map', '[a]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-r', String(FPS),
   '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
   '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', '-t', String(LEN), join(out, 'onecup-pitch.mp4'));
+const srt = vo && vo.replace(/\.wav$/, '.srt');
+if (srt && existsSync(srt)) writeFileSync(join(out, 'onecup-pitch.srt'), readFileSync(srt));
 console.log('done:', join(out, 'onecup-pitch.mp4'), `${LEN.toFixed(2)} s`);
