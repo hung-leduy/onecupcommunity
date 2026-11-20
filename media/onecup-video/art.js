@@ -77,7 +77,7 @@
   </g></svg>`;
 
   // 4 · our own epoxy tag: the mascot on a cream tag with a key-ring hole
-  const mascotTag = `<svg viewBox="0 0 360 440" width="290" height="354"><defs>
+  const mascotTag = `<svg viewBox="0 0 360 440" width="100%" height="100%"><defs>
       <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
     <path d="M180 6 C 214 6, 230 24, 228 52 L 300 120 Q 316 134 310 156 L 274 404 Q 270 432 242 432 H118 Q90 432 86 404 L 50 156 Q 44 134 60 120 L 132 52 C 130 24, 146 6, 180 6 Z"
       fill="${OR}" stroke="${INK}" stroke-width="8"/>
@@ -90,6 +90,91 @@
   put('artLanyard', lanyard);
   put('artStrap', strap);
   put('t4', mascotTag);
+  put('b3tag', mascotTag);
+  put('e4', mascotTag);
+
+
+  // ---- extra drawings for the full pitch ----------------------------------------------------------------
+
+  // the single-use plastic cup: clear dome lid, striped straw, a bored face
+  const plasticCup = (w = 380, h = 520, faceOn = true) => `<svg viewBox="0 0 380 520" width="${w}" height="${h}"><g filter="url(#wobble)">
+    <ellipse cx="190" cy="500" rx="110" ry="13" fill="${INK}" opacity=".14"/>
+    <path d="M214 110 L248 10" stroke="${INK}" stroke-width="30" stroke-linecap="round"/>
+    <path d="M214 110 L248 10" stroke="${PA}" stroke-width="18" stroke-linecap="round"/>
+    <path d="M222 86 l14 6 M230 62 l14 6 M238 38 l14 6" stroke="${OR}" stroke-width="7" stroke-linecap="round"/>
+    <path d="M86 150 Q96 92 190 88 Q284 92 294 150 Z" fill="#f4f1ea" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <rect x="70" y="140" width="240" height="30" rx="15" fill="#f4f1ea" stroke="${INK}" stroke-width="${W}"/>
+    <path d="M92 172 H288 L262 470 Q260 486 244 486 H136 Q120 486 118 470 Z" fill="#f4f1ea" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M118 200 L134 440" stroke="${PA}" stroke-width="10" stroke-linecap="round"/>
+    <path d="M144 200 L152 300" stroke="${PA}" stroke-width="7" stroke-linecap="round"/>
+    ${faceOn ? `<path d="M156 300 h26 M206 296 h26" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="170" cy="312" r="6" fill="${INK}"/><circle cx="220" cy="308" r="6" fill="${INK}"/>
+    <path d="M168 360 Q194 352 222 360" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>` : ''}
+  </g></svg>`;
+  put('h1cup', plasticCup());
+
+  // plastic cups raining behind the big number
+  const rain = $('rain');
+  let rs = 5;
+  const rr = () => ((rs = (rs * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < 9; i++) {
+    const x = 60 + i * 210 + rr() * 80, sc = 0.32 + rr() * 0.22;
+    rain.insertAdjacentHTML('beforeend', `<div class="drop abs" style="left:${x.toFixed(0)}px;top:-260px;opacity:.28;transform:scale(${sc.toFixed(2)});transform-origin:0 0">${plasticCup(380, 520, false)}</div>`);
+  }
+
+  // counter NFC reader with waves (verification card)
+  put('artReader', `<svg viewBox="0 0 360 230" width="330" height="210"><g filter="url(#wobble)">
+    <path d="M60 120 L250 92 L320 140 L130 172 Z" fill="${PA}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M60 120 L130 172 L130 210 L60 158 Z" fill="${OR}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M130 172 L320 140 L320 178 L130 210 Z" fill="${OR}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round">
+      <path d="M176 82 q-14 -22 0 -44"/><path d="M204 76 q-22 -32 0 -64"/><path d="M232 70 q-28 -40 0 -80" opacity=".9"/></g>
+  </g></svg>`);
+
+  // self-scan: a phone with a question mark
+  put('artSelf', `<svg viewBox="0 0 360 230" width="330" height="210"><g filter="url(#wobble)">
+    <rect x="128" y="14" width="104" height="200" rx="22" fill="${CR}" stroke="${INK}" stroke-width="${W}"/>
+    <rect x="160" y="26" width="40" height="10" rx="5" fill="${INK}"/>
+    <text x="180" y="150" text-anchor="middle" font-family="Anton" font-size="96" fill="${OR}">?</text>
+  </g></svg>`);
+
+  // campus canteen counter with an awning
+  put('artCampus', `<svg viewBox="0 0 400 230" width="360" height="210"><g filter="url(#wobble)">
+    <path d="M60 70 H340 L320 22 H80 Z" fill="${OR}" stroke="${INK}" stroke-width="${W}" stroke-linejoin="round"/>
+    <path d="M60 70 q23 26 46 0 q23 26 46 0 q23 26 46 0 q23 26 46 0 q23 26 46 0 q23 26 46 0" fill="${PA}" stroke="${INK}" stroke-width="6"/>
+    <rect x="76" y="96" width="248" height="112" rx="8" fill="${PA}" stroke="${INK}" stroke-width="${W}"/>
+    <rect x="96" y="120" width="96" height="64" rx="6" fill="${TA}" stroke="${INK}" stroke-width="6"/>
+    <path d="M226 186 V150 q0 -12 12 -12 h40 q12 0 12 12 V186" fill="${YE}" stroke="${INK}" stroke-width="6"/>
+    <text x="200" y="56" text-anchor="middle" font-family="Anton" font-size="30" fill="${CR}">CANTEEN</text>
+  </g></svg>`);
+
+  // a crowd of reusable cups (the campus community)
+  const smallCup = (x, y, s, body, sleeve, mood = 0) => `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M190 112 V40 q0-10-9-6 L160 46" fill="none" stroke="${INK}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M96 150 Q100 104 180 100 Q260 104 264 150 Z" fill="${INK}"/>
+    <rect x="80" y="140" width="200" height="34" rx="17" fill="${INK}"/>
+    <path d="M104 178 H256 L236 372 Q234 388 218 388 H142 Q126 388 124 372 Z" fill="${body}" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M113 268 H247 L240 330 H120 Z" fill="${sleeve}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>
+    <circle cx="164" cy="214" r="9" fill="${INK}"/><circle cx="200" cy="210" r="9" fill="${INK}"/>
+    <path d="M150 ${236 + mood} Q176 ${258 - mood} 210 ${232 + mood}" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/></g>`;
+  put('aHero', `<svg viewBox="0 0 520 640" width="520" height="640"><g filter="url(#wobble)">
+    <ellipse cx="260" cy="610" rx="230" ry="18" fill="${INK}" opacity=".12"/>
+    <g class="cc">${smallCup(-30, 250, 0.95, CR, OR)}</g>
+    <g class="cc">${smallCup(250, 240, 0.95, YE, PA)}</g>
+    <g class="cc">${smallCup(110, 20, 1.05, PA, OR)}</g>
+  </g></svg>`);
+
+  // the big mascot for the closing line, and hearts
+  put('zHero', `<svg viewBox="0 0 360 440" width="560" height="684"><g filter="url(#wobble)">
+    <ellipse cx="180" cy="420" rx="110" ry="14" fill="${INK}" opacity=".14"/>
+    ${cupChar(`<path d="M113 268 H247 L240 344 H120 Z" fill="${OR}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
+      <circle cx="164" cy="214" r="8" fill="${INK}"/><circle cx="200" cy="210" r="8" fill="${INK}"/>
+      <path d="M146 232 Q178 262 214 228" fill="${INK}"/>
+      <ellipse cx="146" cy="236" rx="11" ry="7" fill="#f2a27a" opacity=".8"/><ellipse cx="222" cy="230" rx="11" ry="7" fill="#f2a27a" opacity=".8"/>`)}
+  </g></svg>`);
+  const heart = (x, y, s, f) => `<path class="ht" transform="translate(${x} ${y}) scale(${s})" d="M0 -14 C -10 -34 -40 -26 -36 -2 C -32 18 0 34 0 42 C 0 34 32 18 36 -2 C 40 -26 10 -34 0 -14 Z" fill="${f}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`;
+  put('zHearts', `<svg viewBox="0 0 300 300" width="300" height="300" style="overflow:visible"><g filter="url(#wobble)">
+    ${heart(70, 200, 1.5, OR)}${heart(170, 110, 1.1, OR)}${heart(240, 210, 0.8, CR)}</g></svg>`);
 
   // iPhone-style status bar above every phone screenshot (they carry a blank 44 px band)
   const bar = `<div class="sb"><span>9:41</span><svg viewBox="0 0 66 14" width="66" height="14"><g fill="${INK}">

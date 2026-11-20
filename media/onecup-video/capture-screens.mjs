@@ -1,4 +1,4 @@
-// Captures the One Cup app screens used in the "How One Cup works" video segment.
+// Captures the One Cup app screens used in the pitch video.
 // Needs a server running with the demo data (see docs/DEMO.md), e.g.:
 //   DB_PATH=showcase.sqlite PUBLIC_URL=http://localhost:3001 npm run seed:demo -w server -- --force
 //   DB_PATH=showcase.sqlite PUBLIC_URL=http://localhost:3001 PORT=3001 npm start
