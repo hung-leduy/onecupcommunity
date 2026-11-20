@@ -143,7 +143,7 @@ const body = [
   P('**Customers and value.** First universities (sustainability offices) and campus canteens and cafés; then offices and coffee chains. Outlets save a disposable cup, lid and straw on every reuse — which funds the discount — and gain loyalty and footfall data. Universities get verified progress on plastic-reduction targets for sustainability (ESG) reporting. **Revenue streams** (pricing to be validated in the pilot):', { after: 30, keepNext: true }),
   B('**Platform subscription** per outlet per month, or a campus licence, covering the counter terminal, student app and impact dashboard — priced below the disposable-cup costs an outlet avoids.'),
   B('**Sponsored rewards & campaigns:** beverage, consumer-goods, bank and telecom brands fund vouchers and challenges to reach eco-minded students.'),
-  B('**One Cup gear:** QR cups, decorated NFC tags, NFC lanyards and cup & thermos holders, sold to students and co-branded for universities, clubs and companies. NFC tags cost only a few US cents at volume, leaving a strong margin.'),
+  B('**One Cup gear:** QR cups, decorated NFC tags, NFC lanyards and cup & thermos holders, sold to students and co-branded for universities, clubs and companies. NFC tags cost only cents each in bulk, leaving a strong margin.'),
   P('**Market and edge.** More than **550,000 students confirmed university enrolment in 2024 alone** [3], and every campus, office and coffee chain faces the 2030 phase-out. Chain-specific “bring your own cup” discounts and deposit-cup schemes tie users to one brand and produce no verified, campus-wide data. One Cup is **brand-neutral, works with any cup and across all outlets**, and makes the impact auditable.'),
 
   H('5', 'Positive social impact'),
