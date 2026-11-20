@@ -1,0 +1,9 @@
+{
+  "name": "onecup-how-it-works-video",
+  "private": true,
+  "type": "module",
+  "description": "30-second 'How One Cup works' motion segment for the MIT 50K VN submission video",
+  "dependencies": {
+    "gsap": "3.12.5"
+  }
+}

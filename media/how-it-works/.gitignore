@@ -1,0 +1,4 @@
+out/
+# Extracted from the team's original video by render.mjs
+assets/orig-start.png
+assets/orig-end.png

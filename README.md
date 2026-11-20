@@ -8,6 +8,7 @@ Giao diện dựng theo bộ thiết kế *App sinh viên · Màn hình quầy �
 - Đầu đọc NFC, thẻ NTAG215, kịch bản thử phần cứng: [`docs/HARDWARE-NFC.md`](docs/HARDWARE-NFC.md)
 - Tech stack và sơ đồ kết nối hệ thống: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Kịch bản demo từ đầu đến cuối (2 server: live + dữ liệu mẫu): [`docs/DEMO.md`](docs/DEMO.md)
+- Hồ sơ MIT 50K VN 2026: tài liệu 2 trang [`docs/mit50k/`](docs/mit50k/) · đoạn video 30 s “How One Cup works” [`media/how-it-works/`](media/how-it-works/)
 
 ## Các phần của app
 
