@@ -30,5 +30,14 @@ node render.mjs <video-goc.mp4> out --preview=5.6,11.8   # chỉ xuất ảnh xe
 node render.mjs <video-goc.mp4> out --reuse-frames       # chỉ làm lại phần âm thanh/ghép
 ```
 
+Ảnh điện thoại trong `assets/` được chụp ở 390×800 rồi thêm dải 44 px phía trên (màu điểm ảnh góc trái) để video vẽ
+thanh trạng thái; ảnh mã quầy là vùng cắt (440, 360, 1096, 1300) của `vendor-station.png`:
+
+```python
+from PIL import Image
+im = Image.open('student-home.png').convert('RGB')
+out = Image.new('RGB', (im.width, im.height + 88), im.getpixel((6, 6))); out.paste(im, (0, 88)); out.save('assets/student-home.png')
+```
+
 Kết quả: `out/how-it-works-30s.mp4` và `out/onecup-final.mp4` (video gốc 0–27,21 s + đoạn mới + video gốc từ 28,75 s,
 tổng 69,3 s < 90 s). Cần Node 22, ffmpeg và Playwright (Chromium).
