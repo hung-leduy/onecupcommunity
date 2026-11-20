@@ -283,7 +283,7 @@
   stamp('#eLogo', B(40) + 0.2, 0);
   typeOn('#eTag', B(40) + 0.75, 0.7);
   fadeUp('#eLine', B(40) + 1.6, 0.45, 16);
-  ['#e1', '#e2', '#e3', '#e4'].forEach((s, i) => pop(s, B(40) + 0.35 + i * 0.15, 0.4, [-10, 9, -6, 8][i], i === 0 ? 'pop' : null));
+  ['#e1', '#e2', '#e3', '#e4'].forEach((s, i) => pop(s, B(40) + 0.35 + i * 0.15, 0.4, [-6, 5, -3, 7][i], i === 0 ? 'pop' : null));
   tl.set({}, {}, END);
 
   window.__cues = cues.sort((a, b) => a[0] - b[0]);

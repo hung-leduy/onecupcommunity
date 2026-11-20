@@ -15,9 +15,9 @@ const {
 } = require('docx');
 
 const here = dirname(fileURLToPath(import.meta.url));
-const CHAR = '2B2E35', ORANGE = 'FF7B0F', ORANGE_INK = 'B04F00', SAGE = '8D9993', INK2 = '545A61', MINT = 'F1F3F1', LINE = 'D2D7D4';
+const CHAR = '252429', ORANGE = 'EC7D35', ORANGE_INK = 'A9521F', SAGE = '8A8377', INK2 = '57524B', MINT = 'F4F0E6', LINE = 'E0D9CB';
 const FONT = 'Arial';
-const BODY = 19; // half-points → 9.5 pt
+const BODY = 20; // half-points → 10 pt
 const W = 10206; // content width in DXA (A4 21 cm − 2 × 1.5 cm)
 
 // ---- tiny helpers -------------------------------------------------------------------------------
@@ -89,10 +89,10 @@ const titleBlock = new Table({
       children: [
         new Paragraph({ spacing: { after: 20 }, children: [
           new TextRun({ text: 'One Cup Community', bold: true, size: 38, color: CHAR }),
-          new TextRun({ text: '   Bring your cup. Tap. Earn.', bold: true, size: 22, color: ORANGE }),
+          new TextRun({ text: '   your cup. no drama.', bold: true, size: 22, color: ORANGE }),
         ] }),
         new Paragraph({ spacing: { after: 0 }, children: runs(
-          'An NFC & QR platform that makes the reusable cup the easy choice on Vietnamese campuses — and proves the impact with verified data.',
+          'An NFC & QR platform that makes bringing your own cup the easy choice — and counts every reuse, so the impact is proven, not estimated.',
           { size: 19, color: INK2 }) }),
       ],
     }),
@@ -117,67 +117,42 @@ const body = [
   teamBox,
 
   H('1', 'The problem: not awareness, but friction'),
-  P('Vietnam discharges about **3.1 million tonnes of plastic waste on land every year**, and at least 10% reaches rivers and the sea [1]. On university campuses the takeaway drink cup is the most visible part of it: used for ten minutes, then thrown away. Students know plastic cups are bad and many already own a bottle or tumbler, yet at the counter the disposable cup is still the default. Bringing your own cup is a small hassle with **no reward, no feedback and no proof that it matters**. Meanwhile, Decree 08/2022/ND-CP ends the production and import of single-use plastic products after 2030 [2], so universities and campus food & beverage (F&B) operators need practical, measurable ways to cut single-use cups now.'),
+  P('Vietnam discharges about **3.1 million tonnes of plastic waste on land every year**, and at least 10% reaches rivers and the sea [1]. On campus the takeaway drink cup is the most visible part of it: used for ten minutes, then binned. Students know plastic cups are bad and many already own a bottle or tumbler, yet at the counter the disposable cup is still the default — bringing your own is a small hassle with **no reward, no feedback and no proof that it matters**. Decree 08/2022/ND-CP phases out single-use plastic products by the end of 2030 [2], so universities and food & beverage (F&B) outlets need a habit that sticks, and a way to measure it.'),
 
-  H('2', 'Our solution: tag any cup, verify every reuse'),
+  H('2', 'Our solution: any cup, one tap'),
   P('One Cup Community turns bringing your own cup into a fast, rewarded and measurable habit, in four steps:', { after: 30, keepNext: true }),
-  N('**Get a tagged cup.** VGU reusable cups carry an engraved QR code. Our **One Cup gear** line brings NFC to the cups people already love: decorated NFC tags, NFC lanyards, and cup & thermos holders with a built-in tag.'),
-  N('**Link it in the app.** A bilingual (Vietnamese/English) web app — no app-store install — links the cup to the student in under a minute.'),
-  N('**Tap & go at the counter.** A USB NFC reader or camera verifies the cup in under a second and the outlet applies its reusable-cup discount. No staff free? The student types the rotating 6-digit code shown at the counter.'),
-  N('**Earn & see the impact.** Points, daily goals, streaks, weekly leagues and rewards, plus personal impact in cups, grams of plastic and CO₂e. A research console gives outlets and the university live, anonymised data, e.g. the share of drinks served in reusable cups.'),
+  N('**Get a tagged cup.** **One Cup gear** makes any cup a smart cup: glass tumblers printed with the One Cup logo, decorated NFC tags, One Cup lanyards and bottle slings with a built-in tag. VGU reusable cups carry an engraved QR code.'),
+  N('**Link it in the app.** A bilingual (Vietnamese/English) web app — no app-store install — links the tag to the student in under a minute.'),
+  N('**Tap at the counter.** A USB NFC reader or camera verifies the cup in under a second and the outlet applies its reusable-cup discount. No staff free? The student types the rotating 6-digit code shown at the counter.'),
+  N('**Earn & see the impact.** Points, streaks, milestones, a weekly league and rewards, plus personal impact in cups, grams of plastic and CO₂e; outlets and the university see live, anonymised data.'),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 60, after: 20 }, keepNext: true, children: [
     new ImageRun({ type: 'png', data: figure, transformation: { width: 672, height: Math.round((672 * figure.readUInt32BE(20)) / figure.readUInt32BE(16)) } }),
   ] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: runs(
-    '_Figure 1. Frames from our video. Left: the planned One Cup gear — decorated NFC tags, QR cups, NFC lanyards, cup & bottle straps. Right: the working MVP at the counter — tap, verified, checked in._',
+    '_Figure 1. Frames from our video. Left: One Cup gear — logo glass tumbler, NFC tags, bottle sling, lanyard. Right: the working MVP at the counter — tap, verified, checked in._',
     { size: 15, color: INK2 }) }),
 
-  H('3', 'Technology-based innovation'),
-  B('**Tag any cup, one identity.** QR and NFC share one data pipeline, so an engraved cup, a stickered tumbler or a bottle in an NFC holder all become verified “smart cups”. Students need not buy new cups; outlets need no new point-of-sale system.'),
-  B('**Verified, fraud-resistant counting.** Three tiers — staff scan, a cryptographically signed (HMAC) rotating counter code, and a rate-limited self-scan marked as unverified — plus cooldowns and automatic flags against double counting. Only verified uses earn rewards or count as impact.'),
-  B('**Low-cost, install-free hardware.** A counter needs only a keyboard-emulating USB NFC reader (NTAG215 tags), a webcam, or an Android phone with Web NFC; students use a Progressive Web App.'),
-  B('**Behavioural science built in.** Feedback, gamification and rewards can be switched on per randomised study arm and rolled out outlet cluster by cluster (stepped-wedge design), so we can show which nudges build habits that last — including after rewards stop.'),
-  B('**Privacy by design.** Layered consent, pseudonymised data exports, no names shown at the counter and no negative rankings.'),
+  H('3', 'Criterion 1 · Technology-based innovation'),
+  B('**Tag any cup, one identity.** QR and NFC share one data pipeline, so an engraved cup, a stickered tumbler or a bottle in a sling all become verified “smart cups”. Students need not buy new cups; outlets need no new point-of-sale system.'),
+  B('**Verified, fraud-resistant counting.** Three tiers — staff scan or NFC reader, a cryptographically signed (HMAC) rotating counter code, and a rate-limited self-scan marked as unverified — plus cooldowns and automatic flags against double counting. Only verified uses earn rewards or count as impact.'),
+  B('**Built to scale.** A new outlet needs a low-cost USB NFC reader (NTAG215 tags), a webcam or an Android phone, and a PIN; a new campus is a configuration. Students use a Progressive Web App.'),
+  B('**Evidence built in.** Feedback, gamification and rewards can be switched on for randomised groups, so the platform shows which nudges build habits that last — including after rewards stop. **Privacy by design:** layered consent, pseudonymised exports, no names at the counter, no negative rankings.'),
 
-  H('4', 'Business model: from campus pilot to a profitable platform'),
-  P('**Customers and value.** First universities (sustainability offices) and campus canteens and cafés; then offices and coffee chains. Outlets save a disposable cup, lid and straw on every reuse — which funds the discount — and gain loyalty and footfall data. Universities get verified progress on plastic-reduction targets for sustainability (ESG) reporting. **Revenue streams** (pricing to be validated in the pilot):', { after: 30, keepNext: true }),
-  B('**Platform subscription** per outlet per month, or a campus licence, covering the counter terminal, student app and impact dashboard — priced below the disposable-cup costs an outlet avoids.'),
+  H('4', 'Criterion 2 · Profit potential'),
+  P('**Customers and value.** Universities (sustainability offices) and campus canteens and cafés first, then cafés, offices and coffee chains. Outlets save a disposable cup, lid and straw on every reuse — which funds the discount — and gain loyalty and footfall data; universities get verified progress for their sustainability (ESG) reporting. **Revenue streams** (pricing to be validated with the first campus partners):', { after: 30, keepNext: true }),
+  B('**Platform subscription** per outlet per month, or a campus licence (counter terminal, student app, impact dashboard) — priced below the disposable-cup costs an outlet avoids.'),
   B('**Sponsored rewards & campaigns:** beverage, consumer-goods, bank and telecom brands fund vouchers and challenges to reach eco-minded students.'),
-  B('**One Cup gear:** QR cups, decorated NFC tags, NFC lanyards and cup & thermos holders, sold to students and co-branded for universities, clubs and companies. NFC tags cost only cents each in bulk, leaving a strong margin.'),
-  P('**Market and edge.** More than **550,000 students confirmed university enrolment in 2024 alone** [3], and every campus, office and coffee chain faces the 2030 phase-out. Chain-specific “bring your own cup” discounts and deposit-cup schemes tie users to one brand and produce no verified, campus-wide data. One Cup is **brand-neutral, works with any cup and across all outlets**, and makes the impact auditable.'),
+  B('**One Cup gear:** logo glass tumblers, decorated NFC tags, lanyards and bottle slings, sold to students and co-branded for universities, clubs and companies; NFC tags cost cents each in bulk.'),
+  P('**Market and edge.** More than **550,000 students started university in 2024 alone** [3], and every campus, office and coffee chain faces the 2030 phase-out. Chain-specific “bring your own cup” discounts and deposit cups tie users to one brand and produce no shared, verified data. One Cup is **brand-neutral, works with any cup at every outlet**, and makes the impact auditable.'),
+  P('**Growth path.** Vietnam’s campuses → cafés, offices and coffee chains, where every takeaway counter faces the same rules → Southeast Asia, the same model in new cities. Each step adds outlets (subscriptions), audiences (sponsors) and gear buyers — and multiplies the impact.'),
+  P('**Feasibility.** A **working MVP** is built and demonstrated end to end — student web app, counter terminal (USB NFC reader, QR camera, rotating codes) and data console with export — tested with real NTAG215 tags and covered by automated tests. Risks are handled in the design: low uptake → discount, rewards and a one-second tap; misuse → verified tiers and flags; metal bottles → on-metal tags and slings.'),
 
-  H('5', 'Positive social impact'),
-  B('**Every verified reuse avoids one single-use cup.** For example, 1,000 students reusing one cup per campus day for 150 days avoid 150,000 cups — about **1 tonne of plastic and 8 tonnes of CO₂e** (provisional factors of 6.5 g plastic and 53 g CO₂e per reuse, to be replaced with life-cycle assessment data).'),
-  B('**From awareness to habit.** Instant feedback, friendly competition and rewards target the gap between caring and acting; the pilot measures whether the habit lasts once rewards stop.'),
-  B('**Inclusive and fair.** Works with cups students already own; nobody is ranked last or named at the counter.'),
-  B('**A public good.** An anonymised open dataset on campus reuse behaviour and a model any Vietnamese university can replicate, contributing to SDG 12 (responsible consumption) and the national plastics roadmap.'),
-
-  H('6', 'Feasibility & implementation plan'),
-  P('**Where we are.** A **working MVP** has been built and demonstrated end to end: student web app, counter terminal (USB NFC reader, QR camera, rotating codes) and research console with analysis and data export, on a Node.js + SQLite server — tested with real NTAG215 tags and covered by automated API and logic tests.', { keepNext: true }),
+  H('5', 'Criterion 3 · Measurable positive impact'),
+  B('**Every verified reuse avoids one single-use cup — and it is counted, not estimated.** If 1 in 10 of the 551,479 students who started university in 2024 [3] reuses one cup per campus day for 150 days: **≈ 8.27 million cups a year ≈ 54 tonnes of plastic and ≈ 440 tonnes of CO₂e avoided** (provisional factors of 6.5 g plastic and 53 g CO₂e per reuse, to be replaced with life-cycle assessment data).'),
+  B('**What we measure:** share of drinks served in reusable cups vs. baseline, weekly active users, week-8 retention, and whether the habit lasts once rewards stop.'),
+  B('**From awareness to habit, for everyone.** Works with the cup students already own; nobody is ranked last or named at the counter.'),
+  B('**A public good.** An anonymised open dataset on reuse behaviour and a model any Vietnamese university can replicate — contributing to SDG 12 and Vietnam’s 2030 plastics goals. **Profit and impact grow together:** every new outlet adds both revenue and verified reuses.'),
 ];
-
-const plan = [
-  ['12/2026 – 02/2027', 'Secure hosting and university e-mail sign-in; prototype the gear line (decorated tags, lanyards, holders); ethics approval for the study.'],
-  ['03/2027', 'Closed beta; tag cups; set up readers and train counter staff.'],
-  ['04 – 06/2027', '12-week pilot at VGU: 4 outlets in 3 clusters, stepped-wedge roll-out; rewards withdrawn near the end to test whether the habit lasts.'],
-  ['H2 2027', 'Publish results; expand to 3–5 campuses in Bình Dương and Ho Chi Minh City; first sponsors and gear sales.'],
-  ['2028', 'Offices and coffee chains; ESG reporting module for partners.'],
-];
-const c1 = 1750;
-const planTable = new Table({
-  width: { size: W, type: WidthType.DXA },
-  columnWidths: [c1, W - c1],
-  rows: [
-    new TableRow({ tableHeader: true, children: [
-      cell([small('**When**', { color: 'FFFFFF' })], c1, { fill: CHAR, border: CHAR }),
-      cell([small('**Milestone**', { color: 'FFFFFF' })], W - c1, { fill: CHAR, border: CHAR }),
-    ] }),
-    ...plan.map(([w, m], i) => new TableRow({ children: [
-      cell([small(`__${w}__`)], c1, { fill: i % 2 ? 'FFFFFF' : MINT }),
-      cell([small(m)], W - c1, { fill: i % 2 ? 'FFFFFF' : MINT }),
-    ] })),
-  ],
-});
 
 // Team table — left blank for the team to fill in.
 const tw = [2700, 2500, W - 5200];
@@ -193,10 +168,7 @@ const teamTable = new Table({
 });
 
 const tail = [
-  new Paragraph({ spacing: { after: 50 }, children: [] }),
-  P('**Pilot KPIs:** share of drinks served in reusable cups vs. baseline · weekly active users · week-8 retention · counter time per transaction · NFC vs. QR uptake.'),
-  P('**Risks & mitigation:** low uptake → discount, gamification and a one-second tap; misuse → verified tiers, cooldowns and flags; NFC on metal bottles → on-metal tags and holders; privacy → consent layers, pseudonymisation and ethics review before the pilot.'),
-  H('7', 'Team'),
+  H('6', 'Team'),
   teamTable,
   new Paragraph({ spacing: { before: 60, after: 0 }, border: { top: { style: BorderStyle.SINGLE, size: 4, color: LINE, space: 2 } }, children: runs(
     '[1] World Bank (2022), reported by VietNamNet, “Vietnam discards over three million tonnes of plastic waste a year”. [2] Decree 08/2022/ND-CP detailing the Law on Environmental Protection 2020. [3] Ministry of Education and Training, 2024 university admissions: 551,479 confirmed enrolments.',
@@ -222,7 +194,7 @@ const doc = new Document({
       new TextRun({ children: [PageNumber.CURRENT], size: 14, color: SAGE }),
       new TextRun({ text: ' / 2', size: 14, color: SAGE }),
     ] })] }) },
-    children: [...body, planTable, ...tail],
+    children: [...body, ...tail],
   }],
 });
 

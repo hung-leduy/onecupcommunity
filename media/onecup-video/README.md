@@ -22,7 +22,7 @@ cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton
 | 67–71 | Khả thi | THE MVP ALREADY WORKS |
 | 71–77 | Lợi nhuận + tác động | GROWS WITH EVERY CUP: revenue ↑ / impact ↑, linh vật leo bậc thị trường: trường đại học VN → café & văn phòng → Đông Nam Á (không có mốc triển khai) |
 | 77–81 | Kết | “Your bottle is a relationship.” |
-| 81–86 | | ONE CUP — your cup. no drama. (đúng điểm drop của nhạc) |
+| 81–86 | | Thẻ kết ONE CUP — your cup. no drama. (đúng điểm drop của nhạc) với One Cup gear: ly thủy tinh in logo, NFC tag (tag linh vật + tag tròn), quai đeo bình in logo (ảnh mẫu của nhóm), dây đeo in chữ ONE CUP |
 
 ## Âm thanh
 
@@ -68,7 +68,8 @@ cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton
 - `assets/*.png` — màn hình app thật chụp từ server dữ liệu mẫu bằng `capture-screens.mjs`, đổi sang bảng màu chiến dịch
   qua biến CSS lúc chụp (app trong repo giữ nguyên). Ảnh điện thoại chụp 390×800 rồi thêm dải 44 px phía trên (màu điểm
   ảnh góc trái) cho thanh trạng thái; ảnh mã quầy là vùng (440, 360, 1096, 1300) của `vendor-station.png`.
-- Ly nhựa, sản phẩm (ly QR, dây đeo, quai bình), linh vật, quầy căng-tin… vẽ bằng SVG trong `art.js` theo nét tay của bộ minh họa.
+- Ly nhựa, sản phẩm (ly QR, ly thủy tinh in logo, NFC tag, dây đeo, quai bình), linh vật, quầy căng-tin… vẽ bằng SVG trong `art.js` theo nét tay của bộ minh họa.
+- `assets/brand/bottle-sling.jpg` — ảnh mẫu quai đeo bình của nhóm; logo ONE CUP, linh vật và NFC charm được đặt lên bằng HTML/SVG.
 
 ## Dựng lại
 

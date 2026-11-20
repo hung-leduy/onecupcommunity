@@ -91,7 +91,6 @@
   put('artStrap', strap);
   put('t4', mascotTag);
   put('b3tag', mascotTag);
-  put('e4', mascotTag);
 
 
   // ---- extra drawings for the full pitch ----------------------------------------------------------------
@@ -168,6 +167,55 @@
   put('climb', `<svg viewBox="40 0 280 420" width="150" height="225" style="overflow:visible"><g filter="url(#wobble)">
     ${cupChar(`<path d="M113 268 H247 L240 344 H120 Z" fill="${OR}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>${face(212)}`)}
   </g></svg>`);
+
+  // ---- One Cup gear for the end card ------------------------------------------------------------------
+  // a glass tumbler with the One Cup logo printed on it, iced latte inside, orange straw
+  put('artGlass', `<svg viewBox="0 0 360 460" width="100%" height="100%"><g filter="url(#wobble)">
+    <ellipse cx="180" cy="444" rx="112" ry="12" fill="${INK}" opacity=".14"/>
+    <path d="M86 300 L274 300 L270 418 Q268 434 250 434 H110 Q92 434 90 418 Z" fill="#dcb98f"/>
+    <ellipse cx="180" cy="300" rx="94" ry="10" fill="#e9cfaa"/>
+    <path d="M268 18 L250 330" stroke="${INK}" stroke-width="24" stroke-linecap="round"/>
+    <path d="M268 18 L250 330" stroke="${OR}" stroke-width="13" stroke-linecap="round"/>
+    <g fill="#ffffff" fill-opacity=".75" stroke="${INK}" stroke-width="4"><rect x="112" y="286" width="40" height="36" rx="9" transform="rotate(-12 132 304)"/><rect x="186" y="290" width="38" height="34" rx="9" transform="rotate(14 205 307)"/></g>
+    <path d="M66 66 L294 66 L270 418 Q268 440 248 440 H112 Q92 440 90 418 Z" fill="#ffffff" fill-opacity=".38" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>
+    <ellipse cx="180" cy="66" rx="114" ry="15" fill="#ffffff" fill-opacity=".55" stroke="${INK}" stroke-width="6"/>
+    <path d="M94 100 L110 404" stroke="#ffffff" stroke-width="13" stroke-linecap="round" opacity=".85"/>
+  </g>
+  <g transform="translate(132 92) scale(.26)" filter="url(#wobble)">${cupChar(face(214))}</g>
+  <text x="164" y="246" text-anchor="middle" font-family="Anton" font-size="42" fill="${OR}" letter-spacing="2">ONE CUP</text>
+  </svg>`);
+
+  // a round epoxy NFC tag with the mascot and the name around it
+  put('artTagRound', `<svg viewBox="0 0 300 340" width="100%" height="100%"><defs>
+      <path id="tagArc" d="M20 190 A 130 130 0 0 0 280 190"/></defs>
+    <rect x="122" y="10" width="56" height="52" rx="18" fill="${OR}" stroke="${INK}" stroke-width="7"/>
+    <circle cx="150" cy="34" r="10" fill="${CR}" stroke="${INK}" stroke-width="5"/>
+    <circle cx="150" cy="190" r="136" fill="${OR}" stroke="${INK}" stroke-width="8"/>
+    <circle cx="150" cy="190" r="104" fill="${CR}" stroke="${INK}" stroke-width="5"/>
+    <g transform="translate(84 88) scale(.37)" filter="url(#wobble)">${cupChar(face(214))}</g>
+    <text font-family="Anton" font-size="26" fill="${CR}" letter-spacing="5"><textPath href="#tagArc" startOffset="50%" text-anchor="middle">ONE CUP · NFC</textPath></text>
+    <path d="M70 120 Q 100 76 150 70" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity=".6"/>
+  </svg>`);
+  put('artTagCup', mascotTag);
+  // One Cup lanyard: printed strap and a mascot tag as the charm
+  put('artLanyard2', `<svg viewBox="0 0 360 440" width="100%" height="100%"><defs>
+      <path id="lyL" d="M118 0 C 60 110, 96 220, 166 272"/><path id="lyR" d="M194 272 C 264 220, 300 110, 242 0"/></defs>
+    <g filter="url(#wobble)">
+    <path d="M118 0 C 60 110, 96 220, 166 272" fill="none" stroke="${INK}" stroke-width="44" stroke-linecap="round"/>
+    <path d="M242 0 C 300 110, 264 220, 194 272" fill="none" stroke="${INK}" stroke-width="44" stroke-linecap="round"/>
+    <path d="M118 0 C 60 110, 96 220, 166 272" fill="none" stroke="${OR}" stroke-width="30" stroke-linecap="round"/>
+    <path d="M242 0 C 300 110, 264 220, 194 272" fill="none" stroke="${OR}" stroke-width="30" stroke-linecap="round"/>
+    <rect x="156" y="258" width="48" height="36" rx="8" fill="${TA}" stroke="${INK}" stroke-width="6"/>
+    <circle cx="180" cy="306" r="12" fill="none" stroke="${INK}" stroke-width="6"/></g>
+    <text font-family="Anton" font-size="19" fill="${CR}" letter-spacing="3" dy="7"><textPath href="#lyL" startOffset="8%">ONE CUP · ONE CUP</textPath></text>
+    <text font-family="Anton" font-size="19" fill="${CR}" letter-spacing="3" dy="7"><textPath href="#lyR" startOffset="18%">ONE CUP · ONE CUP</textPath></text>
+    <g transform="translate(120 300) scale(.33)">${mascotTag.replace('width="100%" height="100%"', 'width="360" height="440"')}</g>
+  </svg>`);
+  // the mascot printed on the bottle, and the NFC charm on the sling's buckle
+  put('slingMascot', `<svg viewBox="70 0 220 400" width="100%" height="100%">${cupChar(`<path d="M113 268 H247 L240 344 H120 Z" fill="${OR}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>${face(212)}`)}</svg>`);
+  put('slingTag', `<svg viewBox="0 0 44 54" width="44" height="54"><path d="M22 0 V10" stroke="#9aa39e" stroke-width="3"/>
+    <circle cx="22" cy="32" r="19" fill="${OR}" stroke="${INK}" stroke-width="3"/>
+    <g fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"><path d="M16 25 q5 7 0 14"/><path d="M22 21 q8 11 0 22"/><path d="M28 17 q11 15 0 30"/></g></svg>`);
 
   // the big mascot for the closing line, and hearts
   put('zHero', `<svg viewBox="0 0 360 440" width="560" height="684"><g filter="url(#wobble)">

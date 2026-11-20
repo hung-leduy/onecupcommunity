@@ -76,6 +76,8 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
 .step { position: absolute; border-radius: 30px 30px 0 0; padding: 30px 34px; box-shadow: 12px 0 0 rgba(0,0,0,.18); }
 .step h3 { font: 400 58px/1 'Anton'; letter-spacing: .01em; color: var(--ink); }
 .step p { font: 400 42px/1.1 'Patrick Hand'; margin-top: 10px; color: var(--ink); }
+.polaroid { background: var(--paper); padding: 14px 14px 8px; border: 4px solid var(--ink); border-radius: 6px; box-shadow: 12px 14px 0 rgba(37,36,41,.16); }
+.elab { font-size: 36px; text-align: center; color: #57524b; margin-top: 4px; }
 .ms { position: absolute; width: 330px; text-align: center; }
 .ms .dot { width: 56px; height: 56px; margin: 0 auto; border-radius: 50%; background: var(--orange); border: 6px solid var(--cream); }
 .ms .d { font: 400 54px/1 'Anton'; color: var(--cream); letter-spacing: .01em; }
@@ -361,10 +363,26 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
   <!-- 20 · end card -------------------------------------------------------------------------------------------------->
   <section id="s20">
     <div class="full" style="background:var(--cream)"></div>
-    <img id="e1" class="abs sticker" src="assets/brand/tag-coffee.png" alt="" style="left:170px;top:600px;width:220px;transform:rotate(-10deg)">
-    <img id="e2" class="abs sticker" src="assets/brand/tag-avocado.png" alt="" style="left:1560px;top:150px;width:220px;transform:rotate(9deg)">
-    <img id="e3" class="abs sticker" src="assets/brand/tag-bubbletea.png" alt="" style="left:1580px;top:610px;width:210px;transform:rotate(-6deg)">
-    <div id="e4" class="abs sticker" style="left:180px;top:150px;width:200px;height:244px;transform:rotate(8deg)"></div>
+    <div id="e1" class="abs" style="left:150px;top:64px;width:310px">
+      <div id="artGlass" class="sticker" style="width:310px;height:396px"></div>
+      <div class="hand elab">One Cup glass</div></div>
+    <div id="e2" class="abs" style="left:1480px;top:56px;width:336px">
+      <div class="polaroid">
+        <div style="position:relative;width:300px;height:434px;overflow:hidden">
+          <img src="assets/brand/bottle-sling.jpg" alt="" style="width:300px;height:434px">
+          <div class="abs anton" style="left:38px;top:156px;width:136px;text-align:center;font-size:34px;color:#ec7d35;letter-spacing:.04em;transform:rotate(-1deg)">ONE CUP</div>
+          <div id="slingMascot" class="abs" style="left:80px;top:218px;width:46px;height:58px"></div>
+          <div class="abs anton" style="left:203px;top:186px;font-size:14px;color:#ec7d35;letter-spacing:.14em;transform:rotate(80deg);transform-origin:0 0;white-space:nowrap">ONE CUP · ONE CUP · ONE CUP · ONE CUP</div>
+          <div id="slingTag" class="abs" style="left:184px;top:86px;width:44px;height:54px"></div>
+        </div>
+        <div class="hand elab" style="margin-top:6px">bottle sling</div></div></div>
+    <div id="e3" class="abs" style="left:120px;top:600px;width:380px;height:420px">
+      <div id="artTagRound" class="abs sticker" style="left:180px;top:30px;width:200px;height:226px;transform:rotate(8deg)"></div>
+      <div id="artTagCup" class="abs sticker" style="left:0;top:50px;width:176px;height:215px;transform:rotate(-8deg)"></div>
+      <div class="abs hand elab" style="left:0;top:300px;width:380px">NFC tags</div></div>
+    <div id="e4" class="abs" style="left:1530px;top:606px;width:290px">
+      <div id="artLanyard2" class="sticker" style="width:270px;height:330px;margin-left:10px"></div>
+      <div class="hand elab">lanyard</div></div>
     <div id="eLogo" class="abs anton rough" style="left:0;width:1920px;top:290px;text-align:center;font-size:300px;color:var(--orange);line-height:.9">ONE CUP</div>
     <div id="eTag" class="abs hand-b" style="left:0;width:1920px;top:600px;text-align:center;font-size:84px">your cup. no drama.</div>
     <div id="eLine" class="abs hand" style="left:0;width:1920px;top:730px;text-align:center;font-size:48px;color:#57524b">bring your cup · tap · earn</div>
