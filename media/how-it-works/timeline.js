@@ -1,193 +1,187 @@
-// 30-second "How One Cup works" timeline. Times are seconds inside the segment.
-// Scene changes sit on the bar lines of the soundtrack (118 BPM, one bar = 2.034 s);
-// the bar grid is anchored on the first music splice at 7.181 s (see render.mjs).
+// 30-second "How One Cup works" timeline in the One Cup campaign look. Times are seconds inside the
+// segment. Scene changes sit on the bar lines of the soundtrack (118 BPM, one bar = 2.034 s); the
+// bar grid is anchored on the first music splice at 7.181 s (see render.mjs).
 (() => {
   const BEAT = 60 / 118.0, BAR = 4 * BEAT;
   const bar = (k) => +(7.181 + (k - 3) * BAR).toFixed(3); // bar(3) = 7.181
   const T = {
-    title: bar(0), gear: bar(1), link: bar(3), tap: bar(4), flow: bar(6),
-    earn: bar(8), campus: bar(10), loop: bar(12), hit: bar(14), end: 30,
+    poster: bar(0), gear: bar(1), gearB: bar(2), link: bar(3), tap: bar(4), stack: bar(6),
+    comm: bar(8), campus: bar(10), story: bar(12), hit: bar(14), end: 30,
   };
   const beat = (t, n) => +(t + n * BEAT).toFixed(3);
 
-  const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
-  const cues = []; // sound cues for render.mjs: [time, kind]
+  const cues = [];
   const cue = (t, kind) => cues.push([+t.toFixed(3), kind]);
 
   const show = (sel, tin, tout) => {
     tl.set(sel, { visibility: 'visible' }, tin);
     if (tout != null) tl.set(sel, { visibility: 'hidden' }, tout);
   };
-  const headIn = (sel, t) =>
-    tl.fromTo(sel, { x: -70, opacity: 0 }, { x: 0, opacity: 1, duration: 0.55 }, t);
-  const pop = (sel, t, from = 0.55) =>
-    tl.fromTo(sel, { scale: from, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.8)' }, t);
-  const stepOn = (n, t) => {
-    tl.set(`#progress .st[data-s="${n}"]`, { color: '#2b2e35' }, t);
-    tl.set(`#progress .st[data-s="${n}"] i`, { backgroundColor: '#ff7b0f', color: '#ffffff', scale: 1.15 }, t);
-    tl.to(`#progress .st[data-s="${n}"] i`, { scale: 1, duration: 0.3 }, t + 0.01);
+  const slideIn = (sel, t, from = { yPercent: 100 }) => {
+    tl.fromTo(sel, from, { xPercent: 0, yPercent: 0, duration: 0.45, ease: 'power3.inOut' }, t - 0.42);
+    cue(t - 0.42, 'swish');
   };
+  const titleIn = (title, sub, t) => {
+    tl.fromTo(title, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, t - 0.2);
+    tl.fromTo(sub, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, t);
+  };
+  const pop = (sel, t, from = 0.5, rot = 0) =>
+    tl.fromTo(sel, { scale: from, opacity: 0, rotation: rot - 8 }, { scale: 1, opacity: 1, rotation: rot, duration: 0.5, ease: 'back.out(1.9)' }, t);
+  const stamp = (sel, t, rot) => {
+    tl.fromTo(sel, { scale: 2.4, opacity: 0, rotation: rot - 18 }, { scale: 1, opacity: 1, rotation: rot, duration: 0.28, ease: 'power4.in' }, t - 0.28);
+    tl.to(sel, { scale: 1.06, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.out' }, t);
+    cue(t, 'stamp');
+  };
+  const typeOn = (sel, t, d = 0.55) =>
+    tl.fromTo(sel, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: d, ease: 'none' }, t);
 
-  // ---- 0 · hand-off: orange circle opens from the QR cup of the original shot ----------------
+  // ---- 0 · hand-off: circles open from the QR cup of the original "Scan & go" shot -----------------
   tl.set('#origStart', { visibility: 'visible' }, 0);
   tl.fromTo('#wipe2', { scale: 0 }, { scale: 1, duration: 0.75, ease: 'power3.in' }, 0.08);
   tl.fromTo('#wipe', { scale: 0 }, { scale: 1, duration: 0.72, ease: 'power3.inOut' }, 0.3);
   tl.set(['#origStart', '#wipe2'], { visibility: 'hidden' }, 1.05);
   cue(0.05, 'whoosh');
 
-  // ---- 1 · title -----------------------------------------------------------------------------
-  show('#sTitle', 1.0, T.gear + 0.1);
-  tl.fromTo('#tIcon', { scale: 0, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)' }, T.title);
-  tl.fromTo('#tKicker', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, T.title + 0.15);
-  tl.fromTo('#tTitle', { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55 }, T.title + 0.25);
-  tl.fromTo('#tSub', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, beat(T.title, 1));
-  tl.to('#tIcon', { y: -10, duration: 0.5, yoyo: true, repeat: 1, ease: 'sine.inOut' }, T.title + 0.7);
-  cue(T.title, 'pop');
+  // ---- 1 · the poster: ONE CUP rises, the tagline writes itself ------------------------------------
+  show('#sPoster', 0.95, T.gear + 0.1);
+  tl.fromTo('#posterWrap', { y: 640 }, { y: 0, duration: 0.7, ease: 'back.out(1.25)' }, T.poster - 0.3);
+  tl.fromTo('#posterWrap', { scale: 1 }, { scale: 1.035, duration: 2.0, ease: 'none', immediateRender: false }, T.poster + 0.4);
+  typeOn('#tagline', beat(T.poster, 1.2), 0.6);
+  cue(T.poster, 'pop');
 
-  // ---- 2 · the gear ----------------------------------------------------------------------------
-  show('#sGear', 2.7, T.link + 0.6);
-  tl.fromTo('#sGear', { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' }, T.gear - 0.4);
-  cue(T.gear - 0.4, 'swish');
-  headIn('#gHead', T.gear - 0.2);
-  tl.fromTo('#progress', { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, T.gear + 0.1);
-  stepOn(1, T.gear + 0.1);
-  ['#c1', '#c2', '#c3', '#c4'].forEach((c, i) => {
-    const t = beat(T.gear, 0.5 + i);
-    tl.fromTo(c, { y: 140, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.4)' }, t);
-    tl.fromTo(`${c} .art svg`, { y: 0 }, { y: -12, duration: 0.9, yoyo: true, repeat: 3, ease: 'sine.inOut', immediateRender: false }, t + 0.5);
+  // ---- 2 · the gear --------------------------------------------------------------------------------
+  show('#sGear', T.gear - 0.45, T.link + 0.5);
+  slideIn('#sGear', T.gear);
+  titleIn('#gTitle', '#gSub', T.gear);
+  [['#t1', -10], ['#t2', 6], ['#t3', -6], ['#t4', 9]].forEach(([s, r], i) => {
+    const t = beat(T.gear, 0.6 + i * 0.5);
+    pop(s, t, 0.4, r);
+    tl.to(s, { y: -12, duration: 0.8, yoyo: true, repeat: 1, ease: 'sine.inOut' }, t + 0.5);
     cue(t, 'pop');
   });
-  tl.fromTo('#gNote', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, beat(T.gear, 4.6));
-  // out: cards 2–4 drop away, card 1 hands its cup to the next scene
-  tl.to(['#c2', '#c3', '#c4'], { y: 160, opacity: 0, duration: 0.4, stagger: 0.05, ease: 'power2.in' }, T.link - 0.45);
-  tl.to(['#gHead', '#gNote'], { opacity: 0, x: -40, duration: 0.3, ease: 'power2.in' }, T.link - 0.4);
-  tl.to('#c1', { opacity: 0, duration: 0.25 }, T.link - 0.2);
+  tl.fromTo('#tLabel', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, beat(T.gear, 2.6));
+  // phase B: tags shrink into the top-right corner, the carry gear comes in below
+  tl.to('#tLabel', { opacity: 0, duration: 0.2 }, T.gearB - 0.3);
+  tl.to('#tags', { scale: 0.5, x: 960, y: -150, duration: 0.55, ease: 'power3.inOut' }, T.gearB - 0.3);
+  ['#g1', '#g2', '#g3'].forEach((s, i) => {
+    const t = beat(T.gearB, 0.3 + i * 0.5);
+    tl.fromTo(s, { y: 160, opacity: 0, rotation: i === 1 ? 3 : -3 }, { y: 0, opacity: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.5)' }, t);
+    cue(t, 'pop');
+  });
+  stamp('#gStamp', beat(T.gearB, 2.4), 12);
+  // out
+  tl.to(['#gTitle', '#gSub', '#tags', '#g1', '#g2', '#g3', '#gStamp'], { y: -60, opacity: 0, duration: 0.35, stagger: 0.03, ease: 'power2.in' }, T.link - 0.45);
 
-  // ---- 3 · link it in the app --------------------------------------------------------------------
-  show('#sLink', T.link - 0.2, T.tap + 0.45);
-  tl.fromTo('#lCup', { x: 149 - 640, y: 329 - 420 }, { x: 0, y: 0, duration: 0.6, ease: 'power3.inOut' }, T.link - 0.2);
-  headIn('#lHead', T.link);
-  stepOn(2, T.link);
-  tl.fromTo('#lPhone', { x: 320, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, T.link + 0.05);
-  tl.fromTo('#lScan', { scale: 1.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 }, beat(T.link, 1.1));
-  tl.fromTo('#lBeam', { y: 0 }, { y: 144, duration: 0.33, yoyo: true, repeat: 1, ease: 'sine.inOut' }, beat(T.link, 1.4));
-  cue(beat(T.link, 1.4), 'scan');
-  pop('#lToast', beat(T.link, 3));
+  // ---- 3 · steps 1–2: register the tag, attach it ---------------------------------------------------
+  show('#sLink', T.link - 0.45, T.tap + 0.5);
+  slideIn('#sLink', T.link, { xPercent: 100 });
+  titleIn('#lTitle', '#lSub', T.link);
+  pop('#lP1', beat(T.link, 0.4), 0.6, -2);
+  tl.fromTo('#lC1', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(T.link, 0.8));
+  pop('#lP2', beat(T.link, 1.2), 0.6, 2);
+  tl.fromTo('#lC2', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(T.link, 1.6));
+  cue(beat(T.link, 0.4), 'pop');
+  cue(beat(T.link, 1.2), 'pop');
+  tl.fromTo('#lPhone', { x: 300, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, T.link - 0.1);
+  pop('#lToast', beat(T.link, 3), 0.5, -2);
   cue(beat(T.link, 3), 'ding');
-  tl.to('#lScan', { opacity: 0, duration: 0.2 }, beat(T.link, 3));
 
-  // ---- 4 · tap at the counter ----------------------------------------------------------------------
-  show('#sTap', T.tap - 0.3, T.flow + 0.05);
-  tl.fromTo('#sTap', { xPercent: 100 }, { xPercent: 0, duration: 0.45, ease: 'power3.inOut' }, T.tap - 0.3);
-  cue(T.tap - 0.3, 'swish');
-  headIn('#pHead', T.tap - 0.15);
-  stepOn(3, T.tap);
-  tl.fromTo('#pTab', { x: 220, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, T.tap - 0.1);
-  tl.fromTo('#pReader', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, T.tap + 0.2);
+  // ---- 4 · step 3: tap & check in ------------------------------------------------------------------
+  show('#sTap', T.tap - 0.45, T.stack + 0.5);
+  slideIn('#sTap', T.tap);
+  titleIn('#pTitle', '#pSub', T.tap);
+  tl.fromTo('#pP3wrap', { y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.3)' }, T.tap - 0.1);
+  tl.fromTo('#pTab', { x: 300, opacity: 0, rotation: 5 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, T.tap + 0.05);
+  tl.fromTo('#pCap', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(T.tap, 1));
   const tTap = beat(T.tap, 3);
-  tl.fromTo('#pBottle', { y: -760 }, { y: 140, duration: 0.95, ease: 'power3.in' }, tTap - 0.95);
-  tl.to('#pBottle', { scaleY: 0.96, transformOrigin: '50% 100%', duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.out' }, tTap);
-  $$('#pRipples .ripple').forEach((r, i) =>
-    tl.fromTo(r, { scale: 0.5, opacity: 0.95 }, { scale: 2.6, opacity: 0, duration: 0.9, ease: 'power2.out' }, tTap + i * 0.16));
+  tl.to('#pP3wrap', { scaleY: 0.95, scaleX: 1.03, duration: 0.09, yoyo: true, repeat: 1, ease: 'power1.out' }, tTap);
+  tl.set('.wv', { opacity: 0 }, 0);
+  $$('#pWaves .wv').forEach((w, i) => {
+    tl.fromTo(w, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.15, ease: 'none', immediateRender: false }, tTap + i * 0.09);
+    tl.to(w, { opacity: 0, duration: 0.3 }, tTap + 0.55 + i * 0.05);
+    tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: 'none', immediateRender: false }, tTap + 1.0 + i * 0.07);
+  });
   cue(tTap, 'nfc');
   const tOk = beat(T.tap, 4);
-  tl.to('#pRes', { opacity: 1, duration: 0.18, ease: 'none' }, tOk);
-  tl.fromTo('#pTab', { boxShadow: '0 0 0 0px rgba(46,157,87,0), 0 50px 90px -20px rgba(0,0,0,.5)' },
-    { boxShadow: '0 0 0 10px rgba(46,157,87,1), 0 50px 90px -20px rgba(0,0,0,.5)', duration: 0.25, immediateRender: false }, tOk);
-  pop('#pOk', tOk + 0.05);
-  pop('#pDisc', beat(tOk, 1));
-  cue(tOk, 'ding');
+  tl.to('#pRes', { opacity: 1, duration: 0.15, ease: 'none' }, tOk);
+  stamp('#pStamp', tOk, -12);
+  pop('#pDisc', beat(tOk, 1.2), 0.5, -1);
+  cue(beat(tOk, 1.2), 'tick');
+  tl.to('#pWaves', { opacity: 0, duration: 0.3 }, tOk + 1.6);
 
-  // out: the tablet shrinks into the left node of the next scene
-  tl.to(['#pHead', '#pOk', '#pDisc'], { opacity: 0, x: -40, duration: 0.3, ease: 'power2.in' }, T.flow - 0.45);
-  tl.to(['#pBottle', '#pReader'], { opacity: 0, y: 80, duration: 0.35, ease: 'power2.in' }, T.flow - 0.45);
-  tl.to('#pTab', { x: 150 - 1180, y: 390 - 200, scale: 0.7, transformOrigin: '0 0', duration: 0.5, ease: 'power3.inOut',
-    boxShadow: '0 0 0 0px rgba(46,157,87,0), 0 50px 90px -20px rgba(0,0,0,.5)' }, T.flow - 0.5);
-
-  // ---- 5 · behind the tap ---------------------------------------------------------------------------
-  show('#sFlow', T.flow, T.earn + 0.05);
-  headIn('#fHead', T.flow + 0.02);
-  tl.fromTo('#fServer', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, T.flow + 0.15);
-  tl.fromTo('#fLines', { opacity: 0 }, { opacity: 1, duration: 0.3 }, T.flow + 0.2);
-  tl.fromTo('#fLines g', { strokeDashoffset: 0 }, { strokeDashoffset: -200, duration: 3.6, ease: 'none' }, T.flow + 0.2);
-  $$('#fRows .frow').forEach((r, i) => tl.fromTo(r, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35 }, beat(T.flow, 1 + i * 0.5)));
-  tl.fromTo('#fPhone', { x: 220, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 }, T.flow + 0.2);
-  // data packets
-  const sec = $('#sFlow');
-  const d1 = document.createElement('div'); d1.className = 'dot'; sec.appendChild(d1);
-  const d2 = document.createElement('div'); d2.className = 'dot'; sec.appendChild(d2);
-  tl.fromTo(d1, { left: 560, top: 640, opacity: 0 }, { left: 760, opacity: 1, duration: 0.45, ease: 'power1.inOut' }, beat(T.flow, 1));
-  tl.to(d1, { opacity: 0, duration: 0.1 }, beat(T.flow, 1) + 0.45);
-  tl.fromTo(d2, { left: 1160, top: 640, opacity: 0 }, { left: 1390, opacity: 1, duration: 0.45, ease: 'power1.inOut' }, beat(T.flow, 3) - 0.45);
-  tl.to(d2, { opacity: 0, duration: 0.1 }, beat(T.flow, 3));
-  cue(beat(T.flow, 1), 'blip');
-  cue(beat(T.flow, 3) - 0.45, 'blip');
+  // ---- 5 · step 4: every check-in stacks a cup -------------------------------------------------------
+  show('#sStack', T.stack - 0.45, T.comm + 0.5);
+  slideIn('#sStack', T.stack, { xPercent: 100 });
+  titleIn('#kTitle', '#kSub', T.stack);
+  // reveal the board bottom-up: bottom row of cups, second row, then the cat
+  tl.set('#kP4', { clipPath: 'inset(100% 0% 0% 0%)' }, 0);
+  [[69, 0.5], [56, 1.0], [0, 1.6]].forEach(([top, n], i) => {
+    tl.to('#kP4', { clipPath: `inset(${top}% 0% 0% 0%)`, duration: i === 2 ? 0.45 : 0.18, ease: i === 2 ? 'power2.out' : 'back.out(2)' }, beat(T.stack, n));
+    cue(beat(T.stack, n), i === 2 ? 'whoosh' : 'pop');
+  });
+  pop('#kBubble', beat(T.stack, 3), 0.3, 0);
+  tl.fromTo('#kCap', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(T.stack, 2.4));
+  tl.fromTo('#kPhone', { x: 300, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: 0, duration: 0.6 }, T.stack);
   const tCel = bar(7); // 15.317, second music phrase
-  tl.to('#fCele', { opacity: 1, duration: 0.15, ease: 'none' }, tCel);
-  tl.to('#fPhone', { scale: 0.97, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }, tCel);
+  tl.to('#kCele', { opacity: 1, duration: 0.15, ease: 'none' }, tCel);
+  tl.to('#kPhone', { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }, tCel);
   let seed = 11;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  $$('#fConf .conf').forEach((c) => {
-    const a = rnd() * Math.PI * 2, d = 120 + rnd() * 220;
+  tl.set('#kConf', { opacity: 0 }, 0);
+  tl.set('#kConf', { opacity: 1 }, tCel);
+  $$('#kConf .conf').forEach((c) => {
+    const a = rnd() * Math.PI * 2, d = 140 + rnd() * 240;
     tl.fromTo(c, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 0.6 + rnd() * 0.8 },
-      { x: Math.cos(a) * d, y: Math.sin(a) * d + 120, rotation: rnd() * 540 - 270, opacity: 0, duration: 1.1, ease: 'power2.out' }, tCel + rnd() * 0.1);
+      { x: Math.cos(a) * d, y: Math.sin(a) * d + 140, rotation: rnd() * 540 - 270, opacity: 0, duration: 1.2, ease: 'power2.out' }, tCel + rnd() * 0.1);
   });
-  tl.set('#fConf', { opacity: 0 }, 0);
-  tl.set('#fConf', { opacity: 1 }, tCel);
   cue(tCel, 'chime');
-  tl.fromTo('#fStation', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, beat(tCel, 1.2));
+  pop('#kPts', beat(tCel, 0.6), 0.5, -3);
+  pop('#kStreak', beat(tCel, 1.1), 0.5, 2);
+  cue(beat(tCel, 0.6), 'tick');
+  cue(beat(tCel, 1.1), 'tick');
 
-  // ---- 6 · earn & see your impact ----------------------------------------------------------------------
-  show('#sEarn', T.earn - 0.4, T.campus + 0.05);
-  tl.fromTo('#sEarn', { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' }, T.earn - 0.4);
-  cue(T.earn - 0.4, 'swish');
-  headIn('#eHead', T.earn - 0.2);
-  stepOn(4, T.earn);
-  tl.fromTo('#eHome', { y: 220, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, T.earn - 0.15);
-  tl.set(['#eLeague', '#eRewards'], { opacity: 0 }, 0);
-  ['#e1', '#e2', '#e3', '#e4', '#e5'].forEach((c, i) => {
-    pop(c, beat(T.earn, 0.6 + i * 0.5));
-    cue(beat(T.earn, 0.6 + i * 0.5), 'tick');
-  });
-  const tFan = bar(9); // 19.385
-  tl.to(['#e1', '#e2', '#e3', '#e4', '#e5'], { opacity: 0, scale: 0.8, duration: 0.25, ease: 'power2.in' }, tFan - 0.3);
-  tl.set(['#eLeague', '#eRewards'], { opacity: 1 }, tFan - 0.05);
-  const fan = { duration: 0.6, ease: 'power3.inOut', transformOrigin: '50% 0%' };
-  tl.to('#eHome', { ...fan, x: -540, y: 60, scale: 0.86, rotation: -4 }, tFan - 0.05);
-  tl.to('#eLeague', { ...fan, x: -90, y: 60, scale: 0.86 }, tFan - 0.05);
-  tl.to('#eRewards', { ...fan, x: 360, y: 60, scale: 0.86, rotation: 4 }, tFan - 0.05);
-  cue(tFan - 0.05, 'swish');
-  ['#elH', '#elL', '#elR'].forEach((l, i) => tl.fromTo(l, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, tFan + 0.45 + i * 0.12));
+  // ---- 6 · steps 5–6: community, reward, impact --------------------------------------------------------
+  show('#sComm', T.comm - 0.45, T.campus + 0.5);
+  slideIn('#sComm', T.comm);
+  titleIn('#cTitle', '#cSub', T.comm);
+  pop('#cP5', beat(T.comm, 0.4), 0.6, -2);
+  cue(beat(T.comm, 0.4), 'pop');
+  tl.fromTo('#cPhone', { y: 260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, T.comm);
+  pop('#cV', beat(T.comm, 1.2), 0.5, -4);
+  cue(beat(T.comm, 1.2), 'pop');
+  tl.fromTo('#cC5', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(T.comm, 1.8));
+  pop('#cP6', beat(T.comm, 2), 0.6, 3);
+  cue(beat(T.comm, 2), 'pop');
+  const tFill = bar(9); // 19.385
+  pop('#cFill1', tFill, 0.2, 0);
+  pop('#cFill2', beat(tFill, 0.5), 0.2, 0);
+  cue(tFill, 'tick');
+  cue(beat(tFill, 0.5), 'tick');
+  typeOn('#cImpact', beat(tFill, 1.1), 0.6);
+  tl.fromTo('#cC6', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, beat(tFill, 1.6));
+  tl.to('#cRew', { opacity: 1, duration: 0.25, ease: 'none' }, beat(tFill, 1));
 
   // ---- 7 · for the campus ------------------------------------------------------------------------------
-  tl.to('#progress', { opacity: 0, y: -30, duration: 0.3, ease: 'power2.in' }, T.campus - 0.35);
-  show('#sCampus', T.campus - 0.4, T.loop + 0.05);
-  tl.fromTo('#sCampus', { xPercent: 100 }, { xPercent: 0, duration: 0.45, ease: 'power3.inOut' }, T.campus - 0.4);
-  cue(T.campus - 0.4, 'swish');
-  headIn('#cHead', T.campus - 0.2);
-  tl.fromTo('#cLap', { y: 140, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, T.campus - 0.2);
-  ['#k1', '#k2', '#k3'].forEach((k, i) => { pop(k, beat(T.campus, 1 + i * 0.5)); cue(beat(T.campus, 1 + i * 0.5), 'tick'); });
-  tl.fromTo('#cNote', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4 }, beat(T.campus, 2.8));
-  tl.fromTo('#cImg', { scale: 1 }, { scale: 1.45, transformOrigin: '540px 30px', duration: 1.6, ease: 'power2.inOut', immediateRender: false }, bar(11) - 0.2);
+  show('#sCampus', T.campus - 0.45, T.story + 0.5);
+  slideIn('#sCampus', T.campus, { xPercent: 100 });
+  titleIn('#mTitle', '#mSub', T.campus);
+  tl.fromTo('#mLap', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, T.campus - 0.15);
+  ['#m1', '#m2', '#m3'].forEach((s, i) => { pop(s, beat(T.campus, 1 + i * 0.5), 0.5, i % 2 ? 1.5 : -1.5); cue(beat(T.campus, 1 + i * 0.5), 'tick'); });
+  tl.fromTo('#mNote', { opacity: 0 }, { opacity: 1, duration: 0.4 }, beat(T.campus, 2.8));
+  tl.fromTo('#mImg', { scale: 1 }, { scale: 1.45, transformOrigin: '520px 30px', duration: 1.6, ease: 'power2.inOut', immediateRender: false }, bar(11) - 0.2);
 
-  // ---- 8 · the loop ----------------------------------------------------------------------------------------
-  show('#sLoop', T.loop - 0.35);
-  tl.fromTo('#sLoop', { clipPath: 'circle(0% at 50% 44%)' }, { clipPath: 'circle(80% at 50% 44%)', duration: 0.5, ease: 'power3.in' }, T.loop - 0.4);
-  cue(T.loop - 0.4, 'whoosh');
-  tl.fromTo('#loopIcon', { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.7)' }, T.loop);
-  tl.fromTo('#ringArc', { strokeDashoffset: 1634 }, { strokeDashoffset: 0, duration: 4 * BEAT, ease: 'none' }, beat(T.loop, 0.5));
-  $$('#loopNodes .lnode').forEach((n, i) => {
-    const t = beat(T.loop, 0.5 + i);
-    tl.fromTo(n, { scale: 0 }, { scale: 1, duration: 0.45, ease: 'back.out(2)' }, t);
-    cue(t, 'pop');
-  });
-  $$('#loopNodes .llabel').forEach((n, i) => tl.fromTo(n, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35 }, beat(T.loop, 0.65 + i)));
-  tl.fromTo('#loopLine', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, bar(13));
-  tl.to('#loopIcon', { scale: 1.08, duration: BEAT / 2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, bar(13));
+  // ---- 8 · the story ------------------------------------------------------------------------------------
+  show('#sStory', T.story - 0.45);
+  tl.fromTo('#sStory', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)', duration: 0.5, ease: 'power3.in' }, T.story - 0.45);
+  cue(T.story - 0.45, 'whoosh');
+  $$('#sQuote .word').forEach((w, i) =>
+    tl.fromTo(w, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.25, ease: 'back.out(2)' }, T.story + 0.05 + i * 0.13));
+  tl.fromTo('#sLine', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5 }, bar(13));
+  stamp('#sStamp', beat(bar(13), 1.5), 12);
 
-  // ---- hand-back: white burst into the original "See your impact" shot ------------------------------
+  // ---- hand-back: white burst into the original "See your impact" shot ----------------------------------
   tl.fromTo('#whiteout', { scale: 0 }, { scale: 1, duration: 0.8, ease: 'power2.in' }, T.hit - 0.8);
   cue(T.hit - 0.8, 'riser');
   tl.fromTo('#origEnd', { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power1.inOut' }, T.hit + 0.05);

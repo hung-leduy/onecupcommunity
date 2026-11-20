@@ -95,6 +95,7 @@ const SFX = {
   chime: "aevalsrc='0.16*(sin(2*PI*1046.5*t)*exp(-t*5)+gte(t\\,0.07)*sin(2*PI*1318.5*(t-0.07))*exp(-(t-0.07)*5)+gte(t\\,0.14)*sin(2*PI*1568*(t-0.14))*exp(-(t-0.14)*5)+gte(t\\,0.21)*sin(2*PI*2093*(t-0.21))*exp(-(t-0.21)*4))':s=48000:d=1.2",
   whoosh: 'anoisesrc=color=pink:amplitude=0.30:s=48000:d=0.9:seed=3,highpass=f=300,lowpass=f=5000,afade=t=in:d=0.55:curve=exp,afade=t=out:st=0.55:d=0.35',
   swish: 'anoisesrc=color=pink:amplitude=0.22:s=48000:d=0.45:seed=5,highpass=f=600,lowpass=f=6000,afade=t=in:d=0.25:curve=exp,afade=t=out:st=0.25:d=0.2',
+  stamp: "aevalsrc='0.5*sin(2*PI*82*t)*exp(-t*15)+0.18*sin(2*PI*164*t)*exp(-t*24)':s=48000:d=0.4,afade=t=out:st=0.3:d=0.1",
   riser: "anoisesrc=color=white:amplitude=0.12:s=48000:d=0.8:seed=7,highpass=f=1200,afade=t=in:d=0.8:curve=exp",
 };
 const graph = [];

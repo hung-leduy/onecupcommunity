@@ -3,9 +3,25 @@
 //   DB_PATH=showcase.sqlite PUBLIC_URL=http://localhost:3001 npm run seed:demo -w server -- --force
 //   DB_PATH=showcase.sqlite PUBLIC_URL=http://localhost:3001 PORT=3001 npm start
 // Usage: node capture-screens.mjs <outDir> [baseUrl] [userToken]
+// The screens are re-skinned on the fly in the One Cup campaign look (cream, warm orange, near-black,
+// Anton headings) through the app's CSS variables, so they match the video; the app itself is unchanged.
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
+
+const anton = readFileSync(new URL('./node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2', import.meta.url)).toString('base64');
+const THEME = `
+@font-face { font-family: 'Anton'; src: url(data:font/woff2;base64,${anton}) format('woff2'); }
+:root, html:lang(vi), html:lang(en) {
+  --display: 'Anton', sans-serif; --display-weight: 400; --num: 'Anton', sans-serif;
+  --charcoal: #252429; --orange: #ec7d35; --ink: #252429; --ink-2: #57524b; --muted: #8a8377;
+  --bg: #ede9dd; --surface: #fffdf8; --mint: #f4f0e6; --line: #e0d9cb; --line-strong: #cfc6b5;
+  --green: #ec7d35; --green-dark: #c4612a; --green-ink: #a9521f; --green-soft: #fbe6d5;
+  --blue: #a39c8c; --blue-dark: #857e70; --blue-ink: #5e584d; --blue-soft: #e9e3d6;
+  --yellow: #eecd70; --yellow-dark: #d4ae4a; --yellow-ink: #7a5e10; --yellow-soft: #f8efd0;
+  --purple: #252429; --purple-dark: #111111; --purple-ink: #252429; --purple-soft: #e4ddcd;
+  --gray-3d: #e4ddcd; --gray-3d-dark: #cfc6b5; --sage: #a39c8c;
+}`;
 
 const [outDir = 'screens', base = 'http://localhost:3001', userToken] = process.argv.slice(2);
 if (!userToken) throw new Error('Pass the demo user token printed by seed:demo (…/me#t=<token>)');
@@ -17,11 +33,16 @@ const admin = 'change-me-admin';
 async function ctxWith(viewport, storage, session = {}) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 2 });
   await ctx.addInitScript(
-    ([s, ss]) => {
+    ([s, ss, css]) => {
       for (const [k, v] of Object.entries(s)) localStorage.setItem(k, v);
       for (const [k, v] of Object.entries(ss)) sessionStorage.setItem(k, v);
+      document.addEventListener('DOMContentLoaded', () => {
+        const st = document.createElement('style');
+        st.textContent = css;
+        document.head.appendChild(st);
+      });
     },
-    [storage, session],
+    [storage, session, THEME],
   );
   return ctx;
 }
@@ -29,6 +50,7 @@ async function ctxWith(viewport, storage, session = {}) {
 async function shot(ctx, path, file, { wait = 1200, full = false, before } = {}) {
   const page = await ctx.newPage();
   await page.goto(base + path, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
   if (before) await before(page);
   await page.waitForTimeout(wait);
   await page.screenshot({ path: `${outDir}/${file}.png`, fullPage: full });

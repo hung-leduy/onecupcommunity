@@ -126,10 +126,10 @@ const body = [
   N('**Tap & go at the counter.** A USB NFC reader or camera verifies the cup in under a second and the outlet applies its reusable-cup discount. No staff free? The student types the rotating 6-digit code shown at the counter.'),
   N('**Earn & see the impact.** Points, daily goals, streaks, weekly leagues and rewards, plus personal impact in cups, grams of plastic and CO₂e. A research console gives outlets and the university live, anonymised data, e.g. the share of drinks served in reusable cups.'),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 60, after: 20 }, keepNext: true, children: [
-    new ImageRun({ type: 'png', data: figure, transformation: { width: 672, height: 150 } }),
+    new ImageRun({ type: 'png', data: figure, transformation: { width: 672, height: Math.round((672 * figure.readUInt32BE(20)) / figure.readUInt32BE(16)) } }),
   ] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: runs(
-    '_Figure 1. Left: the planned One Cup gear line. Right: the working MVP — counter terminal → One Cup cloud → student app (screens from our demo)._',
+    '_Figure 1. Frames from our video. Left: the planned One Cup gear — decorated NFC tags, QR cups, NFC lanyards, cup & bottle straps. Right: the working MVP at the counter — tap, verified, checked in._',
     { size: 15, color: INK2 }) }),
 
   H('3', 'Technology-based innovation'),
