@@ -14,13 +14,13 @@ cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton
 | 22–26 | | PICK YOUR TAG: NFC tag trang trí, ly QR, dây đeo NFC, quai ly/bình có NFC |
 | 26–42 | | HOW IT WORKS ①–⑥ với tranh của nhóm + màn hình app thật |
 | 42–46 | Đổi mới công nghệ | VERIFIED, NOT GUESSED: 3 tầng xác minh, chống ghi trùng |
-| 46–51 | | PROOF, NOT PROMISES: console, nhánh nghiên cứu, quyền riêng tư (dữ liệu mô phỏng) |
+| 46–51 | | PROOF, NOT PROMISES: console, thử nghiệm “nudge” nào hiệu quả, đo từng ly, quyền riêng tư (dữ liệu mô phỏng) |
 | 51–55 | Mô hình kinh doanh | WHO PAYS?: thuê bao trường/quầy · tài trợ phần thưởng · bán One Cup gear |
 | 55–59 | | 550.000+ tân sinh viên/năm (MOET 2024) · so sánh với giảm giá theo chuỗi |
-| 59–63 | Tác động xã hội | 1.000 SV × 1 ly × 150 ngày = 150.000 ly ≈ 1 t nhựa ≈ 8 t CO₂e |
+| 59–63 | Tác động xã hội | 1/10 tân sinh viên (55.000) × 1 ly × 150 ngày = 8,27 triệu ly/năm ≈ 54 t nhựa ≈ 440 t CO₂e |
 | 63–67 | | From awareness to habit |
 | 67–71 | Khả thi | THE MVP ALREADY WORKS |
-| 71–77 | | ROADMAP 12/2026 → 2028 |
+| 71–77 | Lợi nhuận + tác động | GROWS WITH EVERY CUP: revenue ↑ / impact ↑, linh vật leo bậc thị trường: trường đại học VN → café & văn phòng → Đông Nam Á (không có mốc triển khai) |
 | 77–81 | Kết | “Your bottle is a relationship.” |
 | 81–86 | | ONE CUP — your cup. no drama. (đúng điểm drop của nhạc) |
 
@@ -50,10 +50,10 @@ cam `#EC7D35`, vàng bơ `#EECD70`, be `#E4DDCD`, mực `#252429`; chữ **Anton
 | 12 | Live data for the campus: proof, not promises. |
 | 13 | Campuses subscribe, brands sponsor, students buy the gear. |
 | 14 | Over half a million new students a year. Any cup, every outlet. |
-| 15 | A thousand students, one cup a day: 150,000 cups. |
+| 15 | If one in ten new students joins: eight million cups a year. |
 | 16 | From awareness to habit, with the cup you already own. |
 | 17 | And it's real: the app, the counter and the console already work. |
-| 18 | Next, a twelve-week pilot at VGU in twenty twenty-seven, then more campuses and coffee chains. |
+| 18 | Profit and impact grow together, from campuses to cafés, offices and Southeast Asia. |
 | 19 | Because your bottle is a relationship. |
 | 20 | One Cup. Your cup, no drama. |
 

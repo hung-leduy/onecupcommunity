@@ -164,6 +164,11 @@
     <g class="cc">${smallCup(110, 20, 1.05, PA, OR)}</g>
   </g></svg>`);
 
+  // the little mascot that climbs the market steps
+  put('climb', `<svg viewBox="40 0 280 420" width="150" height="225" style="overflow:visible"><g filter="url(#wobble)">
+    ${cupChar(`<path d="M113 268 H247 L240 344 H120 Z" fill="${OR}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>${face(212)}`)}
+  </g></svg>`);
+
   // the big mascot for the closing line, and hearts
   put('zHero', `<svg viewBox="0 0 360 440" width="560" height="684"><g filter="url(#wobble)">
     <ellipse cx="180" cy="420" rx="110" ry="14" fill="${INK}" opacity=".14"/>

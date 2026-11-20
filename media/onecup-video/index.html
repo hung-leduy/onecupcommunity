@@ -73,6 +73,9 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
 .xmark { position: absolute; width: 90px; height: 90px; }
 .conf { position: absolute; width: 18px; height: 18px; border-radius: 4px; border: 3px solid var(--ink); }
 .word { display: inline-block; }
+.step { position: absolute; border-radius: 30px 30px 0 0; padding: 30px 34px; box-shadow: 12px 0 0 rgba(0,0,0,.18); }
+.step h3 { font: 400 58px/1 'Anton'; letter-spacing: .01em; color: var(--ink); }
+.step p { font: 400 42px/1.1 'Patrick Hand'; margin-top: 10px; color: var(--ink); }
 .ms { position: absolute; width: 330px; text-align: center; }
 .ms .dot { width: 56px; height: 56px; margin: 0 auto; border-radius: 50%; background: var(--orange); border: 6px solid var(--cream); }
 .ms .d { font: 400 54px/1 'Anton'; color: var(--cream); letter-spacing: .01em; }
@@ -253,8 +256,8 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
     <div id="mTitle" class="title anton rough">PROOF, NOT PROMISES</div>
     <div id="mSub" class="sub hand">Live, anonymised data for canteens,<br>the university and research.</div>
     <div class="laptop" id="mLap" style="left:660px;top:300px"><div class="lid"><div class="scr"><img id="mImg" src="assets/console-overview.png" alt=""></div></div><div class="base"></div></div>
-    <div class="chip" id="m1" style="left:120px;top:440px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.83L3 3"/><path d="m15 9 6-6"/></svg></span><span>randomised study arms</span></div>
-    <div class="chip" id="m2" style="left:120px;top:570px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span>stepped-wedge roll-out</span></div>
+    <div class="chip" id="m1" style="left:120px;top:440px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.83L3 3"/><path d="m15 9 6-6"/></svg></span><span>tests which nudges work</span></div>
+    <div class="chip" id="m2" style="left:120px;top:570px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span>every cup measured</span></div>
     <div class="chip" id="m3" style="left:120px;top:700px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>privacy by design</span></div>
     <div id="mNote" class="abs hand" style="left:124px;top:850px;font-size:34px;color:var(--yellow)">✶ simulated pilot data · MVP demo</div>
   </section>
@@ -290,17 +293,17 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
   <!-- 15 · impact in numbers ------------------------------------------------------------------------------------>
   <section id="s15">
     <div class="full" style="background:var(--cream)"></div>
-    <div id="iTitle" class="title anton rough">SMALL HABIT, REAL NUMBERS</div>
+    <div id="iTitle" class="title anton rough">SMALL HABIT, NATIONAL SCALE</div>
     <div id="iRow" class="abs" style="left:120px;top:300px;display:flex;align-items:center;gap:34px">
-      <div id="i1" class="card" style="position:relative;width:420px;height:230px;background:var(--yellow);padding:24px 30px"><div class="anton" style="font-size:110px">1,000</div><div class="hand" style="font-size:42px">students</div></div>
+      <div id="i1" class="card" style="position:relative;width:420px;height:230px;background:var(--yellow);padding:24px 30px"><div class="anton" style="font-size:110px">55,000</div><div class="hand" style="font-size:42px">students · 1 in 10 new</div></div>
       <div id="ix1" class="anton" style="font-size:110px;color:var(--orange)">×</div>
       <div id="i2" class="card" style="position:relative;width:420px;height:230px;background:var(--taupe);padding:24px 30px"><div class="anton" style="font-size:110px">1 CUP</div><div class="hand" style="font-size:42px">a day</div></div>
       <div id="ix2" class="anton" style="font-size:110px;color:var(--orange)">×</div>
       <div id="i3" class="card" style="position:relative;width:420px;height:230px;background:var(--paper);padding:24px 30px"><div class="anton" style="font-size:110px">150</div><div class="hand" style="font-size:42px">campus days</div></div>
     </div>
-    <div id="iEq" class="abs anton rough" style="left:116px;top:580px;font-size:170px;color:var(--orange);white-space:nowrap">= <span id="iNum">150,000</span> CUPS</div>
-    <div id="iRes" class="abs hand-b" style="left:126px;top:790px;font-size:72px">≈ 1 tonne of plastic · ≈ 8 tonnes of CO<span style="font-size:.6em">2</span>e avoided</div>
-    <div id="iFoot" class="abs" style="left:128px;top:960px;font-size:26px;color:#57524b">Provisional factors: 6.5 g plastic and 53 g CO₂e per reuse — to be replaced with life-cycle assessment data.</div>
+    <div id="iEq" class="abs anton rough" style="left:116px;top:580px;font-size:170px;color:var(--orange);white-space:nowrap">= <span id="iNum">8.27</span> MILLION CUPS</div>
+    <div id="iRes" class="abs hand-b" style="left:126px;top:790px;font-size:72px">≈ 54 tonnes of plastic · ≈ 440 tonnes of CO<span style="font-size:.6em">2</span>e a year</div>
+    <div id="iFoot" class="abs" style="left:128px;top:960px;font-size:26px;color:#57524b">1 in 10 of the 551,479 students who started university in 2024 (MOET) · provisional factors: 6.5 g plastic, 53 g CO₂e per reuse</div>
   </section>
 
   <!-- 16 · from awareness to habit ------------------------------------------------------------------------------->
@@ -311,7 +314,7 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
     <div class="chip" id="a1" style="left:120px;top:340px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><path d="m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8"/><path d="M5 8h14"/><path d="m12 8 1-6h2"/></svg></span><span>works with the cup you already own</span></div>
     <div class="chip" id="a2" style="left:120px;top:470px"><span class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>nobody is ranked last or named at the till</span></div>
     <div class="chip" id="a3" style="left:120px;top:600px"><span class="ic t"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span><span>an open, anonymised dataset for research</span></div>
-    <div class="chip" id="a4" style="left:120px;top:730px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span><span>SDG 12 · Vietnam’s plastics roadmap</span></div>
+    <div class="chip" id="a4" style="left:120px;top:730px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span><span>SDG 12 · Vietnam’s 2030 plastics goals</span></div>
     <div id="aHero" class="abs" style="left:1260px;top:290px;width:520px;height:640px"></div>
   </section>
 
@@ -332,17 +335,17 @@ svg.i { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: rou
     <div class="chip" id="f4" style="left:120px;top:690px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span>automated tests</span></div>
   </section>
 
-  <!-- 18 · roadmap ------------------------------------------------------------------------------------------------>
+  <!-- 18 · grows with every cup ----------------------------------------------------------------------------------------------->
   <section id="s18" class="dark">
     <div class="full" style="background:var(--ink)"></div>
-    <div id="rTitle" class="title anton rough">ROADMAP</div>
-    <div id="rSub" class="sub hand">From one canteen to every campus.</div>
-    <svg id="rPath" class="abs" style="left:0;top:0" width="1920" height="1080"><path id="rLine" d="M150 640 C 380 560, 520 720, 760 640 S 1140 560, 1340 640 S 1640 720, 1800 620" fill="none" stroke="#ede9dd" stroke-width="7" stroke-dasharray="18 16" stroke-linecap="round" filter="url(#wobble)"/></svg>
-    <div class="ms" id="r1" style="left:60px;top:394px"><div class="d">12/2026</div><div class="t">build &amp; gear prototypes</div><div class="dot" style="margin-top:22px"></div></div>
-    <div class="ms" id="r2" style="left:420px;top:628px"><div class="dot" style="margin-bottom:22px"></div><div class="d">03/2027</div><div class="t">closed beta</div></div>
-    <div class="ms" id="r3" style="left:735px;top:388px;width:380px"><div class="d" style="color:var(--orange)">04–06/2027</div><div class="t">12-week VGU pilot · 4 outlets</div><div class="dot" style="margin-top:22px;width:70px;height:70px"></div></div>
-    <div class="ms" id="r4" style="left:1150px;top:628px"><div class="dot" style="margin-bottom:22px"></div><div class="d">H2 2027</div><div class="t">3–5 campuses, HCMC &amp; Bình Dương</div></div>
-    <div class="ms" id="r5" style="left:1500px;top:380px"><div class="d">2028</div><div class="t">offices &amp; coffee chains</div><div class="dot" style="margin-top:22px"></div></div>
+    <div id="gwTitle" class="title anton rough">GROWS WITH EVERY CUP</div>
+    <div id="gwSub" class="sub hand">Profit and impact, side by side.</div>
+    <div class="chip" id="gwRev" style="left:120px;top:310px"><span class="ic y"><svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span><span><b>REVENUE</b>&nbsp; ↑</span></div>
+    <div class="chip" id="gwImp" style="left:430px;top:310px"><span class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span><span><b>IMPACT</b>&nbsp; ↑</span></div>
+    <div id="st1" class="step" style="left:140px;top:700px;width:520px;height:400px;background:var(--yellow)"><h3>VIETNAM’S CAMPUSES</h3><p>550,000+ new students a year</p></div>
+    <div id="st2" class="step" style="left:700px;top:560px;width:520px;height:540px;background:var(--taupe)"><h3>CAFÉS &amp; OFFICES</h3><p>every takeaway counter</p></div>
+    <div id="st3" class="step" style="left:1260px;top:420px;width:540px;height:680px;background:var(--orange)"><h3>SOUTHEAST ASIA</h3><p>the same model, new cities</p></div>
+    <div id="climb" class="abs sticker" style="left:325px;top:492px;width:150px;height:225px"></div>
   </section>
 
   <!-- 19 · your bottle is a relationship ------------------------------------------------------------------------>

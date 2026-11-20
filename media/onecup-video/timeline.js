@@ -219,10 +219,10 @@
   scene('#s15', B(29), B(31));
   fadeUp('#iTitle', B(29) - 0.2, 0.5, 60);
   ['#i1', '#ix1', '#i2', '#ix2', '#i3'].forEach((s, i) => pop(s, B(29) - 0.05 + i * 0.2, 0.5, 0, i % 2 ? null : 'pop'));
-  pop('#iEq', B(29) + 1.0, 0.8, 0);
-  count('#iNum', 0, 150000, B(29) + 1.0, 0.7, n0);
-  typeOn('#iRes', B(29) + 1.65, 0.6);
-  fadeUp('#iFoot', B(29) + 2.2, 0.4, 10);
+  pop('#iEq', 59.8, 0.8, 0);
+  count('#iNum', 0, 8.27, 59.8, 0.6, (v) => v.toFixed(2));
+  typeOn('#iRes', 60.5, 0.6);
+  fadeUp('#iFoot', 61.0, 0.4, 10);
 
   // ===== 16 · from awareness to habit =========================================================================================
   scene('#s16', B(31), B(33));
@@ -241,11 +241,28 @@
   tl.fromTo('#fPhWrap', { y: 160, opacity: 0, rotation: 4 }, { y: 0, opacity: 1, rotation: 3, duration: 0.6 }, B(33) + 0.3);
   ['#f1', '#f2', '#f3', '#f4'].forEach((s, i) => pop(s, beat(B(33), 1.4 + i * 0.6), 0.5, i % 2 ? 1 : -1, 'tick'));
 
-  // ===== 18 · roadmap ===============================================================================================================
+  // ===== 18 · grows with every cup (market path, no dates) ==================================================
+  // timed to the voice-over: "Profit and impact grow together (71.6–72.9), from campuses (73.4),
+  // to cafés (74.1), offices (75.1) and Southeast Asia (75.8)."
   scene('#s18', B(35), B(38));
-  titleIn('#rTitle', '#rSub', B(35));
-  typeOn('#rPath', B(35) + 0.3, 3.6);
-  ['#r1', '#r2', '#r3', '#r4', '#r5'].forEach((s, i) => pop(s, B(35) + 0.45 + i * 0.8, 0.5, 0, i === 2 ? 'ding' : 'pop'));
+  titleIn('#gwTitle', '#gwSub', B(35));
+  [['#st1', 71.35], ['#st2', 71.6], ['#st3', 71.85]].forEach(([st, t]) =>
+    tl.fromTo(st, { y: 700 }, { y: 0, duration: 0.55, ease: 'back.out(1.2)' }, t));
+  cue(71.35, 'whoosh');
+  pop('#gwRev', 71.75, 0.5, -2, 'tick');
+  pop('#gwImp', 72.15, 0.5, 2, 'tick');
+  const climb = [[325, 492], [885, 352], [1455, 212]];
+  tl.fromTo('#climb', { left: 325, top: 160, opacity: 0 }, { top: 492, opacity: 1, duration: 0.4, ease: 'bounce.out' }, 73.15);
+  cue(73.35, 'pop');
+  [[1, 74.0], [2, 75.65]].forEach(([i, t]) => {
+    const [x0, y0] = climb[i - 1], [x1, y1] = climb[i];
+    tl.to('#climb', { left: x1, duration: 0.42, ease: 'none' }, t);
+    tl.to('#climb', { top: Math.min(y0, y1) - 110, duration: 0.21, ease: 'power2.out' }, t);
+    tl.to('#climb', { top: y1, duration: 0.21, ease: 'power2.in' }, t + 0.21);
+    cue(t + 0.42, 'pop');
+  });
+  [['#st1 h3', 73.3], ['#st2 h3', 74.35], ['#st3 h3', 76.0]].forEach(([h, t]) =>
+    tl.fromTo(h, { scale: 1.12, transformOrigin: '0% 50%' }, { scale: 1, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, t));
 
   // ===== 19 · your bottle is a relationship ============================================================================================
   scene('#s19', B(38), B(40));
