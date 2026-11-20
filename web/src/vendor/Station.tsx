@@ -46,16 +46,20 @@ export function Station() {
 
   return (
     <div className="vd-station">
-      <h1>{vendor?.name ?? ''}</h1>
-      <p className="vd-station__prompt">{t.vendor.stationScreen.prompt}</p>
-      <div className="vd-station__qr">{data && <QrImage value={data.url} size={300} />}</div>
-      <p className="muted">{t.vendor.stationScreen.typeIt}</p>
-      <p className="vd-station__code">{data ? `${data.code.slice(0, 3)} ${data.code.slice(3)}` : '— — —'}</p>
-      <p className="vd-station__timer">{t.vendor.stationScreen.next(left)}</p>
-      <Mascot size={80} />
-      <Link to="/vendor/help" className="muted small">
-        {t.vendor.stationScreen.back}
-      </Link>
+      <header className="vd-station__header">
+        <h1>{vendor?.name ?? ''}</h1>
+        <p className="vd-station__prompt">{t.vendor.stationScreen.prompt}</p>
+      </header>
+      <div className="vd-station__body">
+        <div className="vd-station__qr">{data && <QrImage value={data.url} size={300} />}</div>
+        <p className="muted">{t.vendor.stationScreen.typeIt}</p>
+        <p className="vd-station__code">{data ? `${data.code.slice(0, 3)} ${data.code.slice(3)}` : '— — —'}</p>
+        <p className="vd-station__timer">{t.vendor.stationScreen.next(left)}</p>
+        <Mascot size={80} />
+        <Link to="/vendor/help" className="muted small">
+          {t.vendor.stationScreen.back}
+        </Link>
+      </div>
     </div>
   );
 }
